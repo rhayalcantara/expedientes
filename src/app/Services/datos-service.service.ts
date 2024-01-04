@@ -1,0 +1,111 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
+import { ModelResponse } from '../Models/modelResponse';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DatosServiceService {
+  //public URL:string='https://localhost:7007'
+  public URL:string='http://192.168.7.222:9090'
+  constructor(private http: HttpClient,) { }
+  headers:HttpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json; charset=utf-8'
+  }); 
+  public showMessage(message: string, title: any, messageType: string) {
+    switch (messageType) {
+      case 'success':
+
+        Swal.fire({
+          title: title,
+          text: message,
+          icon: 'success',
+          confirmButtonText: 'Cool'
+        })
+        break;
+       case 'info':
+      
+      
+         Swal.fire({
+          title: title,
+          text: message,
+          icon: 'info',
+          confirmButtonText: 'ok'
+        })
+         break;
+       case 'error':
+     //    this.toastr.error(message, title);
+          Swal.fire({
+            title: title,
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'ok'
+          })
+              break;
+       case 'warning':
+     //    this.toastr.warning(message, title);
+        Swal.fire({
+          title: title,
+          text: message,
+          icon: 'warning',
+          confirmButtonText: 'ok'
+        })
+        break;
+    }
+   }
+
+   public llenarFormGrup<T>(obj:any):FormGroup {
+         //llenar el formgroup con los datos del consultorio
+        let  campos:string[] = Object.keys(obj)
+        let formGroup:FormGroup=new FormGroup({})
+         for (let control of campos) {
+
+          if(control == 'relacionadomt' ){
+            
+            let incampos = Object.keys(obj[control])
+
+            for (let incontrol of incampos){
+              console.log({
+                campo:control,incontrol:incontrol,value:obj[control][incontrol]
+              })
+              let newFormControl: FormControl = new FormControl();      
+              newFormControl.setValue(obj[control][incontrol]);
+              formGroup.addControl(incontrol, newFormControl);
+            }
+    
+          }else{
+            let newFormControl: FormControl = new FormControl();      
+            newFormControl.setValue(obj[control]);
+            formGroup.addControl(control, newFormControl);
+          }
+
+        } 
+        return formGroup
+   }
+
+   public insertardatos<T>(url:string,obj:T):Observable<T>{
+    //console.log('llego datos',obj,url)
+    return this.http.post<T>(url, JSON.stringify(obj), { headers:this.headers } );
+   }
+   public updatedatos<T>(url:string,obj:T):Observable<T>{
+    console.log('llego a datos',obj)
+    return this.http.put<T>(url, JSON.stringify(obj), { headers:this.headers }) 
+   }
+   public getdatos<T>(url:string):Observable<ModelResponse>{
+    return this.http.get<ModelResponse>(url)
+   }
+   public getdatoscount(url:string):Observable<number>{
+    return this.http.get<number>(url)
+   }
+
+   public getbyid<T>(url:string):Observable<T>{
+    return this.http.get<T>(url)
+   }
+   public delbyid<T>(url:string):Observable<T>{
+    console.log('en delete llego',url)
+    return this.http.delete<T>(url)
+   }
+}
