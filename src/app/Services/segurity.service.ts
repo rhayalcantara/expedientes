@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from '../Models/Usuario/usuario';
+
 import { CommonsLibService } from '@commons-lib';
+import { Usuario } from '../Helpers/Interfaces';
 
 @Injectable({
   providedIn: 'root'

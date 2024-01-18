@@ -1,0 +1,40 @@
+
+<div class="formulario col-sm-12 col-md-12 col-lg-12 col-xl-12 shadow p-3 mb-5 bg-body rounded">      
+  
+    <div class="text-center">
+      <h1>Zona</h1>
+      <h3>Mantenimiento</h3>
+    </div>
+  
+    
+        <form novalidate  [formGroup]="fg" validate>       
+          <div class="mb-3">
+              
+                <label for="descripcion" class="colocar_nombre">Descripcion
+                  <span class="obligatorio">*</span>
+                </label>
+                  <input type="text"  class="form-control" id="descripcion" required="obligatorio" formControlName="descripcion" />
+                  <div *ngIf="Descripcion?.invalid && (Descripcion?.dirty || Descripcion?.touched)" class="alert alert-danger">
+                    Nombre es requiredo
+                  </div>
+              
+            </div>
+
+                                          
+          <div class="text-center pt-1 mb-5 pb-1">
+            <div class="d-grid gap-2">
+             <button class="btn btn-success btn-block mb-3" (click)="grabar()" type="summit"> Grabar</button>
+             <button class="btn btn-secondary btn-block" type="button" (click)="cancelar()"  >Cancelar</button>
+            </div>
+        </div>
+  
+        
+          <p class="aviso">
+            <span class="obligatorio"> * </span>los campos son obligatorios.
+          </p>          
+          
+        </form>
+  
+  
+  </div>  
+  

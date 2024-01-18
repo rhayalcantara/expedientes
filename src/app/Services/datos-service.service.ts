@@ -3,18 +3,20 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
-import { ModelResponse } from '../Models/modelResponse';
+import { ModelResponse } from '../Models/Usuario/modelResponse';
+//import { ModelResponse } from '../Models/modelResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatosServiceService {
   //public URL:string='https://localhost:7007'
-  public URL:string='http://192.168.7.222:9090'
+  public URL:string='http://192.168.7.222:9292'
   constructor(private http: HttpClient,) { }
-  headers:HttpHeaders = new HttpHeaders({
-    'Content-Type': 'application/json; charset=utf-8'
-  }); 
+   headers:HttpHeaders = new HttpHeaders({    
+    'Content-Type': 'application/json; charset=utf-8' 
+  });
+
   public showMessage(message: string, title: any, messageType: string) {
     switch (messageType) {
       case 'success':
@@ -92,7 +94,7 @@ export class DatosServiceService {
    }
    public updatedatos<T>(url:string,obj:T):Observable<T>{
     console.log('llego a datos',obj)
-    return this.http.put<T>(url, JSON.stringify(obj), { headers:this.headers }) 
+    return this.http.put<T>(url, JSON.stringify(obj), { headers:this.headers } )
    }
    public getdatos<T>(url:string):Observable<ModelResponse>{
     return this.http.get<ModelResponse>(url)

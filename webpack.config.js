@@ -3,8 +3,8 @@ const { shareAll, withModuleFederationPlugin } = require('@angular-architects/mo
 const moduleFederationConfig = withModuleFederationPlugin({
 
   remotes: {
-    "loginapp": "/loginapp/remoteEntry.js", 
-   // "loginapp": "http:localhost:4300/remoteEntry.js",       
+    //"loginapp": "/loginapp/remoteEntry.js", 
+    "loginapp": "http:localhost:4300/remoteEntry.js",       
   },
 
   shared: {
@@ -12,6 +12,6 @@ const moduleFederationConfig = withModuleFederationPlugin({
   },
   sharedMappings:["@commons-lib"]
 });
- moduleFederationConfig.output.publicPath = '/inventarioappti/'
-//moduleFederationConfig.output.publicPath = '/'
+// moduleFederationConfig.output.publicPath = '/inventarioappti/'
+moduleFederationConfig.output.publicPath = '/'
 module.exports =moduleFederationConfig

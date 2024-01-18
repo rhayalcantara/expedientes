@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonsLibService } from '@commons-lib';
 import { Usuario } from 'src/app/Models/Usuario/usuario';
+
+
 import { SegurityService } from 'src/app/Services/segurity.service';
 //import { Usuario } from 'src/app/Helpers/Interfaces';
 //import { DatosServiceService } from 'src/app/Services/datos-service.service';
