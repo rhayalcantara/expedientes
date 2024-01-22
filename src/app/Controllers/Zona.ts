@@ -6,7 +6,9 @@ import { IZona } from "../Models/Zona/izona";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable } from 'rxjs';
+import { ZonaSucursal } from "./ZonaSucursal";
 import { izonasucursal } from "../Models/Zona/izonasucursal";
+
 
 
 @Injectable({
@@ -31,13 +33,16 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
        public pagesize:number=10
        public filtro:string=''
        public arraymodel:IZona[]=[]
+       
        public operationSuccessful: boolean = false;
        @Output() TRegistros = new EventEmitter<number>();
 
     constructor(
         private datos:DatosServiceService,
+        public datossucursal:ZonaSucursal,
         private excel:ExcelService,
-        private toastr: MatDialog
+        private toastr: MatDialog,
+        public zs:ZonaSucursal
                         
        ){}
     ngOnInit(): void {
@@ -76,27 +81,9 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
           }
         }
         ) 
-      }
-    public getsucursal(sucursal_id:string){
-        const dialogRef = this.toastr.open(LoadingComponent, {
-            width: '340px',
-            height: '180px', 
- 
-          }); 
-          this.getsucursales(sucursal_id).subscribe(
-            {        
-             next:(rep:ModelResponse)=>
-                {
-
-                    this.totalregistros =  rep.count
-                    this.arrayzonasucursal=[]
-                    this.arrayzonasucursal=rep.data    
-                    this.TRegistros.emit(this.totalregistros)        
-                    dialogRef.close()       
-                }
-            })          
     }
-      public filtrar(){
+
+    public filtrar(){
         this.Gets().subscribe(
                         (m:ModelResponse)=>{
                           console.log(m)
@@ -108,15 +95,17 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
                         }
                       )
           
-        }
-  
+    }
+    
+    public getdetalle(id:string){
+      this.zs.getdatos(id)
       
+    }
+
       public Gets():Observable<ModelResponse> {
         return this.datos.getdatos<ModelResponse>( this.rutaapi)
       }
-      public getsucursales(id:string):Observable<ModelResponse>{
-        return this.datos.getdatos<ModelResponse>(this.rutaapi+`/zona_sucursal/${id}`)
-      }
+  
       public Get(id:string):Observable<IZona>{
           return this.datos.getbyid<IZona>(this.rutaapi+`/${id}`)
       }
@@ -142,14 +131,16 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
               
       public async grabar(): Promise<boolean> {
         // Envuelve el código en una nueva Promise
-        console.log('llego producto a grabar')
+        console.log('llego producto a grabar',this.model,this.zs.arraymodel)
         return new Promise<boolean>(async (resolve) => {
           if (this.model.id == 0) {
             // inserta el registro
             await firstValueFrom(this.insert(this.model)).then(
               (rep: IZona) => {
                 this.model = rep;
-                this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
+
+
+                this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");                
                 resolve(true); // Devuelve true si la operación fue exitosa
               },
               (err: Error) => {
@@ -159,14 +150,16 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
             );
           } else {
             // actualiza el registro
+            console.log(this.model)
             await firstValueFrom(this.Update(this.model)).then(
               (rep: IZona) => {
-               // this.model = rep;
+                console.log('se actualizo la zona:',rep)
+              //  this.model = rep;
                 let m = this.arraymodel.find(x=>x.id==this.model.id)
-                m = rep
+                m = this.model
                 this.TRegistros.emit(this.totalregistros)
-                console.log('modelo actualizado', this.model,rep);
-                this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
+              //  console.log('modelo actualizado', this.model,rep);
+              //  this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
                 resolve(true); // Devuelve true si la operación fue exitosa
               },
               (err: Error) => {
@@ -175,6 +168,36 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
               }
             );
           }
+          // agrega o modifica la lista de sucursales
+          this.zs.arraymodel.forEach(element => {
+            element.zona_id = this.model.id
+            if (element.id==0){
+              this.zs.insert(element).subscribe(rep=>{
+                this.datos.showMessage("grabado la sucursal"+element.nombre,"grabado","sucess")
+              })
+            }else{
+              this.zs.Update(element)
+            }
+          });
+          // elimina las sucursales que no se selecionaron
+          console.log({
+            grabado:this.zs.arraymodel,
+            anterior:this.zs.anterior
+          })
+          if(this.zs.anterior.length>0){
+            
+            this.zs.anterior.forEach(ele=>{
+              if(!this.zs.arraymodel.includes(ele)){
+                
+                this.zs.del(ele).subscribe({
+                  next:(rep)=>{
+                    console.log('elemento a eliminar',ele,rep)
+                  }
+                })
+              }                
+            })
+          }
+
         });
       }
   }

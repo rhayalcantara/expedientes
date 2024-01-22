@@ -8,6 +8,7 @@ import { FormZonasComponent } from '../../Forms/form-zonas/form-zonas.component'
 import { IZona } from 'src/app/Models/Zona/izona';
 import { FormsModule } from '@angular/forms';
 import { TablesComponent } from '../../tables/tables.component';
+import { FormSucursalesComponent } from '../../Forms/form-sucursales/form-sucursales';
 
 @Component({
   standalone:true,
@@ -128,6 +129,8 @@ export class ZonasComponent implements OnInit {
   }
   filtro(){}
   excel(){}
-  pdf(){}
+  pdf(){
+
+  }
   agregar(){}
 }

@@ -6,32 +6,31 @@ import { IUsuario } from "../Models/Usuario/Iusuario";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { Observable } from "rxjs/internal/Observable";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
+import { Isucursal } from "../Models/Sucursal/Isucursal";
 
 @Injectable({
     providedIn: 'root'
   })
 
-export class Usuario implements OnInit{
-  rutaapi:string =this.datos.URL+'/api/S'
-  titulomensage:string='Usuarios'
+export class Sucursal implements OnInit{
+  rutaapi:string =this.datos.URL+'/api/Sucursals'
+  titulomensage:string='Sucursales'
 
   
-  public model:IUsuario={
-    usuario:'',
-    nombres:'',
-    email:''
+  public model:Isucursal={
+    secuencial:0,
+    nombre:''
  }
  titulos=[
-    {usuario:'Codigo'},
-    {nombres:'Nombre'},
-    {email:'Email'},
+    {secuencial:'Codigo'},
+    {nombre:'Nombre'}
  ]
  public estado:string='`'
  public totalregistros:number=0
  public actualpage:number=1
  public pagesize:number=600
  public filtro:string=''
- public arraymodel:Usuario[]=[]
+ public arraymodel:Isucursal[]=[]
 
  public operationSuccessful: boolean = false;
  @Output() TRegistros = new EventEmitter<number>();
@@ -49,16 +48,16 @@ export class Usuario implements OnInit{
       this.getdatos()
   }
   public  getdatos(){
-    
+      console.log('entro y llama a cargando')
       const dialogRef = this.toastr.open(LoadingComponent, {
        width: '340px',
        height: '180px', 
      }); 
     
-    
+     console.log('entro y llama a los datos')
 
      this.Gets().subscribe({next:(rep:ModelResponse)=>{
-        console.log('datos',rep)
+        console.log('llegaron los datos datos',rep)
         //se obtiene los datos y se ponen en los array
         this.totalregistros =  rep.count
         this.pagesize=rep.count
@@ -76,7 +75,7 @@ export class Usuario implements OnInit{
     ) 
   }
   public Gets():Observable<ModelResponse> {
-    
+    console.log(this.rutaapi)
     return this.datos.getdatos<ModelResponse>(this.rutaapi)
 }
 

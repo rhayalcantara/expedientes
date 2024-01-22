@@ -20,21 +20,44 @@
               
             </div>
 
-                                          
-          <div class="text-center pt-1 mb-5 pb-1">
-            <div class="d-grid gap-2">
-             <button class="btn btn-success btn-block mb-3" (click)="grabar()" type="summit"> Grabar</button>
-             <button class="btn btn-secondary btn-block" type="button" (click)="cancelar()"  >Cancelar</button>
-            </div>
-        </div>
-  
-        
-          <p class="aviso">
-            <span class="obligatorio"> * </span>los campos son obligatorios.
-          </p>          
           
         </form>
-  
-  
+
+        <div class="text-center">            
+          <h3>Sucursales</h3>
+        </div>
+        <div class=" col-md-4 col-lg-4 col-xl-4" style="display:inline;">
+          <div class="d-grid gap-2 ">
+            <button class="btn btn-outline-success" data-bs-toggle="modal" 
+                    data-bs-target="#exampleModal" (click)="agregar()">
+              Agregar
+            </button>
+          </div>
+
+
+         <app-tables 
+        [arraydatos]="productdatos.zs.arraymodel"
+        campokey="id"
+        (accion)="opcion($event)"
+        (paginacambio)="paginacambio($event)"
+        (idtable)="actualizaelidtable($event)" 
+        [campos]="camposdetalle"
+        [titulos]="tituloslocaldetalle"
+        [deleted]="true"
+        [term]="term"
+        [totalregistros]="productdatos.zs.totalregistros"
+        [currentPage]="config.currentPage"
+        [config]="config"
+        
+      ></app-tables>  
+      <div class="text-center pt-1 mb-5 pb-1">
+        <div class="d-grid gap-2">
+         <button class="btn btn-success btn-block mb-3" (click)="grabar()" type="summit"> Grabar</button>
+         <button class="btn btn-secondary btn-block" type="button" (click)="cancelar()"  >Cancelar</button>
+        </div>
+    </div>
+      <p class="aviso">
+        <span class="obligatorio"> * </span>los campos son obligatorios.
+      </p>  
   </div>  
   
