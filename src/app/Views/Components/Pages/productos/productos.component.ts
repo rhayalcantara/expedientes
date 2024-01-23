@@ -128,7 +128,14 @@ export class ProductosComponent implements OnInit {
     console.log('se actualizo el config',event)
     this.config.id = event
   }
-  filtro(){}
+  filtro(){
+    if (this.term!=''){
+        
+      this.producto.arraymodel = this.producto.arraymodel.filter(x=>x.nombre.includes((this.term.toUpperCase())))
+   }else{
+     this.producto.getdatos()
+   }
+  }
   excel(){}
   pdf(){
     const  dialogRef = this.toastr.open(FormUsuariosComponent,{

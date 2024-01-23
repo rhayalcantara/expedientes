@@ -135,7 +135,14 @@ export class ZonasComponent implements OnInit {
     console.log('se actualizo el config',event)
     this.config.id = event
   }
-  filtro(){}
+  filtro(){
+    if (this.term!=''){
+        
+      this.zonas.arraymodel = this.zonas.arraymodel.filter(x=>x.descripcion.includes((this.term.toUpperCase())))
+   }else{
+     this.zonas.getdatos()
+   }
+  }
   excel(){}
   pdf(){
 
