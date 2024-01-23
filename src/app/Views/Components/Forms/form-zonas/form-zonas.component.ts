@@ -67,12 +67,18 @@ agregar() {
           }
           console.log(nueva)
           // verifica si existe en otra zona
-         if( !this.productdatos.zs.verificasucursalasignada(nueva.id.toString())){
-          this.productdatos.zs.arraymodel.push(nueva)
-         }else{
-          console.log("Sucursal existe en Otra Zona, Favor Verificar")
-          this.Dat.showMessage("Sucursal existe en Otra Zona, Favor Verificar","Existe","error")
-         }
+         this.productdatos.zs.verificasucursalasignada(nueva.sucursal_id.toString()).subscribe({
+          next:(rep:boolean)=>{
+            console.log(rep)
+            if (rep == false ){
+              this.productdatos.zs.arraymodel.push(nueva)
+             }else{              
+              this.Dat.showMessage("Sucursal existe en Otra Zona, Favor Verificar","Existe","error")
+             }
+          },error:(err:Error)=>{
+            this.Dat.showMessage("Error:"+err.message,"Error","error")
+          }
+         }) 
           
         }
       })

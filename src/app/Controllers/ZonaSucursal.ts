@@ -78,6 +78,7 @@ import { Observable } from "rxjs/internal/Observable";
       ) 
     }
   public verificasucursalasignada(id:string):Observable<boolean>{
+    console.log(this.rutaapi+`/sucursal/${id}`)
     return this.datos.getbyid<boolean>(this.rutaapi+`/sucursal/${id}`)
   }
   public Gets(id:string):Observable<ModelResponse> {      

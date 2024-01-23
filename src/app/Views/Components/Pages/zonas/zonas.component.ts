@@ -119,9 +119,7 @@ export class ZonasComponent implements OnInit {
       width: '900px',data:{model:p.model}})
       dialogRef.afterClosed().subscribe((rep:IZona)=>{
         //console.log('llego del formulario de zonas',result)
-        let m:IZona = this.zonas.arraymodel.find(x=>x.id==rep.id) as IZona
-        let m2:IZona =this.zonas.arraymodel[this.zonas.arraymodel.indexOf(m)]
-        m2 = rep
+        this.zonas.arraymodel.push(rep)
         this.datos.showMessage("Registro Insertado Correctamente",this.zonas.titulomensage,"sucess")
       });
   }

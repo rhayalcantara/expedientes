@@ -15,13 +15,15 @@ import { TokenInterceptorService } from './Services/token-interceptor.service';
 import { ErrorInterceptorService } from './Services/error-interceptor.service';
 import { ZonasComponent } from './Views/Components/Pages/zonas/zonas.component';
 import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zonas.component';
+import { SupervisoresPageComponent } from './Views/Components/Pages/supervisores-page/supervisores-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavmenuComponent,
     
-    FormZonasComponent
+    FormZonasComponent,
+         SupervisoresPageComponent
   ],
   imports: [
     BrowserModule,

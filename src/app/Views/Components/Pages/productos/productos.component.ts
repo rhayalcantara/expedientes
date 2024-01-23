@@ -139,5 +139,13 @@ export class ProductosComponent implements OnInit {
         })
         
   }
-  agregar(){}
+  agregar(){
+    const  dialogRef = this.toastr.open(FormProduct2Component,{
+      width: '900px',data:{model:this.producto.model}})
+      dialogRef.afterClosed().subscribe((result:IProduct)=>{
+        //console.log('llego del formulario de producto',result)
+        this.producto.arraymodel.push(result)
+        this.datos.showMessage("Registro Insertado Correctamente",this.producto.titulomensage,"sucess")
+      });
+  }
 }
