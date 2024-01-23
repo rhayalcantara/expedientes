@@ -114,7 +114,17 @@ export class ZonasComponent implements OnInit {
     return rep
 
   }
-  
+  abrirmodalzona(t:MatDialog,p:Zona){
+    const  dialogRef = t.open(FormZonasComponent,{
+      width: '900px',data:{model:p.model}})
+      dialogRef.afterClosed().subscribe((rep:IZona)=>{
+        //console.log('llego del formulario de zonas',result)
+        let m:IZona = this.zonas.arraymodel.find(x=>x.id==rep.id) as IZona
+        let m2:IZona =this.zonas.arraymodel[this.zonas.arraymodel.indexOf(m)]
+        m2 = rep
+        this.datos.showMessage("Registro Insertado Correctamente",this.zonas.titulomensage,"sucess")
+      });
+  }
   delete(prod:IZona,p:Zona,t:MatDialog):Promise<any>{
    return new Promise((resolve,reject)=>{ resolve(prod)}) 
   }
@@ -132,5 +142,7 @@ export class ZonasComponent implements OnInit {
   pdf(){
 
   }
-  agregar(){}
+  agregar(){
+    this.abrirmodalzona(this.toastr,this.zonas)
+  }
 }

@@ -53,18 +53,27 @@ agregar() {
     width: '900px',data:{}
       })
       dialogRef.afterClosed().subscribe((result:Isucursal)=>{
-        // verificar si existe
+        // verificar si existe en la lista actual
         
         if(this.productdatos.zs.arraymodel.find(r=>r.nombre.includes(result.nombre))){
-          this.Dat.showMessage("Sucursal existe en el listado, Favor Verificar","Existe","Error")
+          this.Dat.showMessage("Sucursal existe en el listado, Favor Verificar","Existe","error")
         }else{
+
           var nueva:izonasucursal={
             id:0,
             zona_id:this.productdatos.model.id,
             sucursal_id:result.secuencial,
             nombre:result.nombre
           }
+          console.log(nueva)
+          // verifica si existe en otra zona
+         if( !this.productdatos.zs.verificasucursalasignada(nueva.id.toString())){
           this.productdatos.zs.arraymodel.push(nueva)
+         }else{
+          console.log("Sucursal existe en Otra Zona, Favor Verificar")
+          this.Dat.showMessage("Sucursal existe en Otra Zona, Favor Verificar","Existe","error")
+         }
+          
         }
       })
 }
@@ -73,22 +82,20 @@ agregar() {
 actualizaelidtable(event: string) {
   this.config.id=event
 }
+
 paginacambio(event: number) {
   this.config.actualpage = event
 }
+
 opcion(event: TableResponse) {
   console.log(event)
   var elemento:izonasucursal = event.key as (izonasucursal)
   this.productdatos.zs.arraymodel.splice(this.productdatos.zs.arraymodel.indexOf(elemento),1)
 }
   
- 
- 
 
-  
+ get Descripcion(){return this.fg.get('descripcion');}
 
-   get Descripcion(){return this.fg.get('descripcion');}
-   
   ngOnInit(): void {
         console.log('formulario',this.data.model)
         this.product = this.data.model

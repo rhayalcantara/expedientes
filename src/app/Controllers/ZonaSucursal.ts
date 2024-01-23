@@ -15,7 +15,7 @@ import { Observable } from "rxjs/internal/Observable";
   forEach(arg0: (element: any) => void) {
     throw new Error("Method not implemented.");
   }
-    rutaapi:string =this.datos.URL+'/api/'
+    rutaapi:string =this.datos.URL+'/api/zona_sucursal'
     titulomensage:string='Usuarios'
   
     
@@ -77,13 +77,15 @@ import { Observable } from "rxjs/internal/Observable";
       }
       ) 
     }
-
+  public verificasucursalasignada(id:string):Observable<boolean>{
+    return this.datos.getbyid<boolean>(this.rutaapi+`/sucursal/${id}`)
+  }
   public Gets(id:string):Observable<ModelResponse> {      
-      return this.datos.getdatos<ModelResponse>(this.rutaapi+`zona_sucursal/zona/${id}`)
+      return this.datos.getdatos<ModelResponse>(this.rutaapi+`/zona/${id}`)
   }
   
   public Get(id:string):Observable<izonasucursal>{
-    return this.datos.getbyid<izonasucursal>(this.rutaapi+`zonasucursal/${id}`)
+    return this.datos.getbyid<izonasucursal>(this.rutaapi+`/${id}`)
   }
   public GetCount():Observable<number>{
   
@@ -93,15 +95,15 @@ import { Observable } from "rxjs/internal/Observable";
   public insert(obj:izs):Observable<izs>{  
     console.log('llego a insert en produc',obj)
 
-    return this.datos.insertardatos<izs>(this.rutaapi+'zona_sucursal', obj ); 
+    return this.datos.insertardatos<izs>(this.rutaapi, obj ); 
   }
   
   public Update(obj:izs):Observable<izs>{
     console.log(this.rutaapi+`/${obj.id}`,obj)
-    return this.datos.updatedatos<izs>(this.rutaapi+`zona_sucursal/${obj.id}`,obj); 
+    return this.datos.updatedatos<izs>(this.rutaapi+`/${obj.id}`,obj); 
   }
   public del(obj:izs):Observable<izs>{
-    console.log(this.rutaapi+`zona_sucursal/${obj.id}`)
-    return this.datos.delbyid<izs>(this.rutaapi+`zona_sucursal/${obj.id}`); 
+    console.log(this.rutaapi+`/${obj.id}`)
+    return this.datos.delbyid<izs>(this.rutaapi+`/${obj.id}`); 
   }
   }
