@@ -1,11 +1,12 @@
 import { EventEmitter, Injectable, OnInit, Output } from "@angular/core";
-import { supervisordts } from "../Models/Supervisor/Isupervisor";
+
 import { DatosServiceService } from "../Services/datos-service.service";
 import { ExcelService } from "../Services/excel.service";
 import { MatDialog } from "@angular/material/dialog";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs';
+import { Isupervisor, Isupervisordts, ISupervisorsDTS } from "../Models/Supervisor/Isupervisor";
 
 @Injectable({
     providedIn: 'root'
@@ -13,30 +14,34 @@ import { firstValueFrom, Observable, repeat } from 'rxjs';
 
   export class Supervisores implements OnInit{
 
-    rutaapi:string =this.datos.URL+'/api/Products'
-    titulomensage:string='Productos'
+    rutaapi:string =this.datos.URL+'/api/Supervisors'
+    titulomensage:string='Supervisores'
 
-    public model:supervisordts={
+    public model:ISupervisorsDTS={
         id: 0,
         codigo: '',
         nombre: '',
         zona_id: 0,
-        zona: {
+        nombrezona:'',
+        zonadts: {
             id: 0,
             descripcion: "",
-            sucursales: []
+            zs: []
         }
     }
-      titulos=[
+    public  titulos=[
         {nombre:'Nombre'},
+        {nombrezona:'Zona'}
     
       ]
+      public campos:string[]=['nombre','nombrezona']
+
        public estado:string='`'
        public totalregistros:number=0
        public actualpage:number=1
        public pagesize:number=10
        public filtro:string=''
-       public arraymodel:supervisordts[]=[]
+       public arraymodel:ISupervisorsDTS[]=[]
       
        public operationSuccessful: boolean = false;
        @Output() TRegistros = new EventEmitter<number>();
@@ -91,5 +96,71 @@ import { firstValueFrom, Observable, repeat } from 'rxjs';
        
         
         return this.datos.getdatos<ModelResponse>(this.rutaapi)
-    }      
+    }
+    
+    public filtrar(filtro:string){
+      if(filtro==""){
+        this.getdatos()
+      }else{
+        this.arraymodel=this.arraymodel.filter(x=>x.nombre.includes(filtro.toUpperCase()))
+      }
+    }
+
+    public insert(obj:Isupervisor):Observable<Isupervisor>{  
+      console.log('llego a insert en produc',obj)
+
+      return this.datos.insertardatos<Isupervisor>(this.rutaapi, obj ); 
+    }
+    
+    public Update(obj:Isupervisor):Observable<Isupervisor>{
+      console.log(this.rutaapi+`/${obj.id}`,obj)
+      return this.datos.updatedatos<Isupervisor>(this.rutaapi+`/${obj.id}`,obj); 
+    }
+    
+    public async grabar(): Promise<boolean> {
+      // Envuelve el código en una nueva Promise
+      console.log('llego producto a grabar',this.model)
+      return new Promise<boolean>(async (resolve) => {
+        let supervisor:Isupervisor ={
+          id:this.model.id,
+          nombre:this.model.nombre,
+          codigo:this.model.codigo,
+          zona_id:this.model.zona_id
+        }
+        
+        if (this.model.id == 0) {
+          // inserta el registro
+          await firstValueFrom(this.insert(supervisor)).then(
+            (rep: Isupervisor) => {
+              this.model.id = rep.id
+              this.arraymodel.push(this.model)
+              this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
+              resolve(true); // Devuelve true si la operación fue exitosa
+            },
+            (err: Error) => {
+              this.datos.showMessage('Error:' + err.message, this.titulomensage, 'error');
+              resolve(false); // Devuelve false si la operación falló
+            }
+          );
+        } else {
+          // actualiza el registro
+          
+          await firstValueFrom(this.Update(supervisor)).then(
+            (rep: Isupervisor) => {
+             // this.model = rep;
+              let m = this.arraymodel.find(x=>x.id==this.model.id)
+              m = this.model 
+              this.TRegistros.emit(this.totalregistros)
+              console.log('modelo actualizado', this.model,rep,supervisor);
+              this.datos.showMessage('Registro Actualizado Correctamente', this.titulomensage, "success");
+              resolve(true); // Devuelve true si la operación fue exitosa
+            },
+            (err: Error) => {
+              this.datos.showMessage('Error:' + err.message, this.titulomensage, 'error');
+              resolve(false); // Devuelve false si la operación falló
+            }
+          );
+        }
+      });
+    }
   }

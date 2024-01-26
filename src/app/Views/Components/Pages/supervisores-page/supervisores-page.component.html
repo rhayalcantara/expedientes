@@ -1,6 +1,6 @@
 
 <div class="shadow p-3 mb-5 bg-body rounded my-4 ">
-    <h2 class="mb-3">Mantenimiento de Productos</h2>   
+    <h2 class="mb-3">Mantenimiento de Supervisores</h2>   
     <div class=" col-md-8 col-lg-8 col-xl-8 my-3 ">                      
       
       <!-- <button class="btn  float-end" (click)="filtrar()" ><i class="fa fa-filter"></i></button> -->
@@ -43,7 +43,7 @@
       (accion)="opcion($event)"
       (paginacambio)="paginacambio($event)"
       (idtable)="actualizaelidtable($event)" 
-      [campos]="campos"
+      [campos]="supervisores.campos"
       [titulos]="tituloslocal"
       [term]="term"
       [totalregistros]="supervisores.totalregistros"

@@ -19,10 +19,10 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
 
     rutaapi:string =this.datos.URL+'/api/Zonas'
     titulomensage:string='Productos'
-    public model:IZona={
+    public model:IZona ={
         id: 0,
         descripcion: ''
-      }
+      } 
       titulos=[
         {descripcion:'Descripcion'},
     
@@ -97,9 +97,10 @@ import { izonasucursal } from "../Models/Zona/izonasucursal";
           
     }
     
-    public getdetalle(id:string){
-      this.zs.getdatos(id)
+    public getdetalle(id:string):Promise<Boolean>{
+      this.model  = this.arraymodel.filter(x=>x.id == Number.parseInt(id))[0]
       
+      return this.zs.getdatos(id)
     }
 
       public Gets():Observable<ModelResponse> {

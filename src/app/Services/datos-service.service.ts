@@ -65,8 +65,8 @@ export class DatosServiceService {
         let formGroup:FormGroup=new FormGroup({})
          for (let control of campos) {
 
-          if(control == 'relacionadomt' ){
-            
+          // if(control == 'relacionadomt' ){
+            if (typeof(obj[control])=='object' ){
             let incampos = Object.keys(obj[control])
 
             for (let incontrol of incampos){

@@ -1,13 +1,20 @@
 import { IZonaSucusal } from "../Zona/izona"
+import { Zonadts } from "../Zona/izonasucursal"
 
 
-export interface supervisor {
+export interface Isupervisor {
     id:number
     codigo:string
     nombre:string
     zona_id:number
 }
 
-export interface supervisordts extends supervisor{
+export interface Isupervisordts extends Isupervisor{
     zona:IZonaSucusal
+}
+
+export interface ISupervisorsDTS extends Isupervisor
+{
+    zonadts: Zonadts; 
+    nombrezona:string; 
 }

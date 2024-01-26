@@ -15,9 +15,7 @@ import { FormsModule } from '@angular/forms';
   })
 
   export class FormUsuariosComponent implements OnInit{
-    getdatos() {
-        throw new Error('Method not implemented.');
-    }
+
 
     config:any
     public term: string='';
@@ -62,4 +60,17 @@ import { FormsModule } from '@angular/forms';
         this.config.id=event
        }
        paginacambio(event:any){}
+
+       getdatos() {
+        if (this.term!=''){
+          this.usuario.arraymodel = this.usuario.arraymodel.filter(
+            x=>x.nombres.includes(this.term.toUpperCase()) || 
+            x.email.includes(this.term.toUpperCase()) ||
+            x.usuario.includes(this.term.toUpperCase())
+          )
+        }else{
+          this.usuario.getdatos()
+        }
+
+       }
   }

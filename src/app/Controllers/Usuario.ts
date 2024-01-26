@@ -31,7 +31,7 @@ export class Usuario implements OnInit{
  public actualpage:number=1
  public pagesize:number=600
  public filtro:string=''
- public arraymodel:Usuario[]=[]
+ public arraymodel:IUsuario[]=[]
 
  public operationSuccessful: boolean = false;
  @Output() TRegistros = new EventEmitter<number>();

@@ -19,7 +19,12 @@ const routes: Routes = [
 loadComponent:()=> import('./Views/Components/Pages/zonas/zonas.component')
 .then((m)=> m.ZonasComponent),
  canActivate: [AuthGuard]
-}
+},
+{ path:'supervisores', 
+loadComponent:()=> import('./Views/Components/Pages/supervisores-page/supervisores-page.component')
+.then((m)=> m.SupervisoresPageComponent),
+ canActivate: [AuthGuard]
+} 
 ];
 
 @NgModule({

@@ -6,6 +6,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { Observable } from "rxjs/internal/Observable";
+import { IZonaSucusal } from "../Models/Zona/izona";
+import { Sucursal } from "./Sucursal";
+import { ResourceLoader } from "@angular/compiler";
 
 
 @Injectable({
@@ -34,7 +37,7 @@ import { Observable } from "rxjs/internal/Observable";
    public arraymodel:izonasucursal[]=[]
    public arraysucursal:Isucursal[]=[]
    public anterior:izonasucursal[]=[]
-  
+   public dd:izonasucursal[]=[]
    public operationSuccessful: boolean = false;
    @Output() TRegistros = new EventEmitter<number>();
    
@@ -50,7 +53,7 @@ import { Observable } from "rxjs/internal/Observable";
         this.pagesize=600
         
     }
-    public  getdatos(id:string){
+    public  getdatos(id:string):Promise<any>{
       
         const dialogRef = this.toastr.open(LoadingComponent, {
          width: '340px',
@@ -58,11 +61,16 @@ import { Observable } from "rxjs/internal/Observable";
        }); 
       
       
-  
+       const rep = new Promise((resolve:any,reject:any)=>{
        this.Gets(id).subscribe(
-        {next:(rep:ModelResponse)=>{
+        {next:(rep:ModelResponse)=>
+          {
+
           console.log('llegaron los datos de zonasucursal',rep)
           //se obtiene los datos y se ponen en los array
+
+          this.dd = rep.data
+
           this.totalregistros =  rep.count
           this.pagesize=rep.count
           this.arraymodel=[]
@@ -70,12 +78,18 @@ import { Observable } from "rxjs/internal/Observable";
           this.arraymodel=rep.data    
           this.anterior.push(...rep.data)
           console.log('datos',this.arraymodel)     
-          this.TRegistros.emit(this.totalregistros)        
-          dialogRef.close()
-       
-        }
-      }
-      ) 
+          this.TRegistros.emit(this.totalregistros) 
+          this.operationSuccessful=true     
+          dialogRef.close()  
+          resolve(true);
+          
+          
+         },error:(err:Error)=>{
+          reject(true)
+         }
+      }) 
+      })
+      return rep
     }
   public verificasucursalasignada(id:string):Observable<boolean>{
     console.log(this.rutaapi+`/sucursal/${id}`)

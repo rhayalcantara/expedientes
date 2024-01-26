@@ -13,9 +13,11 @@ import { ExcelService } from './Services/excel.service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TokenInterceptorService } from './Services/token-interceptor.service';
 import { ErrorInterceptorService } from './Services/error-interceptor.service';
-import { ZonasComponent } from './Views/Components/Pages/zonas/zonas.component';
+
 import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zonas.component';
-import { SupervisoresPageComponent } from './Views/Components/Pages/supervisores-page/supervisores-page.component';
+
+import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervisor/forms-supervisor.component';
+import { FormZonaListComponent } from './Views/Components/Forms/form-zona-list/form-zona-list.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { SupervisoresPageComponent } from './Views/Components/Pages/supervisores
     NavmenuComponent,
     
     FormZonasComponent,
-         SupervisoresPageComponent
+        
+         FormsSupervisorComponent,
+                  FormZonaListComponent
   ],
   imports: [
     BrowserModule,

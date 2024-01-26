@@ -60,10 +60,11 @@ agregar() {
         }else{
 
           var nueva:izonasucursal={
-            id:0,
-            zona_id:this.productdatos.model.id,
-            sucursal_id:result.secuencial,
-            nombre:result.nombre
+            id: 0,
+            zona_id: this.productdatos.model.id,
+            sucursal_id: result.secuencial,
+            nombre: result.nombre,
+            sucursal: {secuencial:0,nombre:''}
           }
           console.log(nueva)
           // verifica si existe en otra zona
