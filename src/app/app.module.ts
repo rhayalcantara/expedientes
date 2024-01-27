@@ -18,6 +18,9 @@ import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zon
 
 import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervisor/forms-supervisor.component';
 import { FormZonaListComponent } from './Views/Components/Forms/form-zona-list/form-zona-list.component';
+import { ProcesoPageComponent } from './Views/Components/Pages/proceso-page/proceso-page.component';
+import { FormProcesoComponent } from './Views/Components/Forms/form-proceso/form-proceso.component';
+import { FormParametroComponent } from './Views/Components/Forms/form-parametro/form-parametro.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,9 @@ import { FormZonaListComponent } from './Views/Components/Forms/form-zona-list/f
     FormZonasComponent,
         
          FormsSupervisorComponent,
-                  FormZonaListComponent
+                  FormZonaListComponent,                  
+                  FormProcesoComponent,
+                  FormParametroComponent
   ],
   imports: [
     BrowserModule,

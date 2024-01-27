@@ -24,6 +24,11 @@ loadComponent:()=> import('./Views/Components/Pages/zonas/zonas.component')
 loadComponent:()=> import('./Views/Components/Pages/supervisores-page/supervisores-page.component')
 .then((m)=> m.SupervisoresPageComponent),
  canActivate: [AuthGuard]
+},
+{ path:'Procesos', 
+loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.component')
+.then((m)=> m.ProcesoPageComponent),
+ canActivate: [AuthGuard]
 } 
 ];
 
