@@ -21,6 +21,7 @@ import { FormZonaListComponent } from './Views/Components/Forms/form-zona-list/f
 import { ProcesoPageComponent } from './Views/Components/Pages/proceso-page/proceso-page.component';
 import { FormProcesoComponent } from './Views/Components/Forms/form-proceso/form-proceso.component';
 import { FormParametroComponent } from './Views/Components/Forms/form-parametro/form-parametro.component';
+import { ParametroPageComponent } from './Views/Components/Pages/parametro-page/parametro-page.component';
 
 @NgModule({
   declarations: [
@@ -30,9 +31,7 @@ import { FormParametroComponent } from './Views/Components/Forms/form-parametro/
     FormZonasComponent,
         
          FormsSupervisorComponent,
-                  FormZonaListComponent,                  
-                  FormProcesoComponent,
-                  FormParametroComponent
+                  FormZonaListComponent
   ],
   imports: [
     BrowserModule,

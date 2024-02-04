@@ -60,38 +60,25 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
 
 
     public  getdatos(){
-      // const dialogRef = this.toastr.openDialog('loading',null)
+     
         const dialogRef = this.toastr.open(LoadingComponent, {
          width: '340px',
          height: '180px', 
-      //   position: { left: `400px`, top: `-600px` },
+     
        }); 
       //se obtiene los datos y se ponen en los array
-      if(this.filtro==""){
-        this.filtro="`"
-      }
-      /*
-      console.log({
-        filtro:this.filtro,
-        estado:this.estado,
-        actualpage:this.actualpage,
-        pagesize:this.pagesize
-      })
-      */
-       this.Gets(this.filtro,this.estado,
+   
+       this.Gets(this.filtro,
         this.actualpage,this.pagesize)        
          .subscribe({        
         next:(rep:ModelResponse)=>{
-          console.log('datos',rep)
+
           this.totalregistros =  rep.count
           this.arraymodel=[]
-          this.arraymodel=rep.data    
-          console.log('datos',this.arraymodel)     
+          this.arraymodel=rep.data      
           this.TRegistros.emit(this.totalregistros)        
-          
 
-
-        dialogRef.close()
+          dialogRef.close()
        
         }
       }
@@ -100,10 +87,7 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
 
 
     public filtrar(){
-      //console.log('llego a product.ts ',this.actualpage)
-      //this.datos.showMessage('Filtrando Datos filtro:'+this.filtro+' Estado: '+ this.estado +' Pagina:'+this.actualpage.toString() + ' Paginasize: '+this.pagesize.toString(),this.titulomensage,'info')
-      this.Gets(this.filtro,this.estado,
-                    this.actualpage,this.pagesize).subscribe(
+      this.Gets(this.filtro,this.actualpage,this.pagesize).subscribe(
                       (m:ModelResponse)=>{
                         console.log(m)
                         this.totalregistros =  m.count
@@ -116,30 +100,13 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
         
       }
 
-    public getbystate(state:string,entidad:string,entidadid:string,mov:string):Observable<ModelResponse> {
-      if(this.filtro==""){
-        this.filtro="`"
-      }
-      
-      //console.log(this.rutaapi+`/Asignado?entidad=${entidad}&id=${entidadid}&mov=${mov}&filtro=${this.filtro}&page=${this.actualpage.toString()}&pagesize=${this.pagesize.toString()}`)
-     
-      return this.datos.getdatos<ModelResponse>(this.rutaapi+`/Asignado?entidad=${entidad}&id=${entidadid}&mov=${mov}&filtro=${this.filtro}&page=${this.actualpage.toString()}&pagesize=${this.pagesize.toString()}`)
-    }
+
     
-    public Gets(filtro:string,estado:string,
+    public Gets(filtro:string,
                 actualpage:number,pagesize:number):Observable<ModelResponse> {
-        if(filtro==''){
-          filtro='`'
-        }
-        if (estado=='Sin Restincion' ){
-          estado='`'
-        }
-        
-        
-      // console.log(this.rutaapi+`/estado/?filtro=${filtro}&estado=${estado}&page=${actualpage.toString()}&pagesize=${pagesize.toString()}`)
+                  actualpage=actualpage-1                  
         return this.datos.getdatos<ModelResponse>(
-          //this.rutaapi+`/estado/?filtro=${filtro}&estado=${estado}&page=${actualpage.toString()}&pagesize=${pagesize.toString()}`
-          this.rutaapi
+          this.rutaapi+`/?filtro=${filtro}&page=${actualpage.toString()}&pagesize=${pagesize.toString()}`
           )
     }
 
@@ -163,6 +130,7 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
     }
 
     public Reporte(){
+      /*
       //landscape or portrait
       this.GetCount().subscribe({
         next:(rep:number)=>{
@@ -181,11 +149,12 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
 
         }
       })
-
+      */
 
     }
     
     public exportexcel(){
+      /*
       this.GetCount().subscribe({
         next:(rep:number)=>{
           console.log(rep)
@@ -196,7 +165,7 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
             }
           )
         }
-      })
+      })*/
            
     }
             

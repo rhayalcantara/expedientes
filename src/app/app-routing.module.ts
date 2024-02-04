@@ -29,6 +29,11 @@ loadComponent:()=> import('./Views/Components/Pages/supervisores-page/supervisor
 loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.component')
 .then((m)=> m.ProcesoPageComponent),
  canActivate: [AuthGuard]
+} ,
+{ path:'Parametro', 
+loadComponent:()=> import('./Views/Components/Pages/parametro-page/parametro-page.component')
+.then((m)=> m.ParametroPageComponent),
+ canActivate: [AuthGuard]
 } 
 ];
 

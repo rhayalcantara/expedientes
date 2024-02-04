@@ -129,12 +129,8 @@ export class ProductosComponent implements OnInit {
     this.config.id = event
   }
   filtro(){
-    if (this.term!=''){
-        
-      this.producto.arraymodel = this.producto.arraymodel.filter(x=>x.nombre.includes((this.term.toUpperCase())))
-   }else{
-     this.producto.getdatos()
-   }
+      this.producto.filtro = this.term
+      this.producto.getdatos()
   }
   excel(){}
   pdf(){

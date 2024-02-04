@@ -2,10 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { TablesComponent } from '../../tables/tables.component';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
-import { Supervisores } from 'src/app/Controllers/Supervisores';
+
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { MatDialog } from '@angular/material/dialog';
+import { Proceso } from 'src/app/Controllers/Proceso';
+import { FormProcesoComponent } from '../../Forms/form-proceso/form-proceso.component';
+import { IProceso, IprocesoDts } from 'src/app/Models/Proceso/Proceso';
 
 @Component({
   standalone:true,
@@ -22,7 +25,7 @@ export class ProcesoPageComponent implements OnInit {
   public tituloslocal: string[]=[];
   public term: string="";
 
-  constructor(public supervisores:Supervisores,
+  constructor(public procesos:Proceso,
     private ServiceComunicacion:ComunicacionService,
     private datos:DatosServiceService,
     private toastr: MatDialog){
@@ -32,8 +35,8 @@ export class ProcesoPageComponent implements OnInit {
     }
 
     ngOnInit(): void {
-      this.supervisores.getdatos()
-      this.supervisores.TRegistros.subscribe({
+      this.procesos.getdatos()
+      this.procesos.TRegistros.subscribe({
         next:(rep:number)=>{
           this.config.totalItems=rep
           this.ServiceComunicacion.enviarMensaje(this.config)
@@ -43,11 +46,11 @@ export class ProcesoPageComponent implements OnInit {
         id:'',
          itemsPerPage: 10,
          currentPage: 1,
-         totalItems: this.supervisores.totalregistros
+         totalItems: this.procesos.totalregistros
        };
         
          
-         this.supervisores.titulos.map((x:string|any)=>{
+         this.procesos.titulos.map((x:string|any)=>{
            let nx:string = x[Object.keys(x)[0]]
            this.campos.push(...Object.keys(x))
            this.tituloslocal.push(nx)
@@ -60,7 +63,13 @@ filtro() {
 throw new Error('Method not implemented.');
 }
 agregar() {
-throw new Error('Method not implemented.');
+  const  dialogRef = this.toastr.open(FormProcesoComponent,{
+    width: '900px',data:{model:this.procesos.model}})
+    dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
+      //console.log('llego del formulario de producto',result)
+      this.procesos.arraymodel.push(result)
+      this.datos.showMessage("Registro Insertado Correctamente",this.procesos.titulomensage,"sucess")
+    });
 }
 pdf() {
 throw new Error('Method not implemented.');
@@ -70,7 +79,7 @@ throw new Error('Method not implemented.');
 }
 
 actualizaelidtable($event: string) {
-throw new Error('Method not implemented.');
+  this.config.id = $event
 }
 paginacambio($event: number) {
 throw new Error('Method not implemented.');

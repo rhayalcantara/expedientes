@@ -1,6 +1,5 @@
-
 <div class="shadow p-3 mb-5 bg-body rounded my-4 ">
-    <h2 class="mb-3">Mantenimiento de Procesos</h2>   
+    <h2 class="mb-3">Mantenimiento de Parametros</h2>   
     <div class=" col-md-8 col-lg-8 col-xl-8 my-3 ">                      
       
       <!-- <button class="btn  float-end" (click)="filtrar()" ><i class="fa fa-filter"></i></button> -->
@@ -38,7 +37,7 @@
     <div  >
       
        <app-tables 
-      [arraydatos]="procesos.arraymodel"
+      [arraydatos]="producto.arraymodel"
       campokey="id"
       (accion)="opcion($event)"
       (paginacambio)="paginacambio($event)"
@@ -46,8 +45,8 @@
       [campos]="campos"
       [titulos]="tituloslocal"
       [term]="term"
-      [totalregistros]="procesos.totalregistros"
-      [currentPage]="procesos.actualpage"
+      [totalregistros]="producto.totalregistros"
+      [currentPage]="producto.actualpage"
       [config]="config"
       
     ></app-tables>  
@@ -56,5 +55,3 @@
 
 
 
-
-  
