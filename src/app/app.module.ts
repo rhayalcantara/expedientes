@@ -22,6 +22,8 @@ import { ProcesoPageComponent } from './Views/Components/Pages/proceso-page/proc
 import { FormProcesoComponent } from './Views/Components/Forms/form-proceso/form-proceso.component';
 import { FormParametroComponent } from './Views/Components/Forms/form-parametro/form-parametro.component';
 import { ParametroPageComponent } from './Views/Components/Pages/parametro-page/parametro-page.component';
+import { FormParametroListComponent } from './Views/Components/Forms/form-parametro-list/form-parametro-list.component';
+import { FormProductoParametroComponent } from './Views/Components/Forms/form-producto-parametro/form-producto-parametro.component';
 
 @NgModule({
   declarations: [

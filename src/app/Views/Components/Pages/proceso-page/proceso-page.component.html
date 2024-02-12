@@ -38,19 +38,18 @@
     <div  >
       
        <app-tables 
-      [arraydatos]="procesos.arraymodel"
-      campokey="id"
-      (accion)="opcion($event)"
-      (paginacambio)="paginacambio($event)"
-      (idtable)="actualizaelidtable($event)" 
-      [campos]="campos"
-      [titulos]="tituloslocal"
-      [term]="term"
-      [totalregistros]="procesos.totalregistros"
-      [currentPage]="procesos.actualpage"
-      [config]="config"
-      
-    ></app-tables>  
+        [arraydatos]="procesos.arraymodel"
+        campokey="id"
+        (accion)="opcion($event)"
+        (paginacambio)="paginacambio($event)"
+        (idtable)="actualizaelidtable($event)" 
+        [campos]="campos"
+        [titulos]="tituloslocal"
+        [term]="term"
+        [totalregistros]="procesos.totalregistros"
+        [currentPage]="procesos.actualpage"
+        [config]="config">
+      </app-tables>  
 </div>
 
 

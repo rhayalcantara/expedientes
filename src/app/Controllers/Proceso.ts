@@ -15,17 +15,16 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
 
   export class Proceso implements OnInit{
     rutaapi:string =this.datos.URL+'/api/Procesoes'
-    titulomensage:string='Productos'
+    titulomensage:string='Procesos'
 
     public model:IprocesoDts={
       id: 0,
       descripcion: '',
-      procesoparametros: []
+      proceso_Parametros: []
     }
+
     public titulos=[{descripcion:'Nombre'}]
-    public campodetalle:string[]=['producto_nombre','parametro_nombre']
-    public titulodetalle=['Producto',
-                          'Parametro']
+
     public estado:string='`'
     public totalregistros:number=0
     public actualpage:number=1
@@ -96,14 +95,12 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
           
         }
   
-      public getbystate(state:string,entidad:string,entidadid:string,mov:string):Observable<ModelResponse> {
-        if(this.filtro==""){
-          this.filtro="`"
-        }
+      public getdetalle(id:string):Observable<ModelResponse> {
+        
         
         //console.log(this.rutaapi+`/Asignado?entidad=${entidad}&id=${entidadid}&mov=${mov}&filtro=${this.filtro}&page=${this.actualpage.toString()}&pagesize=${this.pagesize.toString()}`)
        
-        return this.datos.getdatos<ModelResponse>(this.rutaapi+`/Asignado?entidad=${entidad}&id=${entidadid}&mov=${mov}&filtro=${this.filtro}&page=${this.actualpage.toString()}&pagesize=${this.pagesize.toString()}`)
+        return this.datos.getdatos<ModelResponse>(this.rutaapi+`/getparamet/${id}`)
       }
       
       public Gets(filtro:string,

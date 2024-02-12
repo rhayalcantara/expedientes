@@ -6,14 +6,14 @@ export interface IProceso{
     descripcion:string
 }
 export interface IprocesoDts extends IProceso{
-    procesoparametros:IprocesoparametroDts[]
+    proceso_Parametros:IprocesoparametroDts[]
 }
 
 export interface IProcesoParametro{
     id:number
     proceso_id:number
-    producto_id:number
-    parametro_id:number
+    productos_id:number
+    parametro_expediente_id:number
 }
 
 export interface IprocesoparametroDts extends IProcesoParametro{

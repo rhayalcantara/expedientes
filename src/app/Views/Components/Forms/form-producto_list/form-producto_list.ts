@@ -1,30 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { TablesComponent } from '../../tables/tables.component';
-import { Sucursal } from 'src/app/Controllers/Sucursal';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
+import { Product } from 'src/app/Controllers/Product';
 
 @Component({
     standalone:true,
     imports:[TablesComponent,FormsModule],
-    selector: 'app-form-sucursales',
-    templateUrl: './form-sucursales.html',
-    styleUrls: ['./form-sucursales.css']
+    selector: 'app-form-producto_list',
+    templateUrl: './form-producto_list.html',
+    styleUrls: ['./form-producto_list.css']
   })
 
-  export class FormSucursalesComponent implements OnInit{
-    getdatos() {
-      
-      if (this.term!=''){
-        
-         this.sucursal.arraymodel = this.sucursal.arraymodel.filter(x=>x.nombre.includes((this.term.toUpperCase())))
-      }else{
-        this.sucursal.getdatos()
-      }
-    }
+  export class FormProductoListComponent implements OnInit{
+
 
     config:any
     public term: string='';
@@ -34,9 +26,11 @@ import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
     public arrayoriginal:Isucursal[]=[]
 
      constructor(
-        public sucursal:Sucursal,
+        public sucursal:Product,
         private ServiceComunicacion:ComunicacionService,
-        private dialogRef: MatDialogRef<FormSucursalesComponent>){}
+        private dialogRef: MatDialogRef<FormProductoListComponent>){}
+
+
      ngOnInit(): void {
         
         this.sucursal.getdatos()
@@ -61,7 +55,15 @@ import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
 
 
        }
-
+    getdatos() {
+      
+      if (this.term!=''){
+        
+         this.sucursal.arraymodel = this.sucursal.arraymodel.filter(x=>x.nombre.includes((this.term.toUpperCase())))
+      }else{
+        this.sucursal.getdatos()
+      }
+    }
        opcion(event:TableResponse){
             this.dialogRef.close(event.key)
        }

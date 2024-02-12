@@ -43,9 +43,10 @@ export class FormZonasComponent implements  OnInit {
     public productdatos:Zona,
     private dialogre:MatDialogRef<FormZonasComponent>,
     private Dat:DatosServiceService,
-    private ServiceComunicacion:ComunicacionService,) {
-    this.fg=this.fb.group({});
-   }
+    private ServiceComunicacion:ComunicacionService,) 
+    {
+      this.fg=this.fb.group({});
+    }
 
 
 agregar() {

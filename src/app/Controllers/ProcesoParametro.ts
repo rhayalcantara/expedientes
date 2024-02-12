@@ -9,39 +9,38 @@ import { Observable } from "rxjs/internal/Observable";
 import { IZonaSucusal } from "../Models/Zona/izona";
 import { Sucursal } from "./Sucursal";
 import { ResourceLoader } from "@angular/compiler";
-import { IProcesoParametro } from "../Models/Proceso/Proceso";
+import { IProceso, IProcesoParametro, IprocesoDts, IprocesoparametroDts } from "../Models/Proceso/Proceso";
 
 
 @Injectable({
     providedIn: 'root'
   })
-  export class ZonaSucursal implements OnInit{
-  forEach(arg0: (element: any) => void) {
-    throw new Error("Method not implemented.");
-  }
-    rutaapi:string =this.datos.URL+'/api/proceso_parametro'
-    titulomensage:string='Usuarios'
+  export class ProcesoParametros implements OnInit{
+  
+    rutaapi:string =this.datos.URL+'/api/procesoes'
+    titulomensage:string='Proceso'
   
     
-    public model:IProcesoParametro={
+    public model:IprocesoDts={
         id: 0,
-        proceso_id: 0,
-        producto_id: 0,
-        parametro_id: 0
+        descripcion: '',
+        proceso_Parametros: []
     }
-   titulos=[      
-      {nombre:'Nombre'}
-   ]
-   public estado:string='`'
-   public totalregistros:number=0
-   public actualpage:number=1
-   public pagesize:number=600
-   public filtro:string=''
-   public arraymodel:izonasucursal[]=[]
-   public arraysucursal:Isucursal[]=[]
-   public anterior:izonasucursal[]=[]
-   public dd:izonasucursal[]=[]
-   public operationSuccessful: boolean = false;
+
+    public titulos=[{descripcion:'Nombre'}]
+    public titulodetalle=[
+      {producto_nombre:'Producto'},
+      {parametro_nombre:'Parametro'}
+                         ]
+    public estado:string='`'
+    public totalregistros:number=0
+    public actualpage:number=1
+    public pagesize:number=10
+    public filtro:string=''
+    public arraymodel:IprocesoparametroDts[]=[]
+    public anterior:IprocesoparametroDts[]=[]
+    public dd:IProcesoParametro[]=[]
+    public error:string=''
    @Output() TRegistros = new EventEmitter<number>();
    
    constructor(
@@ -53,10 +52,10 @@ import { IProcesoParametro } from "../Models/Proceso/Proceso";
         this.filtro=""
         this.estado=""
         this.actualpage=1
-        this.pagesize=600
+        this.pagesize=10
         
     }
-    public  getdatos(id:string):Promise<any>{
+  public  getdatos(id:string):Promise<any>{
       
         const dialogRef = this.toastr.open(LoadingComponent, {
          width: '340px',
@@ -69,7 +68,7 @@ import { IProcesoParametro } from "../Models/Proceso/Proceso";
         {next:(rep:ModelResponse)=>
           {
 
-          console.log('llegaron los datos de zonasucursal',rep)
+          console.log('llegaron los datos de Proceso Parametro',rep)
           //se obtiene los datos y se ponen en los array
 
           this.dd = rep.data
@@ -82,7 +81,7 @@ import { IProcesoParametro } from "../Models/Proceso/Proceso";
           this.anterior.push(...rep.data)
           console.log('datos',this.arraymodel)     
           this.TRegistros.emit(this.totalregistros) 
-          this.operationSuccessful=true     
+    
           dialogRef.close()  
           resolve(true);
           
@@ -110,18 +109,55 @@ import { IProcesoParametro } from "../Models/Proceso/Proceso";
   return this.datos.getdatoscount(this.rutaapi+`/count`)
   }
 
-  public insert(obj:izs):Observable<izs>{  
+  public insert(obj:IprocesoDts):Observable<IprocesoDts>{  
     console.log('llego a insert en produc',obj)
 
-    return this.datos.insertardatos<izs>(this.rutaapi, obj ); 
+    return this.datos.insertardatos<IprocesoDts>(this.rutaapi, obj ); 
   }
   
-  public Update(obj:izs):Observable<izs>{
+  public Update(obj:IprocesoDts):Observable<IprocesoDts>{
     console.log(this.rutaapi+`/${obj.id}`,obj)
-    return this.datos.updatedatos<izs>(this.rutaapi+`/${obj.id}`,obj); 
+    return this.datos.updatedatos<IprocesoDts>(this.rutaapi+`/${obj.id}`,obj); 
   }
-  public del(obj:izs):Observable<izs>{
+  public del(obj:IprocesoDts):Observable<IprocesoDts>{
     console.log(this.rutaapi+`/${obj.id}`)
-    return this.datos.delbyid<izs>(this.rutaapi+`/${obj.id}`); 
+    return this.datos.delbyid<IprocesoDts>(this.rutaapi+`/${obj.id}`); 
+  }
+  public grabar():Promise<any>{
+
+    
+    const repuesta = new Promise((resolve:any,reject:any)=>{
+      if(this.model.id==0){
+        //insertar
+        console.log('se envia a insertar',this.model)
+        this.insert(this.model).subscribe({
+          next:(rep:IprocesoDts)=>{
+            console.log('inserto:',rep)
+            this.model.id = rep.id
+            
+            resolve(true);
+          },error:(err:Error)=>{
+            this.error=err.message
+            reject(true)
+          }
+
+        })
+      }else{
+        //update
+        console.log('se envia a update',this.model)
+        this.Update(this.model).subscribe({
+          next:(rep:IprocesoDts)=>{
+            resolve(true)
+          },error:(err:Error)=>{
+            this.error=err.message
+            reject(true)
+          }
+        })
+      }
+    })
+
+      return repuesta
+
+
   }
   }

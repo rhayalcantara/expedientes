@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { TablesComponent } from '../../tables/tables.component';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
 
@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Proceso } from 'src/app/Controllers/Proceso';
 import { FormProcesoComponent } from '../../Forms/form-proceso/form-proceso.component';
 import { IProceso, IprocesoDts } from 'src/app/Models/Proceso/Proceso';
+import { ModelResponse } from 'src/app/Models/Usuario/modelResponse';
 
 @Component({
   standalone:true,
@@ -63,8 +64,13 @@ filtro() {
 throw new Error('Method not implemented.');
 }
 agregar() {
+  let model:IprocesoDts={
+    id: 0,
+    descripcion: '',
+    proceso_Parametros: []
+  }
   const  dialogRef = this.toastr.open(FormProcesoComponent,{
-    width: '900px',data:{model:this.procesos.model}})
+    width: '900px',data:{model:model}})
     dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
       //console.log('llego del formulario de producto',result)
       this.procesos.arraymodel.push(result)
@@ -84,10 +90,81 @@ actualizaelidtable($event: string) {
 paginacambio($event: number) {
 throw new Error('Method not implemented.');
 }
-opcion($event: TableResponse) {
-throw new Error('Method not implemented.');
+opcion(event:TableResponse){
+  console.log(event)
+  
+  const acct:any ={
+    edit:this.edita,
+    del:this.delete
+ }   
+ 
+ const handler =  acct[event.option](event.key,this.procesos,this.toastr)
+ handler.then((rep:IprocesoDts)=>{
+
+  if(rep!=null){
+    let m:IprocesoDts = this.procesos.arraymodel.find(x=>x.id==rep.id) as IprocesoDts
+    let m2:IprocesoDts =this.procesos.arraymodel[this.procesos.arraymodel.indexOf(m)]
+    m2 = rep
+    
+    this.datos.showMessage("Registro Actualizado Correctamente",this.procesos.titulomensage,"sucess")
+    this.procesos.filtrar()
+
+  }
+
+    
+ },(err:Error)=>{
+   this.datos.showMessage("Error: "+err.message,"Error","error")
+ })
+ }
+ 
+ edita(prod:IprocesoDts,p:Proceso,t:MatDialog):Promise<any> {
+  
+  const rep =  new Promise ((resolve:any,reject:any)=>{
+    // p.getdatos()
+    
+    p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
+    console.log('producto edit',p.model)
+    p.getdetalle(p.model.id.toString()).subscribe({
+      next:(rep:ModelResponse)=>{
+        console.log('llego el detalle',rep)
+        if(rep.exito=200){
+          if (rep.data!=null){
+            p.model = rep.data
+          }else{
+            p.model.proceso_Parametros=[]
+          }
+          
+        }else{
+          this.datos.showMessage("Erorr: "+rep.mensaje,"Modificando","error")
+          resolve(null)
+        }        
+      },error:(err:Error)=>{
+        this.datos.showMessage("Erorr: "+err.message,"Modificando","error")
+        resolve(null)
+      },complete() {
+        const  dialogRef = t.open(FormProcesoComponent,{
+          width: '900px',data:{model:p.model}})
+          dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
+            //console.log('llego del formulario de producto',result)
+            if (result){
+              resolve(result);
+            }else{
+              resolve(null)
+            }
+            
+          });  
+      },
+    })
+      
+  })
+  
+  return rep
+
 }
 
+delete(prod:IprocesoDts,p:Proceso,t:MatDialog):Promise<any>{
+ return new Promise((resolve,reject)=>{ resolve(prod)}) 
+}
 cancelar() {
 throw new Error('Method not implemented.');
 }

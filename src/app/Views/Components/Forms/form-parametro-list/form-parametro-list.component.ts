@@ -1,43 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { TablesComponent } from '../../tables/tables.component';
-import { Sucursal } from 'src/app/Controllers/Sucursal';
-import { ComunicacionService } from 'src/app/Services/comunicacion.service';
-import { TableResponse } from 'src/app/Helpers/Interfaces';
-import { MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
-import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
+import { IParametro } from 'src/app/Models/Proceso/Proceso';
+import { Parametro } from 'src/app/Controllers/Parametro';
+import { ComunicacionService } from 'src/app/Services/comunicacion.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { TableResponse } from 'src/app/Helpers/Interfaces';
 
 @Component({
-    standalone:true,
-    imports:[TablesComponent,FormsModule],
-    selector: 'app-form-sucursales',
-    templateUrl: './form-sucursales.html',
-    styleUrls: ['./form-sucursales.css']
-  })
-
-  export class FormSucursalesComponent implements OnInit{
-    getdatos() {
-      
-      if (this.term!=''){
-        
-         this.sucursal.arraymodel = this.sucursal.arraymodel.filter(x=>x.nombre.includes((this.term.toUpperCase())))
-      }else{
-        this.sucursal.getdatos()
-      }
-    }
-
-    config:any
+  standalone:true,
+  imports:[TablesComponent,FormsModule],
+  selector: 'app-form-parametro-list',
+  templateUrl: './form-parametro-list.component.html',
+  styleUrls: ['./form-parametro-list.component.css']
+})
+export class FormParametroListComponent implements OnInit{
+  config:any
     public term: string='';
     public sele:boolean = true
     public campos:string[]=[]
     public tituloslocal:string[]=[]
-    public arrayoriginal:Isucursal[]=[]
-
-     constructor(
-        public sucursal:Sucursal,
-        private ServiceComunicacion:ComunicacionService,
-        private dialogRef: MatDialogRef<FormSucursalesComponent>){}
-     ngOnInit(): void {
+    public arrayoriginal:IParametro[]=[]
+    constructor(
+      public sucursal:Parametro,
+      private ServiceComunicacion:ComunicacionService,
+      private dialogRef: MatDialogRef<FormParametroListComponent>){} 
+      
+      ngOnInit(): void {
         
         this.sucursal.getdatos()
         this.config = {
@@ -61,7 +50,15 @@ import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
 
 
        }
-
+       getdatos() {
+      
+        if (this.term!=''){
+          
+           this.sucursal.arraymodel = this.sucursal.arraymodel.filter(x=>x.nombre.includes((this.term.toUpperCase())))
+        }else{
+          this.sucursal.getdatos()
+        }
+      }
        opcion(event:TableResponse){
             this.dialogRef.close(event.key)
        }
@@ -70,4 +67,5 @@ import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
         this.config.id=event
        }
        paginacambio(event:any){}
-  }
+
+}
