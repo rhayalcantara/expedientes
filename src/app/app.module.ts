@@ -24,6 +24,7 @@ import { FormParametroComponent } from './Views/Components/Forms/form-parametro/
 import { ParametroPageComponent } from './Views/Components/Pages/parametro-page/parametro-page.component';
 import { FormParametroListComponent } from './Views/Components/Forms/form-parametro-list/form-parametro-list.component';
 import { FormProductoParametroComponent } from './Views/Components/Forms/form-producto-parametro/form-producto-parametro.component';
+import { AgendaPageComponent } from './Views/Components/Pages/agenda-page/agenda-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FormProductoParametroComponent } from './Views/Components/Forms/form-pr
     FormZonasComponent,
         
          FormsSupervisorComponent,
-                  FormZonaListComponent
+                  FormZonaListComponent,
+                  AgendaPageComponent
   ],
   imports: [
     BrowserModule,

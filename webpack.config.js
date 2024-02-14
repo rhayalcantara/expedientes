@@ -12,6 +12,6 @@ const moduleFederationConfig = withModuleFederationPlugin({
   },
   sharedMappings:["@commons-lib"]
 });
-// moduleFederationConfig.output.publicPath = '/inventarioappti/'
+ //moduleFederationConfig.output.publicPath = '/expedientes/'
 moduleFederationConfig.output.publicPath = '/'
 module.exports =moduleFederationConfig
