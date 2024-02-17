@@ -9,7 +9,7 @@ export interface Iagenda{
     fecha:Date
 }
 
-export interface agendaDts extends Iagenda{
+export interface IagendaDts extends Iagenda{
     supervisor:Isupervisor
     supervisor_nombre:string
     sucursalesprocesos:Iagenda_sucursalDts[]

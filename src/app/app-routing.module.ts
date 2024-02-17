@@ -34,6 +34,11 @@ loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.co
 loadComponent:()=> import('./Views/Components/Pages/parametro-page/parametro-page.component')
 .then((m)=> m.ParametroPageComponent),
  canActivate: [AuthGuard]
+},
+{ path:'agenda', 
+loadComponent:()=> import('./Views/Components/Pages/agenda-page/agenda-page.component')
+.then((m)=> m.AgendaPageComponent),
+ canActivate: [AuthGuard]
 } 
 ];
 

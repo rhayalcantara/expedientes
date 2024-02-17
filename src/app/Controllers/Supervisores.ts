@@ -66,10 +66,7 @@ import { Isupervisor, Isupervisordts, ISupervisorsDTS } from "../Models/Supervis
            height: '180px',        
          }); 
 
-        //se obtiene los datos y se ponen en los array
-        if(this.filtro==""){
-          this.filtro="`"
-        }
+ 
 
          this.Gets(this.filtro,this.estado,
           this.actualpage,this.pagesize)        

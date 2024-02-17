@@ -25,6 +25,9 @@ import { ParametroPageComponent } from './Views/Components/Pages/parametro-page/
 import { FormParametroListComponent } from './Views/Components/Forms/form-parametro-list/form-parametro-list.component';
 import { FormProductoParametroComponent } from './Views/Components/Forms/form-producto-parametro/form-producto-parametro.component';
 import { AgendaPageComponent } from './Views/Components/Pages/agenda-page/agenda-page.component';
+import { FormAgendaComponent } from './Views/Components/Forms/form-agenda/form-agenda.component';
+import { SelecionSucursalProcesoComponent } from './Views/Components/Forms/selecion-sucursal-proceso/selecion-sucursal-proceso.component';
+import { SelecionSupervisorComponent } from './Views/Components/Forms/selecion-supervisor/selecion-supervisor.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { AgendaPageComponent } from './Views/Components/Pages/agenda-page/agenda
         
          FormsSupervisorComponent,
                   FormZonaListComponent,
-                  AgendaPageComponent
+                  FormAgendaComponent,
+                  SelecionSucursalProcesoComponent
   ],
   imports: [
     BrowserModule,

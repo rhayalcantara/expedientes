@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, OnInit, Output } from "@angular/core";
 import { DatosServiceService } from "../Services/datos-service.service";
 import { ExcelService } from "../Services/excel.service";
 import { MatDialog } from "@angular/material/dialog";
-import { agendaDts } from "../Models/agenda/agenda";
+import { IagendaDts } from "../Models/agenda/agenda"
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs'; 
@@ -16,7 +16,7 @@ import { firstValueFrom, Observable, repeat } from 'rxjs';
     rutaapi:string =this.datos.URL+'/api/Procesoes'
     titulomensage:string='Procesos'
 
-    public model:agendaDts={
+    public model:IagendaDts={
         id: 0,
         supervisor_id: 0,
         fecha: new Date(),
@@ -42,7 +42,7 @@ import { firstValueFrom, Observable, repeat } from 'rxjs';
     public filtro:string=''
     public desde:string=''
     public hasta:string=''
-    public arraymodel:agendaDts[]=[]
+    public arraymodel:IagendaDts[]=[]
 
     @Output() TRegistros = new EventEmitter<number>();
     constructor(
@@ -97,15 +97,15 @@ public Gets(filtro:string,
 
 
 
-public insert(obj:agendaDts):Observable<agendaDts>{  
+public insert(obj:IagendaDts):Observable<IagendaDts>{  
     console.log('llego a insert en produc',obj)
 
-    return this.datos.insertardatos<agendaDts>(this.rutaapi, obj ); 
+    return this.datos.insertardatos<IagendaDts>(this.rutaapi, obj ); 
   }
   
-  public Update(obj:agendaDts):Observable<agendaDts>{
+  public Update(obj:IagendaDts):Observable<IagendaDts>{
     console.log(this.rutaapi+`/${obj.id}`,obj)
-    return this.datos.updatedatos<agendaDts>(this.rutaapi+`/${obj.id}`,obj); 
+    return this.datos.updatedatos<IagendaDts>(this.rutaapi+`/${obj.id}`,obj); 
   }
 
   public async grabar(): Promise<boolean> {
@@ -115,7 +115,7 @@ public insert(obj:agendaDts):Observable<agendaDts>{
       if (this.model.id == 0) {
         // inserta el registro
         await firstValueFrom(this.insert(this.model)).then(
-          (rep: agendaDts) => {
+          (rep: IagendaDts) => {
             this.model = rep;
             this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
             resolve(true); // Devuelve true si la operación fue exitosa
@@ -128,7 +128,7 @@ public insert(obj:agendaDts):Observable<agendaDts>{
       } else {
         // actualiza el registro
         await firstValueFrom(this.Update(this.model)).then(
-          (rep: agendaDts) => {
+          (rep: IagendaDts) => {
            // this.model = rep;
             let m = this.arraymodel.find(x=>x.id==this.model.id)
             m = rep
