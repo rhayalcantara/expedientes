@@ -10,17 +10,13 @@ import { firstValueFrom } from "rxjs/internal/firstValueFrom";
 @Injectable({
     providedIn: 'root'
   })
-
+ 
   export class Parametro implements OnInit{
     rutaapi:string =this.datos.URL+'/api/Parametro_Expediente'
     titulomensage:string='Parametros'
   
     
-    public model:IParametro={
-        id: 0,
-        nombre: '',
-        sg: false
-    }
+    public model:IParametro=this.inicializamodelo()
    titulos=[      
       {nombre:'Nombre'},
       {sg:'Incluye Garante'}
@@ -46,6 +42,13 @@ import { firstValueFrom } from "rxjs/internal/firstValueFrom";
         this.actualpage=1
         this.pagesize=600
         this.getdatos()
+    }
+    inicializamodelo():IParametro{
+      return {
+        id: 0,
+        nombre: '',
+        sg: false
+    }
     }
     public  getdatos(){
         console.log('entro y llama a cargando')

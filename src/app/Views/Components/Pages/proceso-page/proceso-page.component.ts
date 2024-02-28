@@ -107,7 +107,7 @@ opcion(event:TableResponse){
     m2 = rep
     
     this.datos.showMessage("Registro Actualizado Correctamente",this.procesos.titulomensage,"sucess")
-    this.procesos.filtrar()
+    //this.procesos.filtrar()
 
   }
 
@@ -124,39 +124,20 @@ opcion(event:TableResponse){
     
     p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
     console.log('producto edit',p.model)
-    p.getdetalle(p.model.id.toString()).subscribe({
-      next:(rep:ModelResponse)=>{
-        console.log('llego el detalle',rep)
-        if(rep.exito=200){
-          if (rep.data!=null){
-            p.model = rep.data
-          }else{
-            p.model.proceso_Parametros=[]
-          }
-          
+    const  dialogRef = t.open(FormProcesoComponent,{
+      width: '900px',data:{model:p.model}})
+      dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
+        //console.log('llego del formulario de producto',result)
+        if (result){
+          resolve(result);
         }else{
-          this.datos.showMessage("Erorr: "+rep.mensaje,"Modificando","error")
           resolve(null)
-        }        
-      },error:(err:Error)=>{
-        this.datos.showMessage("Erorr: "+err.message,"Modificando","error")
-        resolve(null)
-      },complete() {
-        const  dialogRef = t.open(FormProcesoComponent,{
-          width: '900px',data:{model:p.model}})
-          dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
-            //console.log('llego del formulario de producto',result)
-            if (result){
-              resolve(result);
-            }else{
-              resolve(null)
-            }
-            
-          });  
-      },
-    })
+        }
+        
+      });  
+
       
-  })
+  });
   
   return rep
 

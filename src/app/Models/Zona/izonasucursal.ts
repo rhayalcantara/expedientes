@@ -1,19 +1,16 @@
 import { Sucursal } from "src/app/Controllers/Sucursal";
 import { Isucursal } from "../Sucursal/Isucursal";
 
-export interface izonasucursal extends izs{
+export interface Izona_sucursaldts extends Izona_sucursal{
     nombre:string
     sucursal: Isucursal
 }
 
-export interface izs{
+export interface Izona_sucursal{
     id	:number
     zona_id:number
     sucursal_id:number
+    
 }
 
-  export interface Zonadts {
-    zs: izonasucursal[];
-    id: number;
-    descripcion: string;
-  }
+  

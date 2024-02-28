@@ -76,6 +76,7 @@ export class ProductosComponent implements OnInit {
    handler.then((rep:IProduct)=>{
 
     if(rep!=null){
+      console.log(rep)
       let m:IProduct = this.producto.arraymodel.find(x=>x.id==rep.id) as IProduct
       let m2:IProduct =this.producto.arraymodel[this.producto.arraymodel.indexOf(m)]
       m2 = rep

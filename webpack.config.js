@@ -14,5 +14,7 @@ const moduleFederationConfig = withModuleFederationPlugin({
   sharedMappings:["@commons-lib"]
 });
  //moduleFederationConfig.output.publicPath = '/expedientes/'
+moduleFederationConfig.output.pathinfo = false
+moduleFederationConfig.output.clean = true
 moduleFederationConfig.output.publicPath = '/'
 module.exports =moduleFederationConfig

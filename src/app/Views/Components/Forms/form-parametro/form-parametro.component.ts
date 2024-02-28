@@ -11,7 +11,7 @@ import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { IParametro } from 'src/app/Models/Proceso/Proceso';
 import { Parametro } from 'src/app/Controllers/Parametro';
 
-
+ 
 @Component({
   standalone:true,
   imports:[FormsModule,ReactiveFormsModule,CommonModule,JsonPipe],

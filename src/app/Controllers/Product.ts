@@ -3,10 +3,9 @@ import { EventEmitter, Injectable, OnInit, Output } from '@angular/core';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { firstValueFrom, Observable, repeat } from 'rxjs';
 import { IProduct } from '../Models/Product/IProduct';
-import { UtilsService } from 'src/app/Helpers/utils.service';
+
 
 import { MatDialog } from '@angular/material/dialog';
-import { VisorpdfComponent } from 'src/app/Views/Components/visorpdf/visorpdf.component';
 
 
 import { LoadingComponent } from '../Views/Components/loading/loading.component';
@@ -25,10 +24,7 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
    titulomensage:string='Productos'
 
    
-   public model:IProduct={
-    id: 0,
-    nombre: ''
-  }
+   public model:IProduct=this.inicializamodelo()
   titulos=[
     {nombre:'Nombre'},
 
@@ -40,6 +36,7 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
    public filtro:string=''
    public arraymodel:IProduct[]=[]
   
+
    public operationSuccessful: boolean = false;
    @Output() TRegistros = new EventEmitter<number>();
     constructor(
@@ -57,7 +54,12 @@ import { ModelResponse } from '../Models/Usuario/modelResponse';
     this.getdatos()
     
   }
-
+public inicializamodelo():IProduct{
+  return {
+    id: 0,
+    nombre: ''
+  }
+}
 
     public  getdatos(){
      

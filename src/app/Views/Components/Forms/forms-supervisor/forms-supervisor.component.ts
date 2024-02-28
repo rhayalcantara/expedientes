@@ -6,7 +6,6 @@ import { Isupervisordts } from 'src/app/Models/Supervisor/Isupervisor';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { FormZonasComponent } from '../form-zonas/form-zonas.component';
-import { izonasucursal } from 'src/app/Models/Zona/izonasucursal';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
 import { FormUsuariosComponent } from '../form-usuarios/form-usuarios';
 import { IUsuario } from 'src/app/Models/Usuario/Iusuario';
@@ -73,7 +72,7 @@ export class FormsSupervisorComponent implements OnInit  {
     }
   
    get nombre(){return this.fg.get('nombre');}
-   get Descripcion(){return this.fg.get('descripcion');}
+   get Descripcion(){return this.fg.get('nombrezona');}
 
     ngOnInit(): void {
           console.log('formulario',this.data.model)
@@ -91,7 +90,7 @@ export class FormsSupervisorComponent implements OnInit  {
             id:'',
              itemsPerPage: 10,
              currentPage: 1,
-             totalItems: this.productdatos.model.zonadts.zs.length
+             totalItems: this.productdatos.model.zona.zonaSucursales.length
            };
           
     }
@@ -141,18 +140,17 @@ export class FormsSupervisorComponent implements OnInit  {
         const  dialogRef = this.toastr.open(FormZonaListComponent,{
           width: '900px',data:{}
             })
-            dialogRef.afterClosed().subscribe((result: Zona)=>{
+            dialogRef.afterClosed().subscribe((result: IZonaSucusal)=>{
               console.log('llego zona',result)
               
               
-                this.fg.get('descripcion')?.setValue(result.model.descripcion)
+                this.fg.get('nombrezona')?.setValue(result.descripcion)
               
-              this.zslocal=result
-              this.productdatos.model.zona_id=result.model.id
-              this.productdatos.model.nombrezona=result.model.descripcion
-              this.productdatos.model.zonadts.descripcion = result.model.descripcion
-              this.productdatos.model.zonadts.id = result.model.id
-              this.productdatos.model.zonadts.zs = result.zs.dd
+              
+              this.productdatos.model.zona_id=result.id
+              this.productdatos.model.nombrezona=result.descripcion
+              this.productdatos.model.zona = result
+
               console.log('se cargo la zona', this.productdatos.model)
             })
       }

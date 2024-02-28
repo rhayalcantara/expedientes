@@ -4,8 +4,12 @@ import { Zona } from 'src/app/Controllers/Zona';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
 import { IZona, IZonaSucusal } from 'src/app/Models/Zona/izona';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
+import { TablesComponent } from '../../tables/tables.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
+  standalone:true,
+  imports:[TablesComponent,FormsModule],
   selector: 'app-form-zona-list',
   templateUrl: './form-zona-list.component.html',
   styleUrls: ['./form-zona-list.component.css']
@@ -16,7 +20,7 @@ tituloslocal: string[]=[];
 config: any;
 
 sele: boolean=true;
-term: any;
+public term: string="";
 
 constructor(
   public zona:Zona,
@@ -55,16 +59,9 @@ paginacambio($event: number) {
 throw new Error('Method not implemented.');
 }
 opcion($event: TableResponse) {
-  let zona:IZona = $event.key as IZona
-  this.zona.getdetalle(zona.id.toString()).then(
-    (rep)=>{
-      console.log('se envia',this.zona)
-    
-      this.dialogRef.close(this.zona)
-    }
-  )
-
-  //IZonaSucusal
+  let zona:IZonaSucusal = $event.key as IZonaSucusal
+  this.dialogRef.close(zona)
+   
 }
 getdatos() {
 throw new Error('Method not implemented.');

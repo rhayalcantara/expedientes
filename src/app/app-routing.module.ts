@@ -25,21 +25,16 @@ loadComponent:()=> import('./Views/Components/Pages/supervisores-page/supervisor
 .then((m)=> m.SupervisoresPageComponent),
  canActivate: [AuthGuard]
 },
-{ path:'Procesos', 
-loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.component')
-.then((m)=> m.ProcesoPageComponent),
- canActivate: [AuthGuard]
-} ,
 { path:'Parametro', 
 loadComponent:()=> import('./Views/Components/Pages/parametro-page/parametro-page.component')
 .then((m)=> m.ParametroPageComponent),
  canActivate: [AuthGuard]
 },
-{ path:'agenda', 
-loadComponent:()=> import('./Views/Components/Pages/agenda-page/agenda-page.component')
-.then((m)=> m.AgendaPageComponent),
+{ path:'Procesos', 
+loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.component')
+.then((m)=> m.ProcesoPageComponent),
  canActivate: [AuthGuard]
-} 
+}
 ];
 
 @NgModule({

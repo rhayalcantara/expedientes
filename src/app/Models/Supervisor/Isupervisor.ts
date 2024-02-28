@@ -1,5 +1,5 @@
 import { IZonaSucusal } from "../Zona/izona"
-import { Zonadts } from "../Zona/izonasucursal"
+
 
 
 export interface Isupervisor {
@@ -10,11 +10,7 @@ export interface Isupervisor {
 }
 
 export interface Isupervisordts extends Isupervisor{
+    nombrezona:string
     zona:IZonaSucusal
 }
 
-export interface ISupervisorsDTS extends Isupervisor
-{
-    zonadts: Zonadts; 
-    nombrezona:string; 
-}

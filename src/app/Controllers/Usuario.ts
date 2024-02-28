@@ -16,11 +16,7 @@ export class Usuario implements OnInit{
   titulomensage:string='Usuarios'
 
   
-  public model:IUsuario={
-    usuario:'',
-    nombres:'',
-    email:''
- }
+  public model:IUsuario=this.inicializamodelo()
  titulos=[
     {usuario:'Codigo'},
     {nombres:'Nombre'},
@@ -47,6 +43,13 @@ export class Usuario implements OnInit{
       this.actualpage=1
       this.pagesize=600
       this.getdatos()
+  }
+  public inicializamodelo():IUsuario{
+    return {
+      usuario:'',
+      nombres:'',
+      email:''
+   }
   }
   public  getdatos(){
     

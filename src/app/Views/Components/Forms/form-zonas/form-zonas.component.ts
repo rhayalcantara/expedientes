@@ -6,11 +6,11 @@ import { TableResponse } from 'src/app/Helpers/Interfaces';
 import { IZona } from 'src/app/Models/Zona/izona';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { FormSucursalesComponent } from '../form-sucursales/form-sucursales';
-import { izonasucursal } from 'src/app/Models/Zona/izonasucursal';
-import { ZonaSucursal } from 'src/app/Controllers/ZonaSucursal';
+
 import { ModelResponse } from 'src/app/Models/Usuario/modelResponse';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { Isucursal } from 'src/app/Models/Sucursal/Isucursal';
+import { Izona_sucursaldts } from 'src/app/Models/Zona/izonasucursal';
 
 @Component({
   selector: 'app-form-zonas',
@@ -56,24 +56,24 @@ agregar() {
       dialogRef.afterClosed().subscribe((result:Isucursal)=>{
         // verificar si existe en la lista actual
         
-        if(this.productdatos.zs.arraymodel.find(r=>r.nombre.includes(result.nombre))){
+        if(this.productdatos.model.zonaSucursales.find(r=>r.nombre.includes(result.nombre))){
           this.Dat.showMessage("Sucursal existe en el listado, Favor Verificar","Existe","error")
         }else{
-
-          var nueva:izonasucursal={
+          console.log('Paso verificacion local')
+          var nueva:Izona_sucursaldts={
             id: 0,
             zona_id: this.productdatos.model.id,
             sucursal_id: result.secuencial,
             nombre: result.nombre,
-            sucursal: {secuencial:0,nombre:''}
+            sucursal: {secuencial:result.secuencial,nombre:result.nombre}
           }
-          console.log(nueva)
+          console.log('la zona_sucursal creada',nueva)
           // verifica si existe en otra zona
-         this.productdatos.zs.verificasucursalasignada(nueva.sucursal_id.toString()).subscribe({
+         this.productdatos.verificasucursalasignada(nueva.sucursal_id.toString()).subscribe({
           next:(rep:boolean)=>{
-            console.log(rep)
+            console.log('la respuesta de la verificacion',rep)
             if (rep == false ){
-              this.productdatos.zs.arraymodel.push(nueva)
+              this.productdatos.model.zonaSucursales.push(nueva)
              }else{              
               this.Dat.showMessage("Sucursal existe en Otra Zona, Favor Verificar","Existe","error")
              }
@@ -97,8 +97,8 @@ paginacambio(event: number) {
 
 opcion(event: TableResponse) {
   console.log(event)
-  var elemento:izonasucursal = event.key as (izonasucursal)
-  this.productdatos.zs.arraymodel.splice(this.productdatos.zs.arraymodel.indexOf(elemento),1)
+  var elemento:Izona_sucursaldts = event.key as (Izona_sucursaldts)
+  this.productdatos.model.zonaSucursales.splice(this.productdatos.model.zonaSucursales.indexOf(elemento),1)
 }
   
 
@@ -112,12 +112,12 @@ opcion(event: TableResponse) {
         this.fg= this.Dat.llenarFormGrup(this.product)
 
         // el detalle 
-        this.getdetalle()
+       // this.getdetalle()
         this.config = {
                   id:'',
                   itemsPerPage: 10,
                   currentPage: 1,
-                  totalItems: this.productdatos.zs.totalregistros
+                  totalItems: this.productdatos.model.zonaSucursales.length
                 };
 
         this.productdatos.zs.TRegistros.subscribe({
@@ -135,12 +135,12 @@ opcion(event: TableResponse) {
         
   }
 
-  getdetalle(){
-    this.productdatos.getdetalle(this.product.id.toString())    
-  }
+  // getdetalle(){
+  //   this.productdatos.getdetalle(this.product.id.toString())    
+  // }
 
   grabar(){
-    this.productdatos.model = this.fg.value
+    this.productdatos.model.descripcion = this.fg.controls["descripcion"].value
 
     this.productdatos.grabar()
 

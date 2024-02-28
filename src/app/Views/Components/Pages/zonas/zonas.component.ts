@@ -5,10 +5,10 @@ import { TableResponse } from 'src/app/Helpers/Interfaces';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { FormZonasComponent } from '../../Forms/form-zonas/form-zonas.component';
-import { IZona } from 'src/app/Models/Zona/izona';
 import { FormsModule } from '@angular/forms';
 import { TablesComponent } from '../../tables/tables.component';
 import { FormSucursalesComponent } from '../../Forms/form-sucursales/form-sucursales';
+import { IZonaSucusal } from 'src/app/Models/Zona/izona';
 
 @Component({
   standalone:true,
@@ -27,7 +27,7 @@ export class ZonasComponent implements OnInit {
     ) { 
       // this.zonas.getdatos()
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-        console.log('zonass Construtor: '+mensaje)   
+        //console.log('zonass Construtor: '+mensaje)   
       
       }})
     }
@@ -72,11 +72,11 @@ export class ZonasComponent implements OnInit {
    }   
    
    const handler =  acct[event.option](event.key,this.zonas,this.toastr)
-   handler.then((rep:IZona)=>{
+   handler.then((rep:IZonaSucusal)=>{
 
     if(rep!=null){
-      let m:IZona = this.zonas.arraymodel.find(x=>x.id==rep.id) as IZona
-      let m2:IZona =this.zonas.arraymodel[this.zonas.arraymodel.indexOf(m)]
+      let m:IZonaSucusal = this.zonas.arraymodel.find(x=>x.id==rep.id) as IZonaSucusal
+      let m2:IZonaSucusal =this.zonas.arraymodel[this.zonas.arraymodel.indexOf(m)]
       m2 = rep
       
       this.datos.showMessage("Registro Actualizado Correctamente",this.zonas.titulomensage,"sucess")
@@ -90,17 +90,17 @@ export class ZonasComponent implements OnInit {
    })
    }
    
-   edita(prod:IZona,p:Zona,t:MatDialog):Promise<any> {
+   edita(prod:IZonaSucusal,p:Zona,t:MatDialog):Promise<any> {
     
     const rep =  new Promise ((resolve:any,reject:any)=>{
       // p.getdatos()
       
-      p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IZona
+      p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IZonaSucusal
       console.log('zonas edit',p.model)
 
         const  dialogRef = t.open(FormZonasComponent,{
           width: '900px',data:{model:p.model}})
-          dialogRef.afterClosed().subscribe((result:IZona)=>{
+          dialogRef.afterClosed().subscribe((result:IZonaSucusal)=>{
             //console.log('llego del formulario de zonas',result)
             if (result){
               resolve(result);
@@ -117,13 +117,13 @@ export class ZonasComponent implements OnInit {
   abrirmodalzona(t:MatDialog,p:Zona){
     const  dialogRef = t.open(FormZonasComponent,{
       width: '900px',data:{model:p.model}})
-      dialogRef.afterClosed().subscribe((rep:IZona)=>{
+      dialogRef.afterClosed().subscribe((rep:IZonaSucusal)=>{
         //console.log('llego del formulario de zonas',result)
         this.zonas.arraymodel.push(rep)
         this.datos.showMessage("Registro Insertado Correctamente",this.zonas.titulomensage,"sucess")
       });
   }
-  delete(prod:IZona,p:Zona,t:MatDialog):Promise<any>{
+  delete(prod:IZonaSucusal,p:Zona,t:MatDialog):Promise<any>{
    return new Promise((resolve,reject)=>{ resolve(prod)}) 
   }
 

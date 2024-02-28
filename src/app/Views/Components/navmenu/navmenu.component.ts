@@ -33,7 +33,7 @@ export class NavmenuComponent implements OnInit {
         console.log('llego el mensaje',mess)
        
         if (mess=='loguiado'){
-          
+          //console.log(localStorage.getItem('usuario'))
           this.usuarioservicio.agregarusuario(JSON.parse(localStorage.getItem('usuario') ?? ""))
           
           this.mostramenu=true

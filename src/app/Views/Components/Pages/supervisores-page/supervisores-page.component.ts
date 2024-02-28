@@ -2,12 +2,13 @@ import { Component, OnInit, ɵɵclassMapInterpolate2 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Supervisores } from 'src/app/Controllers/Supervisores';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
-import { ISupervisorsDTS, Isupervisordts } from 'src/app/Models/Supervisor/Isupervisor';
+import {  Isupervisordts } from 'src/app/Models/Supervisor/Isupervisor';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { FormsSupervisorComponent } from '../../Forms/forms-supervisor/forms-supervisor.component';
 import { FormsModule } from '@angular/forms';
 import { TablesComponent } from '../../tables/tables.component';
+import { IZonaSucusal } from 'src/app/Models/Zona/izona';
 
 @Component({
   standalone:true,
@@ -78,14 +79,14 @@ opcion(event: TableResponse) {
  }   
  
  const handler =  acct[event.option](event.key,this.supervisores,this.toastr)
- handler.then((rep:ISupervisorsDTS)=>{
+ handler.then((rep:Isupervisordts)=>{
 
   if(rep!=null){
-    let m:ISupervisorsDTS | undefined = this.supervisores.arraymodel.find(x=>x.id==rep.id)
+    let m:Isupervisordts | undefined = this.supervisores.arraymodel.find(x=>x.id==rep.id)
     if(m!=undefined){
-          let m2:ISupervisorsDTS =this.supervisores.arraymodel[this.supervisores.arraymodel.indexOf(m)]
+          let m2:Isupervisordts =this.supervisores.arraymodel[this.supervisores.arraymodel.indexOf(m)]
           m2 = rep
-          m2.nombrezona = m2.zonadts.descripcion
+          m2.nombrezona = m2.zona.descripcion
           console.log('Editado',m2)
     }
 
@@ -101,17 +102,19 @@ opcion(event: TableResponse) {
    this.datos.showMessage("Error: "+err.message,"Error","error")
  })
 }
-edita(prod:ISupervisorsDTS,p:Supervisores,t:MatDialog):Promise<any> {
+edita(prod:Isupervisordts,p:Supervisores,t:MatDialog):Promise<any> {
     
   const rep =  new Promise ((resolve:any,reject:any)=>{
     // p.getdatos()
     
     p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
-    console.log('producto edit',p.model)
-
+    console.log(' edit envia',p.model)
+  
+    
+    
       const  dialogRef = t.open(FormsSupervisorComponent,{
         width: '900px',data:{model:p.model}})
-        dialogRef.afterClosed().subscribe((result:ISupervisorsDTS)=>{
+        dialogRef.afterClosed().subscribe((result:Isupervisordts)=>{
           console.log('llego del formulario de supervisores',result)
           if (result){
             resolve(result);
@@ -126,13 +129,14 @@ edita(prod:ISupervisorsDTS,p:Supervisores,t:MatDialog):Promise<any> {
 
 }
 
-delete(prod:ISupervisorsDTS,p:Supervisores,t:MatDialog):Promise<any>{
+delete(prod:Isupervisordts,p:Supervisores,t:MatDialog):Promise<any>{
  return new Promise((resolve,reject)=>{ resolve(prod)}) 
 }
 agregar() {
+  this.supervisores.model = this.supervisores.inicializamodelo()
   const  dialogRef = this.toastr.open(FormsSupervisorComponent,{
     width: '900px',data:{model:this.supervisores.model}})
-    dialogRef.afterClosed().subscribe((result:ISupervisorsDTS)=>{
+    dialogRef.afterClosed().subscribe((result:Isupervisordts)=>{
       //console.log('llego del formulario de producto',result)
       this.supervisores.arraymodel.push(result)
       this.datos.showMessage("Registro Insertado Correctamente",this.supervisores.titulomensage,"sucess")

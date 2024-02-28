@@ -1,4 +1,5 @@
-import { izonasucursal } from "./izonasucursal"
+import { Izona_sucursal, Izona_sucursaldts } from "./izonasucursal"
+
 
 export interface IZona{
     id:number
@@ -6,5 +7,5 @@ export interface IZona{
     
 }
 export interface IZonaSucusal extends IZona{
-    sucursales:izonasucursal[]
+    zonaSucursales:Izona_sucursaldts[]
 }

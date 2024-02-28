@@ -6,7 +6,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs';
-import { Isupervisor, Isupervisordts, ISupervisorsDTS } from "../Models/Supervisor/Isupervisor";
+import { Isupervisor, Isupervisordts } from "../Models/Supervisor/Isupervisor";
 
 @Injectable({
     providedIn: 'root'
@@ -17,18 +17,7 @@ import { Isupervisor, Isupervisordts, ISupervisorsDTS } from "../Models/Supervis
     rutaapi:string =this.datos.URL+'/api/Supervisors'
     titulomensage:string='Supervisores'
 
-    public model:ISupervisorsDTS={
-        id: 0,
-        codigo: '',
-        nombre: '',
-        zona_id: 0,
-        nombrezona:'',
-        zonadts: {
-            id: 0,
-            descripcion: "",
-            zs: []
-        }
-    }
+    public model:Isupervisordts=this.inicializamodelo()
     public  titulos=[
         {nombre:'Nombre'},
         {nombrezona:'Zona'}
@@ -41,7 +30,7 @@ import { Isupervisor, Isupervisordts, ISupervisorsDTS } from "../Models/Supervis
        public actualpage:number=1
        public pagesize:number=10
        public filtro:string=''
-       public arraymodel:ISupervisorsDTS[]=[]
+       public arraymodel:Isupervisordts[]=[]
       
        public operationSuccessful: boolean = false;
        @Output() TRegistros = new EventEmitter<number>();
@@ -51,7 +40,20 @@ import { Isupervisor, Isupervisordts, ISupervisorsDTS } from "../Models/Supervis
                     private toastr: MatDialog
                                     
                    ){}
-
+    inicializamodelo():Isupervisordts{
+      return {
+        id: 0,
+        codigo: '',
+        nombre: '',
+        zona_id: 0,
+        nombrezona:'',
+        zona:{
+          zonaSucursales: [],
+          id: 0,
+          descripcion: ""
+        }
+    }
+    }
     ngOnInit(): void {
         this.filtro=""
         this.estado=""

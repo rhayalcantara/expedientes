@@ -17,10 +17,7 @@ export class Sucursal implements OnInit{
   titulomensage:string='Sucursales'
 
   
-  public model:Isucursal={
-    secuencial:0,
-    nombre:''
- }
+  public model:Isucursal=this.inicializamodelo()
  titulos=[
     {secuencial:'Codigo'},
     {nombre:'Nombre'}
@@ -46,6 +43,12 @@ export class Sucursal implements OnInit{
       this.actualpage=1
       this.pagesize=600
       this.getdatos()
+  }
+  public inicializamodelo():Isucursal{
+    return {
+      secuencial:0,
+      nombre:''
+   }
   }
   public  getdatos(){
       console.log('entro y llama a cargando')

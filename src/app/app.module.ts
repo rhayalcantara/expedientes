@@ -15,19 +15,11 @@ import { TokenInterceptorService } from './Services/token-interceptor.service';
 import { ErrorInterceptorService } from './Services/error-interceptor.service';
 
 import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zonas.component';
-
 import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervisor/forms-supervisor.component';
-import { FormZonaListComponent } from './Views/Components/Forms/form-zona-list/form-zona-list.component';
-import { ProcesoPageComponent } from './Views/Components/Pages/proceso-page/proceso-page.component';
-import { FormProcesoComponent } from './Views/Components/Forms/form-proceso/form-proceso.component';
-import { FormParametroComponent } from './Views/Components/Forms/form-parametro/form-parametro.component';
-import { ParametroPageComponent } from './Views/Components/Pages/parametro-page/parametro-page.component';
-import { FormParametroListComponent } from './Views/Components/Forms/form-parametro-list/form-parametro-list.component';
-import { FormProductoParametroComponent } from './Views/Components/Forms/form-producto-parametro/form-producto-parametro.component';
-import { AgendaPageComponent } from './Views/Components/Pages/agenda-page/agenda-page.component';
-import { FormAgendaComponent } from './Views/Components/Forms/form-agenda/form-agenda.component';
-import { SelecionSucursalProcesoComponent } from './Views/Components/Forms/selecion-sucursal-proceso/selecion-sucursal-proceso.component';
-import { SelecionSupervisorComponent } from './Views/Components/Forms/selecion-supervisor/selecion-supervisor.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -35,13 +27,11 @@ import { SelecionSupervisorComponent } from './Views/Components/Forms/selecion-s
     NavmenuComponent,
     
     FormZonasComponent,
-        
-         FormsSupervisorComponent,
-                  FormZonaListComponent,
-                  FormAgendaComponent,
-                  SelecionSucursalProcesoComponent
+    FormsSupervisorComponent
+    
   ],
   imports: [
+   
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -49,6 +39,7 @@ import { SelecionSupervisorComponent } from './Views/Components/Forms/selecion-s
     FormsModule,
     ReactiveFormsModule,
     TablesComponent,
+    
   ],
   providers: [DatosServiceService,ExcelService,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptorService, multi: true },

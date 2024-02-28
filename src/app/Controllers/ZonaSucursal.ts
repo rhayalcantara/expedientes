@@ -1,44 +1,43 @@
 import { EventEmitter, Injectable, OnInit, Output } from "@angular/core";
-import { Isucursal } from "../Models/Sucursal/Isucursal";
-import { izonasucursal, izs } from "../Models/Zona/izonasucursal";
 import { DatosServiceService } from "../Services/datos-service.service";
 import { MatDialog } from "@angular/material/dialog";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { Observable } from "rxjs/internal/Observable";
-import { IZonaSucusal } from "../Models/Zona/izona";
-import { Sucursal } from "./Sucursal";
-import { ResourceLoader } from "@angular/compiler";
+import { Izona_sucursal, Izona_sucursaldts } from "../Models/Zona/izonasucursal";
 
 
 @Injectable({
     providedIn: 'root'
   })
   export class ZonaSucursal implements OnInit{
-  forEach(arg0: (element: any) => void) {
-    throw new Error("Method not implemented.");
-  }
+ 
     rutaapi:string =this.datos.URL+'/api/zona_sucursal'
     titulomensage:string='Usuarios'
   
     
-    public model:Isucursal={
-      secuencial:0,
-      nombre:''
-   }
+    public model:Izona_sucursaldts={
+      id: 0,
+      zona_id: 0,
+      sucursal_id: 0,
+      nombre: "",
+      sucursal: {
+        secuencial: 0,
+        nombre: ""
+      }
+    }
+
    titulos=[      
       {nombre:'Nombre'}
    ]
    public estado:string='`'
    public totalregistros:number=0
    public actualpage:number=1
-   public pagesize:number=600
+   public pagesize:number=10
    public filtro:string=''
-   public arraymodel:izonasucursal[]=[]
-   public arraysucursal:Isucursal[]=[]
-   public anterior:izonasucursal[]=[]
-   public dd:izonasucursal[]=[]
-   public operationSuccessful: boolean = false;
+   public arraymodel:Izona_sucursal[]=[]
+   
+
    @Output() TRegistros = new EventEmitter<number>();
    
    constructor(
@@ -50,7 +49,7 @@ import { ResourceLoader } from "@angular/compiler";
         this.filtro=""
         this.estado=""
         this.actualpage=1
-        this.pagesize=600
+        this.pagesize=10
         
     }
     public  getdatos(id:string):Promise<any>{
@@ -69,21 +68,14 @@ import { ResourceLoader } from "@angular/compiler";
           console.log('llegaron los datos de zonasucursal',rep)
           //se obtiene los datos y se ponen en los array
 
-          this.dd = rep.data
-
           this.totalregistros =  rep.count
           this.pagesize=rep.count
-          this.arraymodel=[]
-          this.anterior =[]
-          this.arraymodel=rep.data    
-          this.anterior.push(...rep.data)
-          console.log('datos',this.arraymodel)     
-          this.TRegistros.emit(this.totalregistros) 
-          this.operationSuccessful=true     
+          this.arraymodel=[]          
+          this.arraymodel=rep.data                  
+          this.TRegistros.emit(this.totalregistros)     
           dialogRef.close()  
           resolve(true);
-          
-          
+  
          },error:(err:Error)=>{
           reject(true)
          }
@@ -91,6 +83,7 @@ import { ResourceLoader } from "@angular/compiler";
       })
       return rep
     }
+
   public verificasucursalasignada(id:string):Observable<boolean>{
     console.log(this.rutaapi+`/sucursal/${id}`)
     return this.datos.getbyid<boolean>(this.rutaapi+`/sucursal/${id}`)
@@ -99,26 +92,22 @@ import { ResourceLoader } from "@angular/compiler";
       return this.datos.getdatos<ModelResponse>(this.rutaapi+`/zona/${id}`)
   }
   
-  public Get(id:string):Observable<izonasucursal>{
-    return this.datos.getbyid<izonasucursal>(this.rutaapi+`/${id}`)
-  }
-  public GetCount():Observable<number>{
-  
-  return this.datos.getdatoscount(this.rutaapi+`/count`)
+  public Get(id:string):Observable<Izona_sucursaldts>{
+    return this.datos.getbyid<Izona_sucursaldts>(this.rutaapi+`/${id}`)
   }
 
-  public insert(obj:izs):Observable<izs>{  
+
+  public insert(obj:Izona_sucursaldts):Observable<Izona_sucursaldts>{  
     console.log('llego a insert en produc',obj)
-
-    return this.datos.insertardatos<izs>(this.rutaapi, obj ); 
+    return this.datos.insertardatos<Izona_sucursaldts>(this.rutaapi, obj ); 
   }
   
-  public Update(obj:izs):Observable<izs>{
+  public Update(obj:Izona_sucursaldts):Observable<Izona_sucursaldts>{
     console.log(this.rutaapi+`/${obj.id}`,obj)
-    return this.datos.updatedatos<izs>(this.rutaapi+`/${obj.id}`,obj); 
+    return this.datos.updatedatos<Izona_sucursaldts>(this.rutaapi+`/${obj.id}`,obj); 
   }
-  public del(obj:izs):Observable<izs>{
+  public del(obj:Izona_sucursaldts):Observable<Izona_sucursaldts>{
     console.log(this.rutaapi+`/${obj.id}`)
-    return this.datos.delbyid<izs>(this.rutaapi+`/${obj.id}`); 
+    return this.datos.delbyid<Izona_sucursaldts>(this.rutaapi+`/${obj.id}`); 
   }
   }

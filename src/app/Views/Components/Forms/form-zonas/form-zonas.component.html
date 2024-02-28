@@ -36,7 +36,7 @@
 
 
          <app-tables 
-        [arraydatos]="productdatos.zs.arraymodel"
+        [arraydatos]="productdatos.model.zonaSucursales"
         campokey="id"
         (accion)="opcion($event)"
         (paginacambio)="paginacambio($event)"
@@ -45,7 +45,7 @@
         [titulos]="tituloslocaldetalle"
         [deleted]="true"
         [term]="term"
-        [totalregistros]="productdatos.zs.totalregistros"
+        [totalregistros]="productdatos.model.zonaSucursales.length"
         [currentPage]="config.currentPage"
         [config]="config"
         

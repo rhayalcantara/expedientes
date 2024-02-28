@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable, OnInit, Output } from "@angular/core";
 import { Isucursal } from "../Models/Sucursal/Isucursal";
-import { izonasucursal, izs } from "../Models/Zona/izonasucursal";
+import { Izona_sucursaldts } from "../Models/Zona/izonasucursal";
 import { DatosServiceService } from "../Services/datos-service.service";
 import { MatDialog } from "@angular/material/dialog";
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
@@ -101,8 +101,8 @@ import { IProceso, IProcesoParametro, IprocesoDts, IprocesoparametroDts } from "
       return this.datos.getdatos<ModelResponse>(this.rutaapi+`/zona/${id}`)
   }
   
-  public Get(id:string):Observable<izonasucursal>{
-    return this.datos.getbyid<izonasucursal>(this.rutaapi+`/${id}`)
+  public Get(id:string):Observable<Izona_sucursaldts>{
+    return this.datos.getbyid<Izona_sucursaldts>(this.rutaapi+`/${id}`)
   }
   public GetCount():Observable<number>{
   
@@ -125,11 +125,11 @@ import { IProceso, IProcesoParametro, IprocesoDts, IprocesoparametroDts } from "
   }
   public grabar():Promise<any>{
 
-    
+    console.log('se envia a grabar',this.model)
     const repuesta = new Promise((resolve:any,reject:any)=>{
       if(this.model.id==0){
         //insertar
-        console.log('se envia a insertar',this.model)
+        
         this.insert(this.model).subscribe({
           next:(rep:IprocesoDts)=>{
             console.log('inserto:',rep)
@@ -144,9 +144,11 @@ import { IProceso, IProcesoParametro, IprocesoDts, IprocesoparametroDts } from "
         })
       }else{
         //update
-        console.log('se envia a update',this.model)
+        
+        
         this.Update(this.model).subscribe({
           next:(rep:IprocesoDts)=>{
+            console.log('se actualizao',this.model)
             resolve(true)
           },error:(err:Error)=>{
             this.error=err.message

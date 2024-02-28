@@ -17,11 +17,7 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
     rutaapi:string =this.datos.URL+'/api/Procesoes'
     titulomensage:string='Procesos'
 
-    public model:IprocesoDts={
-      id: 0,
-      descripcion: '',
-      proceso_Parametros: []
-    }
+    public model:IprocesoDts=this.inicializamodelo()
 
     public titulos=[{descripcion:'Nombre'}]
 
@@ -31,13 +27,14 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
     public pagesize:number=10
     public filtro:string=''
     public arraymodel:IprocesoDts[]=[]
+  
 
     @Output() TRegistros = new EventEmitter<number>();
     constructor(
                 private datos:DatosServiceService,
                 private excel:ExcelService,
                 private toastr: MatDialog,
-                
+                       
                                 
                ){}
     ngOnInit(): void {
@@ -48,6 +45,13 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
     this.getdatos()
     
     }    
+    inicializamodelo():IprocesoDts{
+      return {
+        id: 0,
+        descripcion: '',
+        proceso_Parametros: []
+      }
+    }
     public  getdatos(){
         
           const dialogRef = this.toastr.open(LoadingComponent, {
@@ -140,7 +144,7 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
               
       public async grabar(): Promise<boolean> {
         // Envuelve el código en una nueva Promise
-        console.log('llego producto a grabar')
+        console.log('llego proceso a grabar',this.model)
         return new Promise<boolean>(async (resolve) => {
           if (this.model.id == 0) {
             // inserta el registro

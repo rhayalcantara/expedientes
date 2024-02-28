@@ -62,20 +62,19 @@ export class DatosServiceService {
    public llenarFormGrup<T>(obj:any):FormGroup {
          //llenar el formgroup con los datos del consultorio
         let  campos:string[] = Object.keys(obj)
+        console.log('campos',campos)
         let formGroup:FormGroup=new FormGroup({})
          for (let control of campos) {
 
           // if(control == 'relacionadomt' ){
-            if (typeof(obj[control])=='object' ){
+            if (typeof(obj[control])=='object' && Object.prototype.toString.call(obj[control])!='[object Date]' ){
             let incampos = Object.keys(obj[control])
 
             for (let incontrol of incampos){
-              console.log({
-                campo:control,incontrol:incontrol,value:obj[control][incontrol]
-              })
+    
               let newFormControl: FormControl = new FormControl();      
               newFormControl.setValue(obj[control][incontrol]);
-              formGroup.addControl(incontrol, newFormControl);
+              formGroup.addControl(control+"."+incontrol, newFormControl);
             }
     
           }else{
@@ -85,6 +84,7 @@ export class DatosServiceService {
           }
 
         } 
+        console.log('formgrup creado',formGroup)
         return formGroup
    }
 
