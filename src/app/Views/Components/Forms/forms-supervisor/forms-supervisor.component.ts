@@ -107,8 +107,8 @@ export class FormsSupervisorComponent implements OnInit  {
       if (this.productdatos.model.zona_id==0){
         this.Dat.showMessage("Favor Selecione la zona","No hay zona selecionado","error")
         verificacion=false
-
       }
+      
       //this.productdatos.model.zona_id=this.zslocal.zs.dd[0].zona_id
       if(verificacion){
         console.log('se envio a grabar')

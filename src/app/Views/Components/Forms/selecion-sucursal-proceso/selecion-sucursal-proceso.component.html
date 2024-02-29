@@ -1,0 +1,55 @@
+
+<div class="formulario col-sm-12 col-md-12 col-lg-12 col-xl-12 shadow p-3 mb-5 bg-body rounded">      
+    <h1> <label style="font-size:50px;margin-top: 10px;">Sucursal-Proceso </label></h1>
+    <form novalidate  [formGroup]="formGroup"> 
+    <table class='table ' aria-labelledby="tableLabel" style="width:100%" >
+        <tbody>
+            <tr >
+                <td style="width:10%"><label for="Sucursal">Sucursal</label></td>
+                <td style="width:70%">   
+                  <select #teams class="form-control" 
+                  formControlName="Sucursal" 
+                 
+                  (change)="onChange($event)"
+                  id="Sucursal" >
+                    <option [ngValue]="null" disabled selected="selected" >Selecione una Sucursal</option>
+                  <option *ngFor="let p of arramodel" [value]="p.id"> {{p.nombre}} </option>          
+                  </select> </td>                    
+                <!-- <button class="btn btn-outline-success" data-bs-toggle="modal" 
+                data-bs-target="#exampleModal" (click)="selecionarSucursal()">
+                Buscar Surcursal 
+              </button>-->
+            </tr>  
+            <tr >
+                <td style="width:10%"><label for="proceso_nombre">Proceso</label></td>
+                <td style="width:70%"> <input type="text" class="form-control" id="proceso_nombre"  readonly formControlName="proceso_nombre" /></td>                    
+                <button class="btn btn-outline-success" data-bs-toggle="modal" 
+                data-bs-target="#exampleModal" (click)="selecionarProceso()">
+                Buscar Proceso  .
+        </button>
+            </tr>               
+            <tr >
+                <td style="width:10%"><label for="fecha"> Fecha Agenda</label></td>
+                <td style="width:70%"> <input type="date" [ngModel]="model.fecha | date: 'yyyy-MM-dd'"  class="form-control" id="fecha"  formControlName="fecha" /></td>                    
+            </tr>
+
+
+        </tbody>
+    </table>
+            
+        
+  </form>
+  <div class="text-center pt-1 mb-5 pb-1">
+    <div class="d-grid gap-2">
+     <button class="btn btn-success btn-block mb-3" (click)="grabar()" type="summit"> Grabar</button>
+     <button class="btn btn-secondary btn-block" type="button" (click)="cancelar()"  >Cancelar</button>
+    </div>
+</div>
+  <p class="aviso">
+    <span class="obligatorio"> * </span>los campos son obligatorios.
+  </p> 
+<!-- {{model| json}}  -->
+</div>
+
+
+

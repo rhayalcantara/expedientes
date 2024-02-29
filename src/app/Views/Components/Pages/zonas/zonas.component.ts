@@ -115,6 +115,7 @@ export class ZonasComponent implements OnInit {
 
   }
   abrirmodalzona(t:MatDialog,p:Zona){
+    p.model=p.inicializamodelo()
     const  dialogRef = t.open(FormZonasComponent,{
       width: '900px',data:{model:p.model}})
       dialogRef.afterClosed().subscribe((rep:IZonaSucusal)=>{

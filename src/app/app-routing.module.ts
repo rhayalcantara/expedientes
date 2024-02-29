@@ -29,10 +29,15 @@ loadComponent:()=> import('./Views/Components/Pages/supervisores-page/supervisor
 loadComponent:()=> import('./Views/Components/Pages/parametro-page/parametro-page.component')
 .then((m)=> m.ParametroPageComponent),
  canActivate: [AuthGuard]
-},
+}, 
 { path:'Procesos', 
 loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.component')
 .then((m)=> m.ProcesoPageComponent),
+ canActivate: [AuthGuard]
+},
+{ path:'agenda', 
+loadComponent:()=> import('./Views/Components/Pages/agenda-page/agenda-page.component')
+.then((m)=> m.AgendaPageComponent),
  canActivate: [AuthGuard]
 }
 ];

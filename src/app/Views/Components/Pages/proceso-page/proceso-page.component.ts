@@ -64,11 +64,7 @@ filtro() {
 throw new Error('Method not implemented.');
 }
 agregar() {
-  let model:IprocesoDts={
-    id: 0,
-    descripcion: '',
-    proceso_Parametros: []
-  }
+  let model:IprocesoDts=this.procesos.inicializamodelo()
   const  dialogRef = this.toastr.open(FormProcesoComponent,{
     width: '900px',data:{model:model}})
     dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
