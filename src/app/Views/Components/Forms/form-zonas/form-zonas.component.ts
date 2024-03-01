@@ -59,7 +59,7 @@ agregar() {
         if(this.productdatos.model.zonaSucursales.find(r=>r.nombre.includes(result.nombre))){
           this.Dat.showMessage("Sucursal existe en el listado, Favor Verificar","Existe","error")
         }else{
-          console.log('Paso verificacion local')
+          
           var nueva:Izona_sucursaldts={
             id: 0,
             zona_id: this.productdatos.model.id,
@@ -67,11 +67,11 @@ agregar() {
             nombre: result.nombre,
             sucursal: {secuencial:result.secuencial,nombre:result.nombre}
           }
-          console.log('la zona_sucursal creada',nueva)
+          
           // verifica si existe en otra zona
          this.productdatos.verificasucursalasignada(nueva.sucursal_id.toString()).subscribe({
           next:(rep:boolean)=>{
-            console.log('la respuesta de la verificacion',rep)
+            
             if (rep == false ){
               this.productdatos.model.zonaSucursales.push(nueva)
              }else{              
@@ -96,7 +96,7 @@ paginacambio(event: number) {
 }
 
 opcion(event: TableResponse) {
-  console.log(event)
+  
   var elemento:Izona_sucursaldts = event.key as (Izona_sucursaldts)
   this.productdatos.model.zonaSucursales.splice(this.productdatos.model.zonaSucursales.indexOf(elemento),1)
 }
@@ -105,7 +105,7 @@ opcion(event: TableResponse) {
  get Descripcion(){return this.fg.get('descripcion');}
 
   ngOnInit(): void {
-        console.log('formulario',this.data.model)
+        
         this.product = this.data.model
     
         this.campos=Object.keys(this.product);

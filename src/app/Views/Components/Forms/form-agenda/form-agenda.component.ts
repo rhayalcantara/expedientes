@@ -157,7 +157,7 @@ grabar() {
     if (rep){
 
       this.Dat.showMessage('Registro Grabado','Grabando','success')
-      this.dialogre.close(this.productdatos.model)
+      //this.dialogre.close(this.productdatos.model)
     }else{
       this.Dat.showMessage('Error Grabando','Grabando','error')
     }

@@ -51,22 +51,22 @@ export class Sucursal implements OnInit{
    }
   }
   public  getdatos(){
-      console.log('entro y llama a cargando')
+      
       const dialogRef = this.toastr.open(LoadingComponent, {
        width: '340px',
        height: '180px', 
      }); 
     
-     console.log('entro y llama a los datos')
+     
 
      this.Gets().subscribe({next:(rep:ModelResponse)=>{
-        console.log('llegaron los datos datos',rep)
+        
         //se obtiene los datos y se ponen en los array
         this.totalregistros =  rep.count
         this.pagesize=rep.count
         this.arraymodel=[]
         this.arraymodel=rep.data    
-        console.log('datos',this.arraymodel)     
+        
         this.TRegistros.emit(this.totalregistros)        
         
 
@@ -78,7 +78,7 @@ export class Sucursal implements OnInit{
     ) 
   }
   public Gets():Observable<ModelResponse> {
-    console.log(this.rutaapi)
+    
     return this.datos.getdatos<ModelResponse>(this.rutaapi)
 }
 

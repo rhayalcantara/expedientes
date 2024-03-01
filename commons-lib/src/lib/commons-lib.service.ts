@@ -10,7 +10,7 @@ export class CommonsLibService {
   constructor() { }
 
   sendData(mensaje:string):void {
-    console.log('mensaje recibido y enviado',mensaje)    
+  //  console.log('mensaje recibido y enviado',mensaje)    
     this._chanelSource.next(mensaje);
   }
 }

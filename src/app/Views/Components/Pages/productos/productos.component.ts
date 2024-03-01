@@ -118,7 +118,9 @@ export class ProductosComponent implements OnInit {
   }
   
   delete(prod:IProduct,p:Product,t:MatDialog):Promise<any>{
-   return new Promise((resolve,reject)=>{ resolve(prod)}) 
+   return new Promise((resolve,reject)=>{ 
+    resolve(prod)
+  }) 
   }
 
   paginacambio(event:number){

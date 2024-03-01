@@ -7,6 +7,7 @@ import { LoadingComponent } from "../Views/Components/loading/loading.component"
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs';
 import { Isupervisor, Isupervisordts } from "../Models/Supervisor/Isupervisor";
+import { UtilsService } from "../Helpers/utils.service";
 
 @Injectable({
     providedIn: 'root'
@@ -37,7 +38,8 @@ import { Isupervisor, Isupervisordts } from "../Models/Supervisor/Isupervisor";
         constructor(
                     private datos:DatosServiceService,
                     private excel:ExcelService,
-                    private toastr: MatDialog
+                    private toastr: MatDialog,
+                    private tools:UtilsService
                                     
                    ){}
     inicializamodelo():Isupervisordts{

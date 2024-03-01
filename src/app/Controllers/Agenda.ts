@@ -6,6 +6,7 @@ import { Iagenda, IagendaCreacion, IagendaDts, Iagenda_sucursal, Iagenda_sucursa
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs'; 
+import { UtilsService } from "../Helpers/utils.service";
 
 @Injectable({
     providedIn: 'root'
@@ -50,7 +51,8 @@ import { firstValueFrom, Observable, repeat } from 'rxjs';
     constructor(
                 private datos:DatosServiceService,
                 private excel:ExcelService,
-                private toastr: MatDialog                 
+                private toastr: MatDialog,  
+                private tool:UtilsService               
                ){
                 this.model=this.inicializamodelo()
                }
@@ -182,19 +184,25 @@ public Update(obj:Iagenda):Observable<Iagenda>{
 public Iagenda_sucursalDtstoIagenda_sucursal(array:Iagenda_sucursalDts[]):Iagenda_sucursal[]{
   let array2:Iagenda_sucursal[]=[]
   array.map(ele=>{
-      let ele2:Iagenda_sucursal={
-        id: ele.id,
-        agenda_id: this.modelo.id,
-        sucursal_id: ele.sucursal_id,
-        proceso_id: ele.proceso_id,
-        fecha: ele.fecha,
-        estatus_id: ele.estatus_id
-      }
+           
+      let ele2:Iagenda_sucursal=this.inicializaIagenda_sucursal()
+      UtilsService.automappesimple(ele,ele2)
       array2.push(ele2)
+
   })
   return array2
 }
 
+public inicializaIagenda_sucursal():Iagenda_sucursal{
+  return {
+    id: 0,
+    agenda_id: 0,
+    sucursal_id: 0,
+    proceso_id: 0,
+    fecha: new Date,
+    estatus_id: 0
+  }
+}
 public async grabar(): Promise<boolean> {
     // Envuelve el código en una nueva Promise
     const dialogRef = this.toastr.open(LoadingComponent, {
@@ -202,13 +210,20 @@ public async grabar(): Promise<boolean> {
       height: '180px', 
     }); 
     console.log('llego registro a grabar',this.modelo)
-    this.agendacreacion = {
+    this.agendacreacion = this.inicializaagendacreacin()
+    /*
+    {
       id: this.modelo.id,
       supervisor_id: this.modelo.supervisor_id,
       fecha: this.modelo.fecha,
       estatus_id: this.modelo.estatus_id,
       sucursalesProcesos: this.Iagenda_sucursalDtstoIagenda_sucursal(this.modelo.sucursalesProcesos)
     }
+    */
+
+    UtilsService.automappesimple(this.modelo,this.agendacreacion)
+    this.agendacreacion.sucursalesProcesos = this.Iagenda_sucursalDtstoIagenda_sucursal(this.modelo.sucursalesProcesos)
+    
     this.model.id = this.modelo.id
     this.model.estatus_id=this.modelo.estatus_id
     this.model.fecha = this.modelo.fecha
@@ -281,7 +296,15 @@ public async grabar(): Promise<boolean> {
       }
     });
   }
-
+  public inicializaagendacreacin():IagendaCreacion{
+    return {
+      id: 0,
+      supervisor_id: 0,
+      fecha: new Date(),
+      estatus_id: 0,
+      sucursalesProcesos:[]
+    }
+  }
   public grabadetalleelementoinsert(ele:Iagenda_sucursalDts):Promise<boolean>{
     let model:Iagenda_sucursal={
       id: ele.id,

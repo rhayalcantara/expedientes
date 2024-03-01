@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonsLibService } from '@commons-lib';
 import { Usuario } from 'src/app/Models/Usuario/usuario';
 
-
+import { MatSidenav } from '@angular/material/sidenav';
 import { SegurityService } from 'src/app/Services/segurity.service';
 //import { Usuario } from 'src/app/Helpers/Interfaces';
 //import { DatosServiceService } from 'src/app/Services/datos-service.service';
@@ -17,8 +17,8 @@ import { SegurityService } from 'src/app/Services/segurity.service';
 })
 export class NavmenuComponent implements OnInit {
   public logg:string = 'Login'
-
- mostramenu:Boolean=false
+  mostramenu:Boolean=false
+  
  public imagen:any ="assets/user.png"
   usuarioSegurity: any;
   constructor(private router: Router,
@@ -30,10 +30,10 @@ export class NavmenuComponent implements OnInit {
   { 
      
       this.commons.mensaje$.subscribe((mess)=>{
-        console.log('llego el mensaje',mess)
+        
        
         if (mess=='loguiado'){
-          //console.log(localStorage.getItem('usuario'))
+          
           this.usuarioservicio.agregarusuario(JSON.parse(localStorage.getItem('usuario') ?? ""))
           
           this.mostramenu=true
@@ -49,7 +49,14 @@ export class NavmenuComponent implements OnInit {
       })
   }
 
-
+  precionado(){
+    //this.isExpanded = false;
+    let element: HTMLElement = document.getElementsByClassName('navbar-toggler')[0] as HTMLElement;
+        if ( element.getAttribute( 'aria-expanded' ) == 'true' ) {
+        element.click();
+    }
+    
+  }
   get usuario(){return this.usuarioservicio.usuario}
   Logout(){
     let usuario:Usuario = {

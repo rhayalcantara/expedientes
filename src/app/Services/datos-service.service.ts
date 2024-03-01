@@ -62,7 +62,7 @@ export class DatosServiceService {
    public llenarFormGrup<T>(obj:any):FormGroup {
          //llenar el formgroup con los datos del consultorio
         let  campos:string[] = Object.keys(obj)
-        console.log('campos',campos)
+        
         let formGroup:FormGroup=new FormGroup({})
          for (let control of campos) {
 
@@ -84,16 +84,16 @@ export class DatosServiceService {
           }
 
         } 
-        console.log('formgrup creado',formGroup)
+       
         return formGroup
    }
 
    public insertardatos<T>(url:string,obj:T):Observable<T>{
-    //console.log('llego datos',obj,url)
+  
     return this.http.post<T>(url, JSON.stringify(obj), { headers:this.headers } );
    }
    public updatedatos<T>(url:string,obj:T):Observable<T>{
-    console.log('llego a datos',obj)
+   
     return this.http.put<T>(url, JSON.stringify(obj), { headers:this.headers } )
    }
    public getdatos<T>(url:string):Observable<ModelResponse>{
@@ -107,7 +107,7 @@ export class DatosServiceService {
     return this.http.get<T>(url)
    }
    public delbyid<T>(url:string):Observable<T>{
-    console.log('en delete llego',url)
+    
     return this.http.delete<T>(url)
    }
 }

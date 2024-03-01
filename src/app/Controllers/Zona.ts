@@ -48,8 +48,7 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
         this.getdatos()
     }
 
-    public verificasucursalasignada(id:string):Observable<boolean>{
-      console.log(this.datos.URL+`/api/zona_sucursal/sucursal/${id}`)
+    public verificasucursalasignada(id:string):Observable<boolean>{      
       return this.datos.getbyid<boolean>(this.datos.URL+`/api/zona_sucursal/sucursal/${id}`)
     }
 
@@ -70,10 +69,10 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
 
          }); 
     
-         this.Gets()        
+         this.Gets(this.actualpage.toString(),this.pagesize.toString(),this.filtro)        
            .subscribe({        
           next:(rep:ModelResponse)=>{
-            console.log('zonas',rep)
+            
             this.totalregistros =  rep.count
             this.arraymodel=[]
             this.arraymodel=rep.data    
@@ -90,9 +89,9 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
     }
 
     public filtrar(){
-        this.Gets().subscribe(
+        this.Gets(this.actualpage.toString(),this.pagesize.toString(),this.filtro).subscribe(
                         (m:ModelResponse)=>{
-                          console.log(m)
+                         
                           this.totalregistros =  m.count
                           this.TRegistros.emit(this.totalregistros)        
                           
@@ -103,14 +102,14 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
           
     }
     
-    // public getdetalle(id:string):Promise<Boolean>{
-    //   this.model  = this.arraymodel.filter(x=>x.id == Number.parseInt(id))[0]
-      
-    //   return this.zs.getdatos(id)
-    // }
 
-      public Gets():Observable<ModelResponse> {
-        return this.datos.getdatos<ModelResponse>( this.rutaapi)
+      public Gets(page:string,pagesize:string,filtro:string):Observable<ModelResponse> {
+        let filtrar=""
+        if(filtro!=""){
+           filtrar=`&filtro=${filtro}`        
+        }
+       
+        return this.datos.getdatos<ModelResponse>( this.rutaapi+`/paginacion/?page=${page}&pagesize=${pagesize}${filtrar}`)
       }
   
       public Get(id:string):Observable<IZona>{
@@ -122,13 +121,13 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
       }
   
       public insert(obj:IZonaSucusal):Observable<IZonaSucusal>{  
-        console.log('llego a insert en produc',obj)
+        
   
         return this.datos.insertardatos<IZonaSucusal>(this.rutaapi, obj ); 
       }
       
       public Update(obj:IZonaSucusal):Observable<IZonaSucusal>{
-        console.log(this.rutaapi+`/${obj.id}`,obj)
+        
         return this.datos.updatedatos<IZonaSucusal>(this.rutaapi+`/${obj.id}`,obj); 
       }
   
@@ -138,13 +137,13 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
               
       public async grabar(): Promise<boolean> {
         // Envuelve el código en una nueva Promise
-        //console.log('llego producto a grabar',this.model,this.zs.arraymodel)
+        
         return new Promise<boolean>(async (resolve) => {
           if (this.model.id == 0) {
             // inserta el registro
             await firstValueFrom(this.insert(this.model)).then(
               (rep: IZonaSucusal) => {
-                console.log(rep)
+                
                 this.model = rep;
 
                 this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");                
@@ -157,10 +156,10 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
             );
           } else {
             // actualiza el registro
-            console.log(this.model)
+            
             await firstValueFrom(this.Update(this.model)).then(
               (rep: IZonaSucusal) => {
-                console.log('se actualizo la zona:',rep)
+                
               //  this.model = rep;
                 let m = this.arraymodel.find(x=>x.id==this.model.id)
                 if (m!=undefined){
@@ -169,7 +168,7 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
                 }
 
                 this.TRegistros.emit(this.totalregistros)
-              //  console.log('modelo actualizado', this.model,rep);
+             
               //  this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
                 resolve(true); // Devuelve true si la operación fue exitosa
               },
@@ -191,10 +190,7 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
           //   }
           // });
           // // elimina las sucursales que no se selecionaron
-          // console.log({
-          //   grabado:this.zs.arraymodel,
-          //   anterior:this.zs.anterior
-          // })
+          
           // if(this.zs.anterior.length>0){
             
           //   this.zs.anterior.forEach(ele=>{
@@ -202,7 +198,7 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
                 
           //       this.zs.del(ele).subscribe({
           //         next:(rep)=>{
-          //           console.log('elemento a eliminar',ele,rep)
+        
           //         }
           //       })
           //     }                

@@ -68,7 +68,8 @@ export class SelecionSucursalProcesoComponent implements OnInit{
   onChange($event:any) {
     console.log('onchange',$event.target.value)
     let ind = $event.target.value;
-    let zs:Izona_sucursaldts = this.arramodel.find(x=>x.id==ind) ?? {
+    let zs:Izona_sucursaldts = this.arramodel.find(x=>x.id==ind) 
+    ?? {
       nombre: '',
       sucursal: {
         secuencial: 0,
@@ -77,14 +78,14 @@ export class SelecionSucursalProcesoComponent implements OnInit{
       id: 0,
       zona_id: 0,
       sucursal_id: 0
-    }
+    } 
+    console.log('zs',zs)
     //let jsonObj = JSON.parse($event.target.value); // string to "any" object first
     //let izonasucursal:IZonaSucusal = jsonObj as IZonaSucusal
 
-    this.model.sucursal.secuencial = zs.id
-    this.model.sucursal.nombre = zs.nombre  
+    this.model.sucursal = zs.sucursal
     this.model.sucursal_nombre=zs.nombre
-    this.model.sucursal_id= zs.id
+    this.model.sucursal_id= zs.sucursal_id
 
     console.log('cambio la sucursal',this.model)
     }

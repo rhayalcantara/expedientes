@@ -7,7 +7,6 @@ import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { FormZonasComponent } from '../../Forms/form-zonas/form-zonas.component';
 import { FormsModule } from '@angular/forms';
 import { TablesComponent } from '../../tables/tables.component';
-import { FormSucursalesComponent } from '../../Forms/form-sucursales/form-sucursales';
 import { IZonaSucusal } from 'src/app/Models/Zona/izona';
 
 @Component({
@@ -27,7 +26,7 @@ export class ZonasComponent implements OnInit {
     ) { 
       // this.zonas.getdatos()
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-        //console.log('zonass Construtor: '+mensaje)   
+        
       
       }})
     }
@@ -64,7 +63,7 @@ export class ZonasComponent implements OnInit {
      
    }
    opcion(event:TableResponse){
-    console.log(event)
+  
     
     const acct:any ={
       edit:this.edita,
@@ -96,12 +95,12 @@ export class ZonasComponent implements OnInit {
       // p.getdatos()
       
       p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IZonaSucusal
-      console.log('zonas edit',p.model)
+      
 
         const  dialogRef = t.open(FormZonasComponent,{
           width: '900px',data:{model:p.model}})
           dialogRef.afterClosed().subscribe((result:IZonaSucusal)=>{
-            //console.log('llego del formulario de zonas',result)
+       
             if (result){
               resolve(result);
             }else{
@@ -118,10 +117,12 @@ export class ZonasComponent implements OnInit {
     p.model=p.inicializamodelo()
     const  dialogRef = t.open(FormZonasComponent,{
       width: '900px',data:{model:p.model}})
+
       dialogRef.afterClosed().subscribe((rep:IZonaSucusal)=>{
-        //console.log('llego del formulario de zonas',result)
+        if (rep!=null){
         this.zonas.arraymodel.push(rep)
         this.datos.showMessage("Registro Insertado Correctamente",this.zonas.titulomensage,"sucess")
+        }
       });
   }
   delete(prod:IZonaSucusal,p:Zona,t:MatDialog):Promise<any>{
@@ -133,16 +134,14 @@ export class ZonasComponent implements OnInit {
     this.zonas.filtrar()
   }
   actualizaelidtable(event:string){
-    console.log('se actualizo el config',event)
+    
     this.config.id = event
   }
   filtro(){
-    if (this.term!=''){
-        
-      this.zonas.arraymodel = this.zonas.arraymodel.filter(x=>x.descripcion.includes((this.term.toUpperCase())))
-   }else{
+    
+     this.zonas.filtro=this.term
      this.zonas.getdatos()
-   }
+   
   }
   excel(){}
   pdf(){

@@ -14,6 +14,31 @@ import { MatDialog } from '@angular/material/dialog';
 export class UtilsService {
 
   constructor(private tool:DatosServiceService){}
+
+  static automappesimple<T>(obj_source:any,obj_destiny:any){
+    
+    let campos:string[]=Object.keys(obj_destiny)
+    campos.map(ele=>{
+      if (typeof(obj_destiny[ele])=='object' && 
+        Object.prototype.toString.call(obj_destiny[ele])!='[object Date]' )
+      {
+        
+        if (!Array.isArray(obj_source[ele]))
+        {
+          let incampos = Object.keys(obj_destiny[ele])
+          for (let incontrol of incampos){
+            obj_destiny[ele][incontrol]=obj_source[ele][incontrol]
+          }
+        }
+      }
+      else
+      {
+        obj_destiny[ele] = obj_source[ele]
+      }    
+            
+    })
+  }
+
 static  generaNss() {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -204,4 +229,6 @@ static  generaNss() {
     public changeMessage(msg: string): void {
       this.message.next(msg);
     }
+
+
 }
