@@ -32,7 +32,7 @@
             </div>
             <div class="mb-3">
               
-                <label for="descripcion" class="colocar_nombre">Zona
+                <!-- <label for="descripcion" class="colocar_nombre">Zona
                   <span class="obligatorio">*</span>
                 </label>
                     <div  _ngcontent-fha-c7="" class="input-group mb-3">
@@ -49,8 +49,15 @@
                     </div>
                   <div *ngIf="Descripcion?.invalid && (Descripcion?.dirty || Descripcion?.touched)" class="alert alert-danger">
                     Zona es requiredo
-                  </div>
-              
+                  </div> -->
+                  <select #teams class="form-control" 
+                  formControlName="zona_id" 
+                 
+                  (change)="onChange($event)"
+                  id="Sucursal" >
+                    <option [ngValue]=0 selected="selected" >Sin Zona</option>
+                  <option *ngFor="let p of productdatos.zona.arraytodas" [value]="p.id"> {{p.descripcion}} </option>          
+                  </select> 
             </div>
           
         </form>

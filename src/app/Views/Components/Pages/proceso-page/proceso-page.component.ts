@@ -31,7 +31,7 @@ export class ProcesoPageComponent implements OnInit {
     private datos:DatosServiceService,
     private toastr: MatDialog){
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-        console.log('Productos Construtor: '+mensaje)   
+
       }})
     }
 
@@ -55,20 +55,20 @@ export class ProcesoPageComponent implements OnInit {
            let nx:string = x[Object.keys(x)[0]]
            this.campos.push(...Object.keys(x))
            this.tituloslocal.push(nx)
-           console.log('init',nx)
+
          })
     }
 
 
 filtro() {
-throw new Error('Method not implemented.');
+
 }
 agregar() {
   let model:IprocesoDts=this.procesos.inicializamodelo()
   const  dialogRef = this.toastr.open(FormProcesoComponent,{
     width: '900px',data:{model:model}})
     dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
-      //console.log('llego del formulario de producto',result)
+
       this.procesos.arraymodel.push(result)
       this.datos.showMessage("Registro Insertado Correctamente",this.procesos.titulomensage,"sucess")
     });
@@ -87,7 +87,7 @@ paginacambio($event: number) {
 throw new Error('Method not implemented.');
 }
 opcion(event:TableResponse){
-  console.log(event)
+
   
   const acct:any ={
     edit:this.edita,
@@ -119,11 +119,11 @@ opcion(event:TableResponse){
     // p.getdatos()
     
     p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
-    console.log('producto edit',p.model)
+  
     const  dialogRef = t.open(FormProcesoComponent,{
       width: '900px',data:{model:p.model}})
       dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
-        //console.log('llego del formulario de producto',result)
+
         if (result){
           resolve(result);
         }else{

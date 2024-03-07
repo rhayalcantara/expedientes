@@ -25,6 +25,7 @@ export class FormsSupervisorComponent implements OnInit  {
 
 
 
+
   public config: any;  
   public term: string="";
   public sele:boolean=true;
@@ -52,12 +53,18 @@ export class FormsSupervisorComponent implements OnInit  {
     private ServiceComunicacion:ComunicacionService,) {
     this.fg=this.fb.group({});
     this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-      console.log('Productos Construtor: '+mensaje)   
+      
     
     }})
    }
 
-  
+   onChange($event:any) {
+    let ind = $event.target.value;
+      let zs:IZonaSucusal= this.productdatos.zona.arraytodas.find(x=>x.id==ind) 
+      ?? {id:0,descripcion:'',zonaSucursales: []}
+      this.productdatos.model.zona_id = zs.id
+      this.productdatos.model.zona=zs
+  }
   
   actualizaelidtable(event: string) {
     this.config.id=event
@@ -75,11 +82,12 @@ export class FormsSupervisorComponent implements OnInit  {
    get Descripcion(){return this.fg.get('nombrezona');}
 
     ngOnInit(): void {
-          console.log('formulario',this.data.model)
+          this.productdatos.zona.obtenertodas()
+
           this.productdatos.model= this.data.model
       
           this.campos=Object.keys(this.productdatos.model);
-          console.log(this.campos)
+
           this.fg= this.Dat.llenarFormGrup(this.productdatos.model)
           
 
@@ -104,18 +112,18 @@ export class FormsSupervisorComponent implements OnInit  {
         this.Dat.showMessage("Favor Selecione el Empleado","No hay empleado selecionado","error")
         verificacion=false
       }
-      if (this.productdatos.model.zona_id==0){
-        this.Dat.showMessage("Favor Selecione la zona","No hay zona selecionado","error")
-        verificacion=false
-      }
+      // if (this.productdatos.model.zona_id==0){
+      //   this.Dat.showMessage("Favor Selecione la zona","No hay zona selecionado","error")
+      //   verificacion=false
+      // }
       
       //this.productdatos.model.zona_id=this.zslocal.zs.dd[0].zona_id
       if(verificacion){
-        console.log('se envio a grabar')
+        
         this.productdatos.grabar()
       }
       
-      console.log('enviando modelo actualizado',this.productdatos.model)
+    
       this.dialogre.close(this.productdatos.model)
       
     }
@@ -141,7 +149,7 @@ export class FormsSupervisorComponent implements OnInit  {
           width: '900px',data:{}
             })
             dialogRef.afterClosed().subscribe((result: IZonaSucusal)=>{
-              console.log('llego zona',result)
+              
               
               
                 this.fg.get('nombrezona')?.setValue(result.descripcion)
@@ -151,7 +159,7 @@ export class FormsSupervisorComponent implements OnInit  {
               this.productdatos.model.nombrezona=result.descripcion
               this.productdatos.model.zona = result
 
-              console.log('se cargo la zona', this.productdatos.model)
+              
             })
       }
 }

@@ -28,7 +28,7 @@ export class ProductosComponent implements OnInit {
     ) { 
       // this.producto.getdatos()
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-        console.log('Productos Construtor: '+mensaje)   
+ 
       
       }})
     }
@@ -65,7 +65,7 @@ export class ProductosComponent implements OnInit {
      
    }
    opcion(event:TableResponse){
-    console.log(event)
+
     
     const acct:any ={
       edit:this.edita,
@@ -76,7 +76,7 @@ export class ProductosComponent implements OnInit {
    handler.then((rep:IProduct)=>{
 
     if(rep!=null){
-      console.log(rep)
+
       let m:IProduct = this.producto.arraymodel.find(x=>x.id==rep.id) as IProduct
       let m2:IProduct =this.producto.arraymodel[this.producto.arraymodel.indexOf(m)]
       m2 = rep
@@ -98,12 +98,12 @@ export class ProductosComponent implements OnInit {
       // p.getdatos()
       
       p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
-      console.log('producto edit',p.model)
+  
 
         const  dialogRef = t.open(FormProduct2Component,{
           width: '900px',data:{model:p.model}})
           dialogRef.afterClosed().subscribe((result:IProduct)=>{
-            //console.log('llego del formulario de producto',result)
+
             if (result){
               resolve(result);
             }else{
@@ -128,7 +128,7 @@ export class ProductosComponent implements OnInit {
     this.producto.filtrar()
   }
   actualizaelidtable(event:string){
-    console.log('se actualizo el config',event)
+
     this.config.id = event
   }
   filtro(){
@@ -141,7 +141,7 @@ export class ProductosComponent implements OnInit {
       width: '900px',data:{}
         })
         dialogRef.afterClosed().subscribe((result:any)=>{
-          console.log(result)
+
         })
         
   }
@@ -149,7 +149,7 @@ export class ProductosComponent implements OnInit {
     const  dialogRef = this.toastr.open(FormProduct2Component,{
       width: '900px',data:{model:this.producto.model}})
       dialogRef.afterClosed().subscribe((result:IProduct)=>{
-        //console.log('llego del formulario de producto',result)
+
         this.producto.arraymodel.push(result)
         this.datos.showMessage("Registro Insertado Correctamente",this.producto.titulomensage,"sucess")
       });

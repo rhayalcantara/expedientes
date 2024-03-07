@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Zona } from 'src/app/Controllers/Zona';
-import { TableResponse } from 'src/app/Helpers/Interfaces';
+import { TableResponse, TipoCampo } from 'src/app/Helpers/Interfaces';
 import { IZona } from 'src/app/Models/Zona/izona';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 import { FormSucursalesComponent } from '../form-sucursales/form-sucursales';
@@ -35,6 +35,7 @@ export class FormZonasComponent implements  OnInit {
   
 
   product:IZona=this.productdatos.model
+  tipocampo: TipoCampo[]=[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data:any,

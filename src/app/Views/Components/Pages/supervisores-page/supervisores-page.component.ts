@@ -30,7 +30,7 @@ constructor(public supervisores:Supervisores,
     private datos:DatosServiceService,
     private toastr: MatDialog){
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-        console.log('Productos Construtor: '+mensaje)   
+        
       }})
     }
   ngOnInit(): void {
@@ -53,16 +53,17 @@ constructor(public supervisores:Supervisores,
          let nx:string = x[Object.keys(x)[0]]
          this.campos.push(...Object.keys(x))
          this.tituloslocal.push(nx)
-         console.log('init',nx)
+         
        })
   }
 
 filtro() {
-  throw new Error('Method not implemented.');
+  this.supervisores.filtro = this.term
+  this.supervisores.getdatos()
   }
 
 actualizaelidtable(event: string) {
-  console.log('se actualizo el config',event)
+  
   this.config.id = event
 }
 
@@ -71,7 +72,7 @@ paginacambio($event: number) {
   // this.supervisores.filtrar()
 }
 opcion(event: TableResponse) {
-  console.log(event)
+ 
     
   const acct:any ={
     edit:this.edita,
@@ -87,7 +88,7 @@ opcion(event: TableResponse) {
           let m2:Isupervisordts =this.supervisores.arraymodel[this.supervisores.arraymodel.indexOf(m)]
           m2 = rep
           m2.nombrezona = m2.zona.descripcion
-          console.log('Editado',m2)
+          
     }
 
     
@@ -108,14 +109,14 @@ edita(prod:Isupervisordts,p:Supervisores,t:MatDialog):Promise<any> {
     // p.getdatos()
     
     p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
-    console.log(' edit envia',p.model)
+    
   
     
     
       const  dialogRef = t.open(FormsSupervisorComponent,{
         width: '900px',data:{model:p.model}})
         dialogRef.afterClosed().subscribe((result:Isupervisordts)=>{
-          console.log('llego del formulario de supervisores',result)
+          
           if (result){
             resolve(result);
           }else{
@@ -137,7 +138,7 @@ agregar() {
   const  dialogRef = this.toastr.open(FormsSupervisorComponent,{
     width: '900px',data:{model:this.supervisores.model}})
     dialogRef.afterClosed().subscribe((result:Isupervisordts)=>{
-      //console.log('llego del formulario de producto',result)
+      
       this.supervisores.arraymodel.push(result)
       this.datos.showMessage("Registro Insertado Correctamente",this.supervisores.titulomensage,"sucess")
     });

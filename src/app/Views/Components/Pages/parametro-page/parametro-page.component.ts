@@ -31,7 +31,7 @@ constructor(
   ) { 
     // this.producto.getdatos()
     this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-      console.log('Productos Construtor: '+mensaje)   
+ 
     
     }})
   }
@@ -59,7 +59,7 @@ ngOnInit(): void {
      this.campos.push(...Object.keys(x))
      this.tituloslocal.push(nx)
    })
-   console.log(this.campos)
+
  }
 actualizaelidtable($event: string) {
   
@@ -69,7 +69,7 @@ paginacambio($event: number) {
   this.producto.actualpage =  $event 
 }
 opcion(event:TableResponse){
-  console.log(event)
+
   
   const acct:any ={
     edit:this.edita,
@@ -101,13 +101,13 @@ opcion(event:TableResponse){
     // p.getdatos()
     
     p.model = prod // p.arraymodel.find(x=>x.id=prod.id) as IParametro
-    console.log('producto edit',p.model)
+
 
       const  dialogRef = t.open(FormParametroComponent,{
         width: '900px',data:{model:p.model}})
         
         dialogRef.afterClosed().subscribe((result:IParametro)=>{
-          //console.log('llego del formulario de producto',result)
+
           if (result){
             resolve(result);
           }else{
@@ -142,7 +142,7 @@ agregar() {
   const  dialogRef = this.toastr.open(FormParametroComponent,{
     width: '900px',data:{model:n}})
     dialogRef.afterClosed().subscribe((result:IParametro)=>{
-      //console.log('llego del formulario de producto',result)
+
       this.producto.arraymodel.push(result)
       this.datos.showMessage("Registro Insertado Correctamente",this.producto.titulomensage,"sucess")
     });

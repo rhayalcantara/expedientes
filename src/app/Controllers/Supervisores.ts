@@ -8,6 +8,7 @@ import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs';
 import { Isupervisor, Isupervisordts } from "../Models/Supervisor/Isupervisor";
 import { UtilsService } from "../Helpers/utils.service";
+import { Zona } from "./Zona";
 
 @Injectable({
     providedIn: 'root'
@@ -39,7 +40,7 @@ import { UtilsService } from "../Helpers/utils.service";
                     private datos:DatosServiceService,
                     private excel:ExcelService,
                     private toastr: MatDialog,
-                    private tools:UtilsService
+                    public zona:Zona
                                     
                    ){}
     inicializamodelo():Isupervisordts{
@@ -62,6 +63,7 @@ import { UtilsService } from "../Helpers/utils.service";
         this.actualpage=1
         this.pagesize=10
         this.getdatos()
+        this.zona.obtenertodas()
     }
     public  getdatos(){
         
@@ -76,11 +78,11 @@ import { UtilsService } from "../Helpers/utils.service";
           this.actualpage,this.pagesize)        
            .subscribe({        
           next:(rep:ModelResponse)=>{
-            console.log('datos',rep)
+            
             this.totalregistros =  rep.count
             this.arraymodel=[]
             this.arraymodel=rep.data    
-            console.log('datos',this.arraymodel)     
+                
             this.TRegistros.emit(this.totalregistros)        
             
   
@@ -95,8 +97,12 @@ import { UtilsService } from "../Helpers/utils.service";
     public Gets(filtro:string,estado:string,
         actualpage:number,pagesize:number):Observable<ModelResponse> {
        
-        
-        return this.datos.getdatos<ModelResponse>(this.rutaapi)
+        let filtrar =""
+        if(filtro!=""){
+          filtrar=`&filtro=${filtro}`
+        }
+        return this.datos.getdatos<ModelResponse>
+        (this.rutaapi+`/?page=${actualpage}&pagesize=${pagesize}${filtrar}`)
     }
     
     public filtrar(filtro:string){
@@ -108,19 +114,19 @@ import { UtilsService } from "../Helpers/utils.service";
     }
 
     public insert(obj:Isupervisor):Observable<Isupervisor>{  
-      console.log('llego a insert en produc',obj)
+     
 
       return this.datos.insertardatos<Isupervisor>(this.rutaapi, obj ); 
     }
     
     public Update(obj:Isupervisor):Observable<Isupervisor>{
-      console.log(this.rutaapi+`/${obj.id}`,obj)
+     
       return this.datos.updatedatos<Isupervisor>(this.rutaapi+`/${obj.id}`,obj); 
     }
     
     public async grabar(): Promise<boolean> {
       // Envuelve el código en una nueva Promise
-      console.log('llego producto a grabar',this.model)
+      
       return new Promise<boolean>(async (resolve) => {
         let supervisor:Isupervisor ={
           id:this.model.id,
@@ -152,7 +158,7 @@ import { UtilsService } from "../Helpers/utils.service";
               let m = this.arraymodel.find(x=>x.id==this.model.id)
               m = this.model 
               this.TRegistros.emit(this.totalregistros)
-              console.log('modelo actualizado', this.model,rep,supervisor);
+              
               this.datos.showMessage('Registro Actualizado Correctamente', this.titulomensage, "success");
               resolve(true); // Devuelve true si la operación fue exitosa
             },

@@ -7,6 +7,7 @@ import { LoadingComponent } from "../Views/Components/loading/loading.component"
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable } from 'rxjs';
 import { ZonaSucursal } from "../Controllers/ZonaSucursal";
+import { TipoCampo } from "../Helpers/Interfaces";
 
 
 
@@ -22,13 +23,19 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
       
        public model:IZonaSucusal = this.inicializamodelo()
        public titulos=[{descripcion:'Descripcion'},]
+       public tipocampo:TipoCampo[]=[{campo:'descripcion',
+                                      tipo:'texto',
+                                      arraydata:[],
+                                      arrayid:'',
+                                      arraynombre:''
+                                    }]
        public estado:string='`'
        public totalregistros:number=0
        public actualpage:number=1
        public pagesize:number=10
        public filtro:string=''
        public arraymodel:IZonaSucusal[]=[]
-       
+       public arraytodas:IZonaSucusal[]=[]
        public operationSuccessful: boolean = false;
        @Output() TRegistros = new EventEmitter<number>();
 
@@ -47,7 +54,14 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
         this.pagesize=10
         this.getdatos()
     }
-
+    public obtenertodas(){
+      this.Getall().subscribe(
+        {
+          next: (rep:ModelResponse)=>{
+            this.arraytodas=rep.data
+          }
+        })
+    }
     public verificasucursalasignada(id:string):Observable<boolean>{      
       return this.datos.getbyid<boolean>(this.datos.URL+`/api/zona_sucursal/sucursal/${id}`)
     }
@@ -102,7 +116,9 @@ import { ZonaSucursal } from "../Controllers/ZonaSucursal";
           
     }
     
-
+      public Getall():Observable<ModelResponse>{
+        return this.datos.getdatos<ModelResponse>( this.rutaapi)
+      }
       public Gets(page:string,pagesize:string,filtro:string):Observable<ModelResponse> {
         let filtrar=""
         if(filtro!=""){

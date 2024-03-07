@@ -23,4 +23,10 @@ export interface Usuario{
     key:object;
     option:string;
   }
-
+export interface TipoCampo{
+  campo:string;
+  tipo:string;
+  arraydata:any[];
+  arrayid:string;
+  arraynombre:string;
+}

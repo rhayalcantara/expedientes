@@ -1,18 +1,22 @@
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { TableResponse } from 'src/app/Helpers/Interfaces';
+import { TableResponse, TipoCampo } from 'src/app/Helpers/Interfaces';
 import { UtilsService } from 'src/app/Helpers/utils.service';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 
 @Component({
   standalone:true,
-  imports:[NgIf,NgFor,NgxPaginationModule],
+  imports:[NgIf,NgFor,NgxPaginationModule,CommonModule,ReactiveFormsModule ],
   selector: 'app-tables',
   templateUrl: './tables.component.html',
   styleUrls: ['./tables.component.css']
 })
 export class TablesComponent implements OnInit {
+onChange($event: Event) {
+  throw new Error('Method not implemented.');
+}
 
   @Input() config:any;
   public labels: any;
@@ -20,6 +24,7 @@ export class TablesComponent implements OnInit {
   public totalr :number=0;
   id:string=''
   @Input() campos:string[] =[]
+  @Input() tipocampo:TipoCampo[]=[]
   @Input() titulos:string[]=[]
   @Input() arraydatos:any[]=[]
   @Input() campokey:string=''
@@ -71,6 +76,7 @@ export class TablesComponent implements OnInit {
     this.config.id = this.id
     this.idtable.emit(this.id)        
     this.cd.detectChanges(); 
+    console.log(this.tipocampo)
   }
   /**
    * Calculates the width of the table columns based on the number of fields.

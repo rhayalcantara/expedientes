@@ -34,7 +34,7 @@ export class AgendaPageComponent implements OnInit {
     ) { 
       // this.producto.getdatos()
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{
-        console.log('Productos Construtor: '+mensaje)   
+
       
       }})
     }
@@ -63,7 +63,7 @@ export class AgendaPageComponent implements OnInit {
        
      }
      opcion(event:TableResponse){
-      console.log(event)
+
       
       const acct:any ={
         edit:this.edita,
@@ -95,11 +95,11 @@ export class AgendaPageComponent implements OnInit {
         
         
         p.modelo = prod // p.arraymodel.find(x=>x.id=prod.id) as IProduct
-        console.log('producto edit',p.modelo)
+
         const  dialogRef = t.open(FormAgendaComponent,{
           width: '900px',data:{model:p.modelo}})
           dialogRef.afterClosed().subscribe((result:IagendaDts)=>{
-            //console.log('llego del formulario de producto',result)
+
             if (result){
               resolve(result);
             }else{
@@ -124,7 +124,7 @@ export class AgendaPageComponent implements OnInit {
       
     }
     actualizaelidtable(event:string){
-      console.log('se actualizo el config',event)
+
       this.config.id = event
     }
 filtro() {
@@ -136,7 +136,7 @@ agregar() {
   const  dialogRef = this.toastr.open(FormAgendaComponent,{
     width: '900px',data:{model:modelo}})
     dialogRef.afterClosed().subscribe((result:IagendaDts)=>{
-      //console.log('llego del formulario de producto',result)
+
       
       
     });  

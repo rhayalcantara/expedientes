@@ -39,9 +39,11 @@
         [arraydatos]="productdatos.model.zonaSucursales"
         campokey="id"
         (accion)="opcion($event)"
+
         (paginacambio)="paginacambio($event)"
         (idtable)="actualizaelidtable($event)" 
         [campos]="camposdetalle"
+        
         [titulos]="tituloslocaldetalle"
         [deleted]="true"
         [term]="term"

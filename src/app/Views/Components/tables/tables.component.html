@@ -13,8 +13,30 @@
         <table class='table table-striped' aria-labelledby="tableLabel" >
             <tbody>
                 <tr *ngFor="let datos of arraydatos  | paginate:  { id:id, itemsPerPage: config.itemsPerPage, currentPage: config.currentPage, totalItems: config.totalItems }  ">
-
-                    <td *ngFor="let campo of campos" class="centrado" [width]="ancho" >{{datos[campo]}}</td>   
+                     <ng-container *ngIf="tipocampo.length==0" > 
+                        <td  *ngFor="let campo of campos" class="centrado" [width]="ancho" >{{datos[campo]}}</td>   
+                    </ng-container>
+                    <ng-container *ngIf="tipocampo.length!=0" >
+                        <td *ngFor="let tc of tipocampo" class="centrado" [width]="ancho" >                            
+                            <ng-container [ngSwitch]="tc.tipo">
+                                <ng-container *ngSwitchCase="'texto'">
+                                    {{datos[tc.campo]}} 
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'checkbox'">                                    
+                                    <input type="checkbox" [checked]="datos[tc.campo]">
+                                </ng-container> 
+                                <ng-container *ngSwitchCase="'select'">
+                                    <!-- Aquí puedes poner tu lógica para el select -->
+                                    <select #teams class="form-control" 
+                                            [formControlName]="tc.campo"                                                                        
+                                            [id]="tc.campo" >
+                                      <option [ngValue]="null" disabled selected="selected" >Selecione una Sucursal</option>
+                                    <option *ngFor="let p of tc.arraydata" [value]="p[tc.arrayid]"> {{p[tc.arraynombre]}} </option>          
+                                    </select> 
+                                  </ng-container>                                   
+                            </ng-container>                            
+                        </td>   
+                    </ng-container> 
                     <td *ngIf="selected" class="centrado">                        
                         <button class="btn" (click)="opcion(datos,'selected')"><i class="fa fa-check"></i></button>                        
                         
