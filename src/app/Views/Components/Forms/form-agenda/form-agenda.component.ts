@@ -145,21 +145,12 @@ cancelar() {
   this.dialogre.close(null)
 }
 grabar() {
-  /*this.productdatos.modelo.sucursalesProcesos = this.arraydatos
-  let sp:Isupervisor = this.productdatos.modelo.supervisor as Isupervisor
-  this.productdatos.modelo.supervisor = this.sup.inicializamodelo()
-  this.productdatos.modelo.supervisor.id = sp.id
-  this.productdatos.modelo.supervisor.codigo = sp.codigo
-  this.productdatos.modelo.supervisor.nombre = sp.nombre
-  this.productdatos.modelo.supervisor.zona_id = sp.zona_id
-  */
+
   this.productdatos.grabar().then((rep)=>{
     if (rep){
 
       this.Dat.showMessage('Registro Grabado','Grabando','success')
-      //this.dialogre.close(this.productdatos.model)
-    }else{
-      this.Dat.showMessage('Error Grabando','Grabando','error')
+      this.dialogre.close(this.productdatos.model)
     }
   })
 }

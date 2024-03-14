@@ -39,6 +39,12 @@ loadComponent:()=> import('./Views/Components/Pages/proceso-page/proceso-page.co
 loadComponent:()=> import('./Views/Components/Pages/agenda-page/agenda-page.component')
 .then((m)=> m.AgendaPageComponent),
  canActivate: [AuthGuard]
+},
+{
+path:'superv', 
+loadComponent:()=> import('./Views/Components/Pages/supervision-page/supervision-page.component')
+.then((m)=> m.SupervisionPageComponent),
+canActivate: [AuthGuard]
 }
 ];
 

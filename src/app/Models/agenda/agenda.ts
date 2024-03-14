@@ -50,3 +50,12 @@ export interface Iagenda_sucursalDts extends Iagenda_sucursal{
     sucursal_nombre:string
     proceso_nombre:string
 }
+
+export interface Iagendadetallesuper{
+  id:number
+  agenda_id:number
+  sucursal_id:number
+  sucursal:string
+  proceso_id:number
+  proceso:string
+}

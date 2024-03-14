@@ -2,7 +2,7 @@ import { EventEmitter, Injectable, OnInit, Output } from "@angular/core";
 import { DatosServiceService } from "../Services/datos-service.service";
 import { ExcelService } from "../Services/excel.service";
 import { MatDialog } from "@angular/material/dialog";
-import { Iagenda, IagendaCreacion, IagendaDts, Iagenda_sucursal, Iagenda_sucursalDts } from "../Models/agenda/agenda"
+import { Iagenda, IagendaCreacion, IagendaDts, Iagenda_sucursal, Iagenda_sucursalDts, Iagendadetallesuper } from "../Models/agenda/agenda"
 import { LoadingComponent } from "../Views/Components/loading/loading.component";
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs'; 
@@ -46,7 +46,7 @@ import { UtilsService } from "../Helpers/utils.service";
     public desde:string=''
     public hasta:string=''
     public arraymodel:IagendaDts[]=[]
-
+    public arraysuper:Iagendadetallesuper[]=[]
     @Output() TRegistros = new EventEmitter<number>();
     constructor(
                 private datos:DatosServiceService,
@@ -75,7 +75,7 @@ import { UtilsService } from "../Helpers/utils.service";
       //se obtiene los datos y se ponen en los array
    
        this.Gets(this.filtro,
-        this.actualpage,this.pagesize)        
+        this.actualpage,this.pagesize,0)        
          .subscribe({        
         next:(rep:ModelResponse)=>{
           console.log('llego los datos ',rep)
@@ -90,6 +90,51 @@ import { UtilsService } from "../Helpers/utils.service";
       }
       ) 
     }
+
+  public  getdatossupervisor(supervisorid:number){
+     
+      const dialogRef = this.toastr.open(LoadingComponent, {
+       width: '340px',
+       height: '180px', 
+   
+     }); 
+    //se obtiene los datos y se ponen en los array
+ 
+     this.Gets(this.filtro,
+      this.actualpage,this.pagesize,supervisorid)        
+       .subscribe({        
+      next:(rep:ModelResponse)=>{
+        console.log('llego los datos ',rep)
+        this.totalregistros =  rep.count
+        this.arraymodel=[]
+        this.arraymodel=rep.data      
+        this.TRegistros.emit(this.totalregistros)        
+
+        dialogRef.close()
+     
+      }
+    }
+    ) 
+  }
+  public getdetallesupervisor(supervisorid:number){
+    const dialogRef = this.toastr.open(LoadingComponent, {
+      width: '340px',
+      height: '180px', 
+  
+    }); 
+    this.getsdetallesup(supervisorid).subscribe({
+      next:(rep:ModelResponse)=>{
+        console.log('repuesta ',rep)
+        this.arraysuper=rep.data
+        this.TRegistros.emit(rep.count)
+        dialogRef.close()
+      }
+    })
+  }
+  public getsdetallesup(supervisorid:number):Observable<ModelResponse>
+  {
+    return this.datos.getdatos<ModelResponse>(this.datos.URL+`/api/agenda_sucursal/as/${supervisorid}`)
+  }
     public getdetalle(id:string):Promise<any>{
       const dialogRef = this.toastr.open(LoadingComponent, {
         width: '340px',
@@ -153,31 +198,31 @@ import { UtilsService } from "../Helpers/utils.service";
       }
     }
   public Gets(filtro:string,
-          actualpage:number,pagesize:number):Observable<ModelResponse> {
+          actualpage:number,pagesize:number,supervisorid:number):Observable<ModelResponse> {
                 
             let  opciones:String = ''
           if (filtro!=''){
               opciones= `&filtro=${filtro}`
           } 
-          console.log(this.rutaapi+`/paginacion?page=${actualpage.toString()}&pagesize=${pagesize.toString()}`+opciones)
+          //console.log(this.rutaapi+`/paginacion?page=${actualpage.toString()}&pagesize=${pagesize.toString()}`+opciones)
           return this.datos.getdatos<ModelResponse>(
-          this.rutaapi+`/paginacion?page=${actualpage.toString()}&pagesize=${pagesize.toString()}`+opciones
+          this.rutaapi+`/paginacion?page=${actualpage.toString()}&pagesize=${pagesize.toString()}&supervisorid=${supervisorid.toString()}`+opciones
     )
   }
 
   public Get(id:string):Observable<ModelResponse>{
-    console.log(this.rutaapi+`/${id}`)
+    
     return this.datos.getbyid<ModelResponse>(this.rutaapi+`/${id}`)
   }
 
 public insert(obj:Iagenda):Observable<Iagenda>{  
-    console.log('llego a insert en produc',obj)
+    
 
     return this.datos.insertardatos<Iagenda>(this.rutaapi, obj ); 
   }
   
 public Update(obj:Iagenda):Observable<Iagenda>{
-    console.log(this.rutaapi+`/${obj.id}`,obj)
+    
     return this.datos.updatedatos<Iagenda>(this.rutaapi+`/${obj.id}`,obj); 
   }
 
@@ -209,17 +254,8 @@ public async grabar(): Promise<boolean> {
       width: '340px',
       height: '180px', 
     }); 
-    console.log('llego registro a grabar',this.modelo)
+
     this.agendacreacion = this.inicializaagendacreacin()
-    /*
-    {
-      id: this.modelo.id,
-      supervisor_id: this.modelo.supervisor_id,
-      fecha: this.modelo.fecha,
-      estatus_id: this.modelo.estatus_id,
-      sucursalesProcesos: this.Iagenda_sucursalDtstoIagenda_sucursal(this.modelo.sucursalesProcesos)
-    }
-    */
 
     UtilsService.automappesimple(this.modelo,this.agendacreacion)
     this.agendacreacion.sucursalesProcesos = this.Iagenda_sucursalDtstoIagenda_sucursal(this.modelo.sucursalesProcesos)
@@ -236,17 +272,8 @@ public async grabar(): Promise<boolean> {
           (rep: Iagenda) => {
             this.model = rep;
             this.modelo.id = rep.id
+            resolve(true);
             dialogRef.close()
-            this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
-            // this.grabadetalle().then(rep=>{
-            //   if(rep){
-            //     resolve(true);   
-            //   }else{
-            //     resolve(false)
-            //   }
-              
-            // })
-            // Devuelve true si la operación fue exitosa
           },
           (err: Error) => {
             this.datos.showMessage('Error:' + err.message, this.titulomensage, 'error');
@@ -259,32 +286,7 @@ public async grabar(): Promise<boolean> {
           (rep: Iagenda) => {
             let m = this.arraymodel.find(x=>x.id==this.model.id)
             m=this.modelo
-            // this.grabadetalle().then(rep=>{
-            //   if(rep){
-
-            //     let m = this.arraymodel.find(x=>x.id==this.model.id)
-            //     this.getdetalle(this.model.id.toString()).then(
-            //       rep=>{
-            //         if(rep){
-                      
-            //         }
-                    
-            //       }
-            //     )
-
-            //     this.getdatos()
-            //     this.TRegistros.emit(this.totalregistros)
-            //     console.log('modelo actualizado', this.model,rep);
-            //     this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
-            //     resolve(true); // Devuelve true si la operación fue exitosa                
-                 
-            //   }else{
-            //     resolve(false)
-            //   }
-              
-            // })
-            dialogRef.close()
-            this.datos.showMessage('Registro actualizo Correctamente', this.titulomensage, "success");
+            dialogRef.close()            
             resolve(true)
           
           },

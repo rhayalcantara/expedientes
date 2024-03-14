@@ -107,7 +107,7 @@ export class DatosServiceService {
     return this.http.get<T>(url)
    }
    public delbyid<T>(url:string):Observable<T>{
-    
+    console.log('en delete llego',url)
     return this.http.delete<T>(url)
    }
 }

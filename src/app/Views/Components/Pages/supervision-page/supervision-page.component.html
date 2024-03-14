@@ -1,0 +1,46 @@
+
+<div class="shadow p-3 mb-5 bg-body rounded my-4 ">
+    <h2 class="mb-3">Supervición</h2>   
+    <div class=" col-md-8 col-lg-8 col-xl-8 my-3 ">                      
+      
+      <!-- <button class="btn  float-end" (click)="filtrar()" ><i class="fa fa-filter"></i></button> -->
+      <button class="btn  float-end" (click)="excel()"><i class="fa fa-file-excel-o"></i></button>
+      <button class="btn  float-end" (click)="pdf()"><i class="fa fa-print"></i></button>
+   
+    </div>  
+    <div class=" col-md-4 col-lg-4 col-xl-4" style="display:inline;">
+      <select #teams class="form-control"              
+        (change)="onChange($event)"
+        id="Sucursal"  >
+        <option [ngValue]="null" disabled selected="selected" >Selecione un Supervisor</option>
+        <option  *ngFor="let p of superv.arraymodel" [value]="p.id"> {{p.nombre}} </option>          
+      </select> 
+
+
+      </div>  
+  
+    
+    </div>
+    <div  >
+      
+        <app-tables 
+      [arraydatos]="producto.arraysuper"
+      campokey="id"
+      [selected]="selec"
+      (accion)="opcion($event)"
+      (paginacambio)="paginacambio($event)"
+      (idtable)="actualizaelidtable($event)" 
+      [campos]="campos"
+      [titulos]="tituloslocal"
+      [term]="term"
+      [totalregistros]="producto.totalregistros"
+      [currentPage]="producto.actualpage"
+      [config]="config"
+      
+    ></app-tables>   
+</div>
+
+
+
+
+

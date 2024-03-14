@@ -23,10 +23,8 @@ export class SelecionSupervisorComponent {
    constructor(
       public supervisor:Supervisores,
       private ServiceComunicacion:ComunicacionService,
-      private dialogRef: MatDialogRef<SelecionSupervisorComponent>){
-
-        
-   }
+      private dialogRef: MatDialogRef<SelecionSupervisorComponent>){}
+      
 ngOnInit(): void {
         
     this.supervisor.getdatos()

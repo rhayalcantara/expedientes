@@ -14,9 +14,7 @@ import { ComunicacionService } from 'src/app/Services/comunicacion.service';
   styleUrls: ['./tables.component.css']
 })
 export class TablesComponent implements OnInit {
-onChange($event: Event) {
-  throw new Error('Method not implemented.');
-}
+
 
   @Input() config:any;
   public labels: any;
@@ -36,6 +34,7 @@ onChange($event: Event) {
   @Output() accion = new EventEmitter<TableResponse>();
   @Output() paginacambio = new EventEmitter<number>();
   @Output() idtable = new EventEmitter<string>();
+  @Output() botoncampo = new EventEmitter<TableResponse>();
   constructor(private cd: ChangeDetectorRef, private ServiceComunicacion:ComunicacionService,) { 
     this.id =UtilsService.generaNss()
     this.config= {

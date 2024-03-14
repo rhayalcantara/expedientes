@@ -16,6 +16,8 @@ import { ErrorInterceptorService } from './Services/error-interceptor.service';
 
 import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zonas.component';
 import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervisor/forms-supervisor.component';
+import { FormSupervisionComponent } from './Views/Components/Forms/form-supervision/form-supervision.component';
+
 
 
 
@@ -27,7 +29,8 @@ import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervi
     NavmenuComponent,
     
     FormZonasComponent,
-    FormsSupervisorComponent
+    FormsSupervisorComponent,
+    FormSupervisionComponent
     
   ],
   imports: [

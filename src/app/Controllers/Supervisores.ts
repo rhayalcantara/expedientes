@@ -7,7 +7,6 @@ import { LoadingComponent } from "../Views/Components/loading/loading.component"
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs';
 import { Isupervisor, Isupervisordts } from "../Models/Supervisor/Isupervisor";
-import { UtilsService } from "../Helpers/utils.service";
 import { Zona } from "./Zona";
 
 @Injectable({
@@ -93,7 +92,13 @@ import { Zona } from "./Zona";
         }
         ) 
       }
-
+    public gettodos(){
+      this.GetsAll().subscribe({
+        next:(rep:ModelResponse)=>{
+          this.arraymodel = rep.data
+        }
+      })
+    }
     public Gets(filtro:string,estado:string,
         actualpage:number,pagesize:number):Observable<ModelResponse> {
        
@@ -104,7 +109,10 @@ import { Zona } from "./Zona";
         return this.datos.getdatos<ModelResponse>
         (this.rutaapi+`/?page=${actualpage}&pagesize=${pagesize}${filtrar}`)
     }
-    
+    public GetsAll(){
+      return this.datos.getdatos<ModelResponse>
+        (this.rutaapi+`/Todos`)
+    }
     public filtrar(filtro:string){
       if(filtro==""){
         this.getdatos()
