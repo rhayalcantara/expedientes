@@ -17,6 +17,7 @@ import { ErrorInterceptorService } from './Services/error-interceptor.service';
 import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zonas.component';
 import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervisor/forms-supervisor.component';
 import { FormSupervisionComponent } from './Views/Components/Forms/form-supervision/form-supervision.component';
+import { FormExpedienteClienteComponent } from './Views/Components/Forms/form-expediente-cliente/form-expediente-cliente.component';
 
 
 
@@ -30,7 +31,8 @@ import { FormSupervisionComponent } from './Views/Components/Forms/form-supervis
     
     FormZonasComponent,
     FormsSupervisorComponent,
-    FormSupervisionComponent
+    FormSupervisionComponent,
+    FormExpedienteClienteComponent
     
   ],
   imports: [

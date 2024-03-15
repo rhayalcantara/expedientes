@@ -111,7 +111,8 @@ agregar() {
     sucursal_id: 0,
     proceso_id: 0,
     fecha: new Date(),
-    estatus_id: 1
+    estatus_id: 1,
+    expedienteClientes: []
   }
   
   const  dialogRef = this.toastr.open(SelecionSucursalProcesoComponent,{

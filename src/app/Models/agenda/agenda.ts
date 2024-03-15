@@ -2,6 +2,7 @@ import { IProceso } from "../Proceso/Proceso"
 import { Isucursal } from "../Sucursal/Isucursal"
 import {  Isupervisordts } from "../Supervisor/Isupervisor"
 import { Iestatus } from "../estatus/estatus"
+import { IExpedienteCliente } from "../expedientes/expedientecliente"
 
 
 export interface Iagenda{
@@ -42,11 +43,12 @@ export interface Iagenda_sucursal{
     proceso_id:number
     fecha:Date
     estatus_id:number
+    expedienteClientes:IExpedienteCliente[]
 }
 
 export interface Iagenda_sucursalDts extends Iagenda_sucursal{
-    sucursal:Isucursal
-    proceso:IProceso
+    sucursal?:Isucursal
+    proceso?:IProceso
     sucursal_nombre:string
     proceso_nombre:string
 }
@@ -58,4 +60,5 @@ export interface Iagendadetallesuper{
   sucursal:string
   proceso_id:number
   proceso:string
+  supervisor:string
 }

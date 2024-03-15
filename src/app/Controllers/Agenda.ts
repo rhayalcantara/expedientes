@@ -245,7 +245,8 @@ public inicializaIagenda_sucursal():Iagenda_sucursal{
     sucursal_id: 0,
     proceso_id: 0,
     fecha: new Date,
-    estatus_id: 0
+    estatus_id: 0,
+    expedienteClientes:[]
   }
 }
 public async grabar(): Promise<boolean> {
@@ -314,7 +315,8 @@ public async grabar(): Promise<boolean> {
       sucursal_id: ele.sucursal_id,
       proceso_id: ele.proceso_id,
       fecha: ele.fecha,
-      estatus_id: 1
+      estatus_id: 1,
+      expedienteClientes: []
     }
     let rr = new Promise<boolean>(async (resolve) => {
           console.log('se envio a grabar agenda sucursal:',model)
@@ -339,7 +341,8 @@ public async grabar(): Promise<boolean> {
       sucursal_id: ele.sucursal_id,
       proceso_id: ele.proceso_id,
       fecha: ele.fecha,
-      estatus_id: 1
+      estatus_id: 1,
+      expedienteClientes: []
     }
     let rr = new Promise<boolean>(async (resolve) => {
       console.log('se envio a actualizar agenda sucursal:',model)
