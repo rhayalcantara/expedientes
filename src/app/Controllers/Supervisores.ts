@@ -93,8 +93,14 @@ import { Zona } from "./Zona";
         ) 
       }
     public gettodos(){
+      const dialogRef = this.toastr.open(LoadingComponent, {
+        width: '340px',
+        height: '180px',        
+      }); 
+
       this.GetsAll().subscribe({
         next:(rep:ModelResponse)=>{
+          dialogRef.close()
           this.arraymodel = rep.data
         }
       })

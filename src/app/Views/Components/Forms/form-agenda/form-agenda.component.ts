@@ -28,7 +28,7 @@ export class FormAgendaComponent implements OnInit {
   tituloslocaldetalle: string[]= []
   term: string='';
   config: any;
-
+  
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data:any,
@@ -102,7 +102,8 @@ agregar() {
     },
     proceso: {
       id: 0,
-      descripcion: ''
+      descripcion: '',
+      proceso_Parametros:[]
     },
     sucursal_nombre: '',
     proceso_nombre: '',

@@ -9,6 +9,7 @@ import { Supervisores } from 'src/app/Controllers/Supervisores';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
+import { FormExpedienteClienteComponent } from '../../Forms/form-expediente-cliente/form-expediente-cliente.component';
 
 @Component({
   standalone:true,
@@ -26,9 +27,7 @@ actualizaelidtable($event: string) {
 paginacambio($event: number) {
   this.producto.actualpage = $event
 }
-opcion($event: TableResponse) {
-  throw new Error('Method not implemented.');
-}
+
 
 
   config:any
@@ -41,7 +40,7 @@ opcion($event: TableResponse) {
     public  producto:Agenda,
     private ServiceComunicacion:ComunicacionService,
     // private datos:DatosServiceService,
-    // private toastr: MatDialog,
+    private toastr: MatDialog,
     public superv:Supervisores
     ) { 
       this.ServiceComunicacion.enviarMensajeObservable.subscribe({next:(mensaje:string)=>{    
@@ -71,6 +70,15 @@ opcion($event: TableResponse) {
       let id=$event.target.value
       this.producto.getdetallesupervisor(id)      
       }
+      opcion($event: TableResponse) {
+        //llamar a FormExpedienteClienteComponent
+        const  dialogRef = this.toastr.open(FormExpedienteClienteComponent,{
+          width: '900px',data:{model:$event.key}})
+          dialogRef.afterClosed().subscribe((result)=>{
+
+            console.log(result)
+          });   
+      }      
   filtro() {
   throw new Error('Method not implemented.');
   }

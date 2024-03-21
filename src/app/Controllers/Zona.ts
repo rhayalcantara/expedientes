@@ -90,7 +90,7 @@ import { TipoCampo } from "../Helpers/Interfaces";
             this.totalregistros =  rep.count
             this.arraymodel=[]
             this.arraymodel=rep.data    
-                
+            console.log(rep.data)
             this.TRegistros.emit(this.totalregistros)        
             
   

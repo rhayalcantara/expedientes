@@ -1,6 +1,8 @@
+import { ICliente } from "../clientes/cliente"
+
 export interface IExpedienteCliente{
     id:number
-    numerocliente:number
+    clientesecuencial:number
     parametro_expedienteid:number
     garanteverificado:boolean
     agenda_sucursalid:number
@@ -8,6 +10,8 @@ export interface IExpedienteCliente{
     estadoid:number
     observacion:string
     fecha:Date
+    cliente:ICliente
+    nombreparametro:string
     documentosExpedientes:IDocumentoExpediente[]
 }
 export interface IDocumentoExpediente{
@@ -24,3 +28,4 @@ export interface IDocumento{
     descripcion:string
     documentoexpedienteclientes:IDocumentoExpediente[]
 }
+

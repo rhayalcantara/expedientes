@@ -1,4 +1,4 @@
-import { IProceso } from "../Proceso/Proceso"
+import { IProceso, IprocesoDts } from "../Proceso/Proceso"
 import { Isucursal } from "../Sucursal/Isucursal"
 import {  Isupervisordts } from "../Supervisor/Isupervisor"
 import { Iestatus } from "../estatus/estatus"
@@ -48,7 +48,7 @@ export interface Iagenda_sucursal{
 
 export interface Iagenda_sucursalDts extends Iagenda_sucursal{
     sucursal?:Isucursal
-    proceso?:IProceso
+    proceso?:IprocesoDts
     sucursal_nombre:string
     proceso_nombre:string
 }

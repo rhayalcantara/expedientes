@@ -33,7 +33,8 @@ export class SelecionSucursalProcesoComponent implements OnInit{
     },
     proceso: {
       id: 0,
-      descripcion: ''
+      descripcion: '',
+      proceso_Parametros:[]
     },
     sucursal_nombre: '',
     proceso_nombre: '',
@@ -116,7 +117,7 @@ selecionarProceso() {
       })
       dialogRef.afterClosed().subscribe((result:IprocesoDts)=>{
         console.log('llego del formulario de Proceso',result)
-        this.model.proceso = result as IProceso
+        this.model.proceso = result as IprocesoDts
         this.model.proceso_id= result.id
         this.model.proceso_nombre = this.model.proceso.descripcion
         //this.productdatos.model.sucursalesprocesos.push(result)

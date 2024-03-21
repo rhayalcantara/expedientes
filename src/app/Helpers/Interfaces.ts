@@ -30,3 +30,6 @@ export interface TipoCampo{
   arrayid:string;
   arraynombre:string;
 }
+export interface MiObjeto {
+  [clave: string]: string; // Esto permite cualquier número de propiedades de tipo string
+}

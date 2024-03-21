@@ -32,11 +32,11 @@ import { Iagenda_sucursalDts } from "../Models/agenda/agenda";
     ngOnInit(): void {
         throw new Error("Method not implemented.");
     }
-    
+
     inicializamodeloExpedienteCliente(): IExpedienteCliente {
        return {
             id: 0,
-            numerocliente: 0,
+            clientesecuencial: 0,
             parametro_expedienteid: 0,
             garanteverificado: false,
             agenda_sucursalid: 0,
@@ -44,6 +44,13 @@ import { Iagenda_sucursalDts } from "../Models/agenda/agenda";
             estadoid: 0,
             observacion: "",
             fecha: new Date,
+            cliente:{
+                secuencial: 0,
+                numerocliente: 0,
+                nombreunido: "",
+                identificacion: "",
+                secuencialoficina: 0
+            },
             documentosExpedientes: []
         }
     }

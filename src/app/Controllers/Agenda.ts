@@ -7,25 +7,40 @@ import { LoadingComponent } from "../Views/Components/loading/loading.component"
 import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs'; 
 import { UtilsService } from "../Helpers/utils.service";
+import { MiObjeto } from "../Helpers/Interfaces";
 
 @Injectable({
     providedIn: 'root'
   })
-
+  
   export class Agenda implements OnInit{
 
     rutaapi:string =this.datos.URL+'/api/agenda'
     titulomensage:string='Agenda'
-
+    public ancho = "80%"
   public model:Iagenda
   public modelo:IagendaDts=this.inicialamodelototal()
+  public modeloagendasucursal:Iagenda_sucursalDts={
+    sucursal_nombre: "",
+    proceso_nombre: "",
+    id: 0,
+    agenda_id: 0,
+    sucursal_id: 0,
+    proceso_id: 0,
+    fecha: new Date,
+    estatus_id: 0,
+    expedienteClientes: []
+  }
+  campos:MiObjeto[]=[]
+  fields:string[]=[]
+
    public  titulos=[
         {id:'Agenda ID'},
         {supervisor_nombre:'Supervisor'},
         {estatus_nombre:'Estatus'},
         {fecha:'Fecha'}
     ]
-
+    public detalle:any[]=[]
     public tiulosdetalle=[
       {sucursal_nombre:'Sucursal'},
       {proceso_nombre:'Proceso'} ,
@@ -55,6 +70,7 @@ import { UtilsService } from "../Helpers/utils.service";
                 private tool:UtilsService               
                ){
                 this.model=this.inicializamodelo()
+
                }
 
     ngOnInit(): void {
@@ -90,7 +106,17 @@ import { UtilsService } from "../Helpers/utils.service";
       }
       ) 
     }
-
+// Función para mezclar los objetos manteniendo el orden específico de 'cliente' y 'opciones'
+ integrarObjetosConOrden(): any {
+  let campos:MiObjeto={}
+  campos["clientes"]=""
+  campos["codigocliente"]=""
+  campos["campoactualizar"]=""
+  this.modeloagendasucursal.proceso?.proceso_Parametros.map((objetoBase, index) => {
+        campos[objetoBase.parametro_nombre]="false"
+  });
+  return campos
+}
   public  getdatossupervisor(supervisorid:number){
      
       const dialogRef = this.toastr.open(LoadingComponent, {
@@ -403,4 +429,45 @@ public async grabar(): Promise<boolean> {
     })
   }
 
+  public getagendasucursa(id:number){
+    const dialogRef = this.toastr.open(LoadingComponent, {
+      width: '340px',
+      height: '180px', 
+    }); 
+        this.getas(id).subscribe({
+          next:(rep:Iagenda_sucursalDts)=>{
+            this.modeloagendasucursal = rep
+            this.ancho=(80/this.modeloagendasucursal.proceso?.proceso_Parametros.length! ?? 1).toString()+"%"
+            this.TRegistros.emit(1)
+            let ooo=   this.modeloagendasucursal.expedienteClientes.map(el=>{
+              let  obj:MiObjeto = this.integrarObjetosConOrden()
+              obj["clientes"]=el.cliente.nombreunido
+              obj["codigocliente"]=el.cliente.secuencial.toString()
+              obj["campoactualizar"]=el.nombreparametro
+              obj[el.nombreparametro]=el.verificado.toString()+","+el.id.toString()
+              this.fields=Object.keys(obj)
+              return obj
+            
+              })
+              ooo.forEach(elm=>{
+                let x: any | undefined = this.campos.find(o => o["clientes"] === elm["clientes"]);
+                if (x!=undefined){
+                                                                                                            
+                  x[elm["campoactualizar"]]=elm[elm["campoactualizar"]]    
+                  console.log('actualizo el campo',elm["campoactualizar"],' en ',x)                                                                                           
+                }else{
+                  delete elm["campoactualizar"]
+                  console.log('inserto',elm)
+                  this.campos.push(elm)
+                }
+              })
+            dialogRef.close()
+            console.log(this.campos)
+          }
+        })
+  }
+  public getas(id:number):Observable<Iagenda_sucursalDts>{
+    console.log(this.datos.URL+`/api/agenda_sucursal/${id}`)
+    return this.datos.getbyid<Iagenda_sucursalDts>(this.datos.URL+`/api/agenda_sucursal/${id}`)
+  }
   }
