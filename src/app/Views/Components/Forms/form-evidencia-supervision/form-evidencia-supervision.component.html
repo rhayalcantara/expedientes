@@ -1,0 +1,29 @@
+
+
+<form [formGroup]="expedienteClienteForm" (ngSubmit)="onSubmit()" style="width: 90%;height: 75%;    margin-top: 10px;
+margin-bottom: 10px;">
+    <h2 class="mb-3" style="text-align: center;">Incluir Evidencias</h2> 
+    <label>
+        Observacion:
+        <textarea formControlName="observacion" rows="10" cols="100" style="resize: vertical; max-width: 100%;"></textarea>   
+    </label>
+    <label>
+      Agregar Documentos al Expedientes:
+      <input type="file" formControlName="documentosExpedientes" multiple>
+    </label>
+    <button type="submit">Submit</button>
+</form>
+  
+<app-tables 
+        [arraydatos]="expedientecliente.documentosExpedientes"
+        campokey="id"          
+        (accion)="opcion($event)"
+        (paginacambio)="paginacambio($event)"
+        (idtable)="actualizaelidtable($event)" 
+        [campos]="campos"
+        [titulos]="tituloslocal"
+        [term]="term"
+        [totalregistros]="totalregistros"
+        [currentPage]="actualpage"
+        [config]="config"
+></app-tables>

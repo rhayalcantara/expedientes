@@ -72,8 +72,10 @@ paginacambio($event: number) {
       }
       opcion($event: TableResponse) {
         //llamar a FormExpedienteClienteComponent
-        const  dialogRef = this.toastr.open(FormExpedienteClienteComponent,{
-          width: '900px',data:{model:$event.key}})
+        const dialogRef = this.toastr.open(FormExpedienteClienteComponent, {
+          width: '100vw',
+          data: { model: $event.key }
+        });
           dialogRef.afterClosed().subscribe((result)=>{
 
             console.log(result)

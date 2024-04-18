@@ -18,6 +18,7 @@ import { FormZonasComponent } from './Views/Components/Forms/form-zonas/form-zon
 import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervisor/forms-supervisor.component';
 import { FormSupervisionComponent } from './Views/Components/Forms/form-supervision/form-supervision.component';
 import { FormExpedienteClienteComponent } from './Views/Components/Forms/form-expediente-cliente/form-expediente-cliente.component';
+import { FormEvidenciaSupervisionComponent } from './Views/Components/Forms/form-evidencia-supervision/form-evidencia-supervision.component';
 
 
 
@@ -32,7 +33,8 @@ import { FormExpedienteClienteComponent } from './Views/Components/Forms/form-ex
     FormZonasComponent,
     FormsSupervisorComponent,
     FormSupervisionComponent,
-    FormExpedienteClienteComponent
+    FormExpedienteClienteComponent,
+    FormEvidenciaSupervisionComponent
     
   ],
   imports: [

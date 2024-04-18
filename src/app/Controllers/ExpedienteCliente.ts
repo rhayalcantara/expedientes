@@ -36,6 +36,7 @@ import { Iagenda_sucursalDts } from "../Models/agenda/agenda";
     inicializamodeloExpedienteCliente(): IExpedienteCliente {
        return {
             id: 0,
+            nombreparametro: "",
             clientesecuencial: 0,
             parametro_expedienteid: 0,
             garanteverificado: false,

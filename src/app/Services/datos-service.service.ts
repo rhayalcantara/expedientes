@@ -87,7 +87,10 @@ export class DatosServiceService {
        
         return formGroup
    }
-
+   public getmoneda<T>():Observable<T>{
+  
+    return this.http.get<T>('https://api-currencyconverter.azurewebsites.net/webservices/ConsultarTasaMoneda?moneda=RD$');
+   }
    public insertardatos<T>(url:string,obj:T):Observable<T>{
   
     return this.http.post<T>(url, JSON.stringify(obj), { headers:this.headers } );

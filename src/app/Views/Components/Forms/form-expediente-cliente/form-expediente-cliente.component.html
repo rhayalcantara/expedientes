@@ -1,7 +1,7 @@
 
 <div class="formulario col-sm-12 col-md-12 col-lg-12 col-xl-12 shadow p-3 mb-5 bg-body rounded">      
     <h1> <label style="font-size:50px;margin-top: 10px;">Supervición Proceso </label></h1>
-    <form novalidate  [formGroup]="formGroup"> 
+<form novalidate  [formGroup]="formGroup"> 
     <table class='table table-striped table-bordered  table-hover  ' aria-labelledby="tableLabel" style="width:100%" >
         <tbody>
             <tr >
@@ -33,7 +33,7 @@
             </tr> 
             <tr >
                 <td style="width:50%">
-                    <button class="btn btn-outline-success" data-toggle="modal" data-bs-target="#exampleModal" (click)="selecionarSupervisor()">
+                    <button style="margin-top: 21px;" class="btn btn-outline-success" data-toggle="modal" data-bs-target="#exampleModal" (click)="selecionarSupervisor()">
                     Generar Clientes para expedientes</button>
                 </td>
                 <td>
@@ -63,15 +63,20 @@
                         <ng-container *ngFor="let d of agenda.fields">
                             <td *ngIf="d=='clientes'"  class="centrado" width="20%"
                             >{{datos[d]}}</td>
-                            <ng-container *ngIf="d!='codigocliente'">
-                                <!-- <td *ngIf="d!='clientes' && datos[d] != undefined"  class="centrado" [width]="auto"
-                                    [ngClass]="{'verificado': (datos[d].split(',')[0]=== "true"), 'no-verificado': (datos[d].split(',')[0]!="true")}">                        
-                                    <input type="checkbox" (click)="cambiarestado(datos[d],datos,d)" [checked]="datos[d].split(',')[0]">
-                                </td>                             -->
-                                <td *ngIf="d!='clientes' && datos[d] != null" class="centrado" [width]="auto"
-                                    [ngClass]="{'verificado': (datos[d].split(',')[0] === 'true'), 'no-verificado': (datos[d].split(',')[0] != 'true')}">
-                                    <input type="checkbox" (click)="cambiarestado(datos[d], datos, d)" [checked]="datos[d].split(',')[0] === 'true'">
-                                </td>
+                            <ng-container *ngIf="d!='codigocliente'">                                                    
+                                <!-- <td *ngIf="d!='clientes' && datos[d] != null " class="centrado" [width]="auto"
+                                    [ngClass]="{'verificado': (datos[d].split(',')[0] === 'true'), 'no-verificado': (datos[d].split(',')[0] != 'true')}"> 
+                                    <td *ngIf="d!='clientes' && datos[d] != null " class="centrado" [width]="auto"
+                                        [ngClass]="{'verificado': (datos[d].split(',')[0] === 'true'), 'no-verificado': (datos[d].split(',')[0] != 'true')}">
+                                    </td>-->
+                                    <td *ngIf="d!='clientes' && datos[d] != null " class="centrado" [width]="auto" 
+                                            [ngClass]="{'verificado': (datos[d].split(',')[0] === 'true'), 'no-verificado': (datos[d].split(',')[0] != 'true')}">
+                                            <label style="display: block; text-align: center;">Verificado</label>
+                                            <input type="checkbox" (click)="cambiarestado(datos[d], datos, d)" [checked]="datos[d].split(',')[0] === 'true'">
+                                            <button class="btn btn-outline-success" style="margin-left: 5px;" (click)="incluirEvidencia(datos[d], datos, d)">+</button>
+                                    </td>                                  
+                                    
+                                
                             </ng-container>
                         </ng-container>
                                          
@@ -84,18 +89,14 @@
 
     </div>    
         
-  </form>
+</form>
   <div class="text-center pt-1 mb-5 pb-1">
     <div class="d-grid gap-2">
      <button class="btn btn-success btn-block mb-3" (click)="grabar()" type="summit"> Grabar</button>
      <button class="btn btn-secondary btn-block" type="button" (click)="cancelar()"  >Cancelar</button>
     </div>
-</div>
+  </div>
   <p class="aviso">
     <span class="obligatorio"> * </span>los campos son obligatorios.
   </p> 
-<!-- {{model| json}}  -->
 </div>
-
-
-

@@ -4,7 +4,7 @@ const moduleFederationConfig = withModuleFederationPlugin({
 
   remotes: {
     //"loginapp": "/loginapp/remoteEntry.js", 
-    //"loginapp": "http://localhost/loginapp/remoteEntry.js", 
+    //"loginapp": "http://192.168.7.222/loginapp/remoteEntry.js", 
     "loginapp": "http:localhost:4300/remoteEntry.js",       
   },
 
@@ -13,8 +13,9 @@ const moduleFederationConfig = withModuleFederationPlugin({
   },
   sharedMappings:["@commons-lib"]
 });
- //moduleFederationConfig.output.publicPath = '/expedientes/'
+
 moduleFederationConfig.output.pathinfo = false
 moduleFederationConfig.output.clean = true
-moduleFederationConfig.output.publicPath = '/'
+ moduleFederationConfig.output.publicPath = '/'
+// moduleFederationConfig.output.publicPath = '/expedientes/'
 module.exports =moduleFederationConfig

@@ -7,6 +7,7 @@ import { Iagenda_sucursalDts, Iagendadetallesuper } from 'src/app/Models/agenda/
 import { IExpedienteCliente } from 'src/app/Models/expedientes/expedientecliente';
 import { ComunicacionService } from 'src/app/Services/comunicacion.service';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
+import { FormEvidenciaSupervisionComponent } from '../form-evidencia-supervision/form-evidencia-supervision.component';
 
 @Component({
   selector: 'app-form-expediente-cliente',
@@ -14,13 +15,14 @@ import { DatosServiceService } from 'src/app/Services/datos-service.service';
   styleUrls: ['./form-expediente-cliente.component.css']
 })
 export class FormExpedienteClienteComponent implements OnInit {
+
 selecionarSupervisor() {
 throw new Error('Method not implemented.');
 }
 auto: string="80%";
 
 opcion(_t63: any,arg1: string) {
-throw new Error('Method not implemented.');
+  throw new Error('Method not implemented.');
 }
 
   formGroup: FormGroup
@@ -41,7 +43,8 @@ throw new Error('Method not implemented.');
     private toastr: MatDialog,        
     private dialogre:MatDialogRef<FormExpedienteClienteComponent>,
     private Dat:DatosServiceService,
-    private ServiceComunicacion:ComunicacionService,) 
+    private ServiceComunicacion:ComunicacionService,
+    ) 
     {
       this.formGroup=this.fb.group({});
     }
@@ -58,7 +61,19 @@ throw new Error('Method not implemented.');
     this.agenda.getagendasucursa(this.model.id)
     console.log(this.auto,this.agenda.ancho)
     this.formGroup= this.Dat.llenarFormGrup(this.model)
-
+     this.Dat.getmoneda().subscribe({
+      next:(res)=>{
+        console.log('moneda ',res)
+      }
+    })
+  }
+  incluirEvidencia(arg0: string,campo: MiObjeto,d: string) {
+    let id = arg0.split(',')[1]
+    //encontar el expedientecliente 
+    let x:IExpedienteCliente | undefined = this.agenda.modeloagendasucursal.expedienteClientes.find(x=>x.id==+id)
+    console.log({"id":id,expediante:x}) 
+    const  dialogRef = this.toastr.open(FormEvidenciaSupervisionComponent,{
+      width: '900px',data:{}})   
   }
   cambiarestado(arg0: string,campo:MiObjeto,d:string) {
         this.auto = this.agenda.ancho
