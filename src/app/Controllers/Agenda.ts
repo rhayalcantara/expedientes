@@ -8,6 +8,8 @@ import { ModelResponse } from "../Models/Usuario/modelResponse";
 import { firstValueFrom, Observable, repeat } from 'rxjs'; 
 import { UtilsService } from "../Helpers/utils.service";
 import { MiObjeto } from "../Helpers/Interfaces";
+import { ExpedienteCliente } from "./ExpedienteCliente";
+import { IExpedienteCliente } from "../Models/expedientes/expedientecliente";
 
 @Injectable({
     providedIn: 'root'
@@ -17,20 +19,11 @@ import { MiObjeto } from "../Helpers/Interfaces";
 
     rutaapi:string =this.datos.URL+'/api/agenda'
     titulomensage:string='Agenda'
+    public cantidadclientes:number=0
     public ancho = "80%"
   public model:Iagenda
   public modelo:IagendaDts=this.inicialamodelototal()
-  public modeloagendasucursal:Iagenda_sucursalDts={
-    sucursal_nombre: "",
-    proceso_nombre: "",
-    id: 0,
-    agenda_id: 0,
-    sucursal_id: 0,
-    proceso_id: 0,
-    fecha: new Date,
-    estatus_id: 0,
-    expedienteClientes: []
-  }
+  public modeloagendasucursal:Iagenda_sucursalDts=this.inicializaIagenda_sucursaldts()
   campos:MiObjeto[]=[]
   fields:string[]=[]
 
@@ -80,7 +73,19 @@ import { MiObjeto } from "../Helpers/Interfaces";
       this.pagesize=10
       this.getdatos()
     }
-
+    public inicializaIagenda_sucursaldts():Iagenda_sucursalDts{
+      return {
+        sucursal_nombre: "",
+        proceso_nombre: "",
+        id: 0,
+        agenda_id: 0,
+        sucursal_id: 0,
+        proceso_id: 0,
+        fecha: new Date,
+        estatus_id: 0,
+        expedienteClientes: []
+      }
+    }
     public  getdatos(){
      
         const dialogRef = this.toastr.open(LoadingComponent, {
@@ -113,6 +118,7 @@ import { MiObjeto } from "../Helpers/Interfaces";
   campos["codigocliente"]=""
   campos["campoactualizar"]=""
   this.modeloagendasucursal.proceso?.proceso_Parametros.map((objetoBase, index) => {
+        console.log('parametro_nombre',objetoBase.parametro_nombre)
         campos[objetoBase.parametro_nombre]="false"
   });
   return campos
@@ -430,6 +436,7 @@ public async grabar(): Promise<boolean> {
   }
 
   public getagendasucursa(id:number){
+    this.modeloagendasucursal=this.inicializaIagenda_sucursaldts()
     const dialogRef = this.toastr.open(LoadingComponent, {
       width: '340px',
       height: '180px', 
@@ -437,35 +444,76 @@ public async grabar(): Promise<boolean> {
         this.getas(id).subscribe({
           next:(rep:Iagenda_sucursalDts)=>{
             this.modeloagendasucursal = rep
-            this.ancho=(80/this.modeloagendasucursal.proceso?.proceso_Parametros.length! ?? 1).toString()+"%"
-            this.TRegistros.emit(1)
-            let ooo=   this.modeloagendasucursal.expedienteClientes.map(el=>{
-              let  obj:MiObjeto = this.integrarObjetosConOrden()
-              obj["clientes"]=el.cliente.nombreunido
-              obj["codigocliente"]=el.cliente.secuencial.toString()
-              obj["campoactualizar"]=el.nombreparametro
-              obj[el.nombreparametro]=el.verificado.toString()+","+el.id.toString()
-              this.fields=Object.keys(obj)
-              return obj
-            
-              })
-              ooo.forEach(elm=>{
-                let x: any | undefined = this.campos.find(o => o["clientes"] === elm["clientes"]);
-                if (x!=undefined){
-                                                                                                            
-                  x[elm["campoactualizar"]]=elm[elm["campoactualizar"]]    
-                  console.log('actualizo el campo',elm["campoactualizar"],' en ',x)                                                                                           
-                }else{
-                  delete elm["campoactualizar"]
-                  console.log('inserto',elm)
-                  this.campos.push(elm)
-                }
-              })
+            console.log('expedientecliente 1',this.modeloagendasucursal.expedienteClientes)
+            this.despliegaexpedientecliente()
             dialogRef.close()
             console.log(this.campos)
           }
         })
   }
+  public despliegaexpedientecliente(){
+    this.ancho=(80/this.modeloagendasucursal.proceso?.proceso_Parametros.length! ?? 1).toString()+"%"
+    this.TRegistros.emit(1)
+    this.cantidadclientes = this.modeloagendasucursal.expedienteClientes.length
+    console.log('expedientecliente 2',this.modeloagendasucursal.expedienteClientes)
+    let ooo=   this.modeloagendasucursal.expedienteClientes.map(el=>{
+      console.log('el',el)
+     
+      let  obj:MiObjeto = this.integrarObjetosConOrden()
+      obj["clientes"]=el.cliente.nombreunido
+      obj["codigocliente"]=el.cliente.secuencial.toString()
+      obj["campoactualizar"]=el.nombreparametro
+      obj[el.nombreparametro]=el.verificado.toString()+","+el.id.toString()
+      console.log('el obj',obj)
+      this.fields=Object.keys(obj)
+      console.log('el fields',this.fields)      
+      return obj
+    
+    
+      })
+      ooo.forEach(elm=>{
+        let x: any | undefined = this.campos.find(o => o["clientes"] === elm["clientes"]);
+        if (x!=undefined){
+                                                                                                    
+          x[elm["campoactualizar"]]=elm[elm["campoactualizar"]]    
+          console.log('actualizo el campo',elm["campoactualizar"],' en ',x)                                                                                           
+        }else{
+          delete elm["campoactualizar"]
+          console.log('inserto',elm)
+          this.campos.push(elm)
+        }
+      })
+
+  }
+  public generarexpedientecliente(cantcliente:number){
+    const dialogRef = this.toastr.open(LoadingComponent, {
+      width: '340px',
+      height: '180px', 
+    }); 
+    console.log({'modelo': this.modeloagendasucursal.id,
+                 'cantidad':cantcliente})
+
+    this.cantidadclientes = cantcliente
+    this.datos.getdatos<ModelResponse>(this.datos.URL +`/api/ExpedienteClientes/creaexpediente?agenda_sucursalid=${this.modeloagendasucursal.id}&cantexp=${this.cantidadclientes}`)
+    .subscribe(
+      {
+        next:(rep:ModelResponse)=>{
+          dialogRef.close()
+          if (rep.exito==200)
+          {
+             
+              this.modeloagendasucursal.expedienteClientes=rep.data
+              this.despliegaexpedientecliente()
+
+          }else{
+            this.datos.showMessage(`Error generando expedientes numero de error ${rep.exito}:Mensaje ${rep.mensaje}`,"Error",'error')          
+          }      
+    },error:(err:Error)=>{
+      dialogRef.close()
+      this.datos.showMessage(`Error generando expedientes ${err.cause} ${err.message}`,"Error",'error')
+      }     
+      });
+}
   public getas(id:number):Observable<Iagenda_sucursalDts>{
     console.log(this.datos.URL+`/api/agenda_sucursal/${id}`)
     return this.datos.getbyid<Iagenda_sucursalDts>(this.datos.URL+`/api/agenda_sucursal/${id}`)

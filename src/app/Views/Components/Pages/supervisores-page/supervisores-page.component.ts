@@ -52,8 +52,7 @@ constructor(public supervisores:Supervisores,
        this.supervisores.titulos.map((x:string|any)=>{
          let nx:string = x[Object.keys(x)[0]]
          this.campos.push(...Object.keys(x))
-         this.tituloslocal.push(nx)
-         
+         this.tituloslocal.push(nx)         
        })
   }
 

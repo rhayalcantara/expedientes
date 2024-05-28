@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ExpedienteCliente } from 'src/app/Controllers/ExpedienteCliente';
 import { TableResponse } from 'src/app/Helpers/Interfaces';
@@ -19,7 +19,7 @@ term: string="";
 totalregistros: number=0;
 actualpage: number=1;
 config: any;
-
+fg:FormGroup = new FormGroup({})
 
   expedientecliente:IExpedienteCliente ={
     id: 0,
@@ -42,7 +42,8 @@ config: any;
     documentosExpedientes: []
   } 
   constructor(    
-  @Inject(MAT_DIALOG_DATA) public data:any,      
+  @Inject(MAT_DIALOG_DATA) public data:any, 
+    private fb: FormBuilder,     
     private dialogre:MatDialogRef<FormEvidenciaSupervisionComponent>,
     private Dat:DatosServiceService,
     private ServiceComunicacion:ComunicacionService,
@@ -52,17 +53,48 @@ config: any;
     observacion: new FormControl(''),
     documentosExpedientes: new FormControl('')
   });
+  ngOnInit(): void {
+        
+    this.expedientecliente = this.data.expedientecliente
+    
+    //this.campos=Object.keys(this.product);
+    this.fg= this.Dat.llenarFormGrup(this.expedientecliente)
+
+    // el detalle 
+   // this.getdetalle()
+    this.config = {
+              id:'',
+              itemsPerPage: 10,
+              currentPage: 1,
+              totalItems: this.expedientecliente.documentosExpedientes.length
+            };
+
+    // this.productdatos.zs.TRegistros.subscribe({
+    //   next:(rep:number)=>{
+    //     this.config.totalItems=rep
+    //     this.ServiceComunicacion.enviarMensaje(this.config)
+    //   }
+      
+   // })
+    // this.productdatos.zs.titulos.map((x:string|any)=>{
+    //   let nx:string = x[Object.keys(x)[0]]
+    //   this.camposdetalle.push(...Object.keys(x))
+    //   this.tituloslocaldetalle.push(nx)
+    // })
+    
+}
   onSubmit(): void {
     // Aquí puedes manejar la presentación de los datos del formulario
     console.log(this.expedienteClienteForm.value);
   }
-  paginacambio($event: number) {
-    throw new Error('Method not implemented.');
+
+  paginacambio(event: number) {
+    this.config.actualpage = event
     }
-    actualizaelidtable($event: string) {
-    throw new Error('Method not implemented.');
+    actualizaelidtable(event: string) {
+   this.config.id=event
     }
     opcion($event: TableResponse) {
-    throw new Error('Method not implemented.');
+    
     }
 }

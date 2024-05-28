@@ -61,4 +61,5 @@ export interface Iagendadetallesuper{
   proceso_id:number
   proceso:string
   supervisor:string
+  cantidaddeclientes:number
 }

@@ -5,14 +5,15 @@ import { MatDialog } from "@angular/material/dialog";
 import { UtilsService } from "../Helpers/utils.service";
 import { IExpedienteCliente } from "../Models/expedientes/expedientecliente";
 import { Iagenda_sucursalDts } from "../Models/agenda/agenda";
+import { ModelResponse } from "../Models/Usuario/modelResponse";
 
 @Injectable({
     providedIn: 'root'
   })
   export class ExpedienteCliente implements OnInit
   {
-    rutaapi:string =this.datos.URL+'/api/agenda'
-    titulomensage:string='Agenda'
+    rutaapi:string =this.datos.URL+'/api/ExpedienteClientes/'
+    titulomensage:string='ExpedienteCliente'
     public modelExpedienteCliente:IExpedienteCliente
     public modelagendasucursal:Iagenda_sucursalDts
     public  titulos=[
@@ -30,9 +31,13 @@ import { Iagenda_sucursalDts } from "../Models/agenda/agenda";
        }
 
     ngOnInit(): void {
-        throw new Error("Method not implemented.");
+        //throw new Error("Method not implemented.");
     }
-
+    GenerarCliente(cantcli:number){
+        //creaexpediente?agenda_sucursalid=1&cantexp=10
+       // this.datos.getdatos<ModelResponse>(this.rutaapi+`creaexpediente?agenda_sucursalid=${this.modelagendasucursal.id}&cantexp=${cantcli}`)
+       // .subscribe({next:(res)=>{
+    }
     inicializamodeloExpedienteCliente(): IExpedienteCliente {
        return {
             id: 0,

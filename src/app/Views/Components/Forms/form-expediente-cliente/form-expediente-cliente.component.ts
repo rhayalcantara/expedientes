@@ -15,16 +15,6 @@ import { FormEvidenciaSupervisionComponent } from '../form-evidencia-supervision
   styleUrls: ['./form-expediente-cliente.component.css']
 })
 export class FormExpedienteClienteComponent implements OnInit {
-
-selecionarSupervisor() {
-throw new Error('Method not implemented.');
-}
-auto: string="80%";
-
-opcion(_t63: any,arg1: string) {
-  throw new Error('Method not implemented.');
-}
-
   formGroup: FormGroup
   
   model:Iagendadetallesuper={
@@ -34,8 +24,15 @@ opcion(_t63: any,arg1: string) {
     sucursal: '',
     proceso_id: 0,
     proceso: '',
-    supervisor: ''
+    supervisor: '',
+    cantidaddeclientes: 0
   }
+
+auto: string="80%";
+
+
+
+ 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data:any,
     private fb: FormBuilder,
@@ -59,21 +56,29 @@ opcion(_t63: any,arg1: string) {
       }       
      })
     this.agenda.getagendasucursa(this.model.id)
-    console.log(this.auto,this.agenda.ancho)
+    //console.log(this.auto,this.agenda.ancho)
     this.formGroup= this.Dat.llenarFormGrup(this.model)
-     this.Dat.getmoneda().subscribe({
-      next:(res)=>{
-        console.log('moneda ',res)
-      }
-    })
+     
   }
+  generaexpedientecliente() {
+    if (this.formGroup.controls['cantidaddeclientes'].value==0){
+      this.Dat.showMessage('Debe ingresar la cantidad de clientes a generar', 'Generar expediente cliente', 'error')
+      return
+    }
+    this.agenda.generarexpedientecliente(this.formGroup.controls['cantidaddeclientes'].value)
+  }
+  opcion(_t63: any,arg1: string) {
+    throw new Error('Method not implemented.');
+  }
+
   incluirEvidencia(arg0: string,campo: MiObjeto,d: string) {
     let id = arg0.split(',')[1]
     //encontar el expedientecliente 
     let x:IExpedienteCliente | undefined = this.agenda.modeloagendasucursal.expedienteClientes.find(x=>x.id==+id)
-    console.log({"id":id,expediante:x}) 
+    // console.log({"id":id,expedientecliente:arg0,nombrecampo:d})
+    console.log({"id":id,"x":x,"d":d}) 
     const  dialogRef = this.toastr.open(FormEvidenciaSupervisionComponent,{
-      width: '900px',data:{}})   
+      width: '900px',data:{expedientecliente:x,nombrecampo:d}})   
   }
   cambiarestado(arg0: string,campo:MiObjeto,d:string) {
         this.auto = this.agenda.ancho
@@ -81,7 +86,7 @@ opcion(_t63: any,arg1: string) {
         let id = arg0.split(',')[1]
         //encontar el expedientecliente 
         let x:IExpedienteCliente | undefined = this.agenda.modeloagendasucursal.expedienteClientes.find(x=>x.id==+id)
-        console.log(id,x)
+        console.log({"id":id,"x":x,"d":d}) 
         if (x!=undefined){
           x.verificado = !x.verificado
           campo[d]= x.verificado.toString()+","+id

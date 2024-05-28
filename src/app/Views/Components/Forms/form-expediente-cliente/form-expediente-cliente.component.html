@@ -33,12 +33,16 @@
             </tr> 
             <tr >
                 <td style="width:50%">
-                    <button style="margin-top: 21px;" class="btn btn-outline-success" data-toggle="modal" data-bs-target="#exampleModal" (click)="selecionarSupervisor()">
+                    <button style="margin-top: 21px;" 
+                    class="btn btn-outline-success" 
+                    data-toggle="modal" 
+                    data-bs-target="#exampleModal" (click)="generaexpedientecliente()">
                     Generar Clientes para expedientes</button>
                 </td>
                 <td>
-                    <label>Cantidad de Expedientes</label>
-                    <input type="text" class="form-control" >
+                    <label>Cantidad de Clientes</label>
+                    <input type="text"  class="form-control" 
+                    formControlName="cantidaddeclientes" >
                 </td>
             </tr>        
         </tbody>
