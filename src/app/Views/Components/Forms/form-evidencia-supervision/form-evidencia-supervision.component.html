@@ -1,29 +1,26 @@
-
-
-<form [formGroup]="expedienteClienteForm" (ngSubmit)="onSubmit()" style="width: 90%;height: 75%;    margin-top: 10px;
-margin-bottom: 10px;">
-    <h2 class="mb-3" style="text-align: center;">Incluir Evidencias</h2> 
-    <label>
-        Observacion:
-        <textarea formControlName="observacion" rows="10" cols="100" style="resize: vertical; max-width: 100%;"></textarea>   
-    </label>
-    <label>
-      Agregar Documentos al Expedientes:
-      <input type="file" formControlName="documentosExpedientes" multiple>
-    </label>
-    <button type="submit">Submit</button>
+<form [formGroup]="expedienteClienteForm" (ngSubmit)="onSubmit()" style="width: 90%; margin: 20px auto;">
+  <h2 class="mb-3" style="text-align: center;">Incluir Evidencias</h2> 
+  <label style="display: block; margin-bottom: 15px;">
+      Observacion:
+      <textarea formControlName="observacion" rows="10" cols="100" style="resize: vertical; width: 100%; border-radius: 5px; padding: 10px; border: 1px solid #ccc;"></textarea>   
+  </label>
+  <label style="display: block; margin-bottom: 15px;">
+    Agregar Documentos al Expedientes:
+    <input type="file" formControlName="documentosExpedientes" multiple style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
+  </label>
+  <button type="submit" style="width: 100%; padding: 15px; border-radius: 5px; background-color: #007bff; color: white; border: none; font-size: 16px;">Submit</button>
 </form>
-  
+
 <app-tables 
-        [arraydatos]="expedientecliente.documentosExpedientes"
-        campokey="id"          
-        (accion)="opcion($event)"
-        (paginacambio)="paginacambio($event)"
-        (idtable)="actualizaelidtable($event)" 
-        [campos]="campos"
-        [titulos]="tituloslocal"
-        [term]="term"
-        [totalregistros]="totalregistros"
-        [currentPage]="actualpage"
-        [config]="config"
+      [arraydatos]="expedientecliente.documentosExpedientes"
+      campokey="id"          
+      (accion)="opcion($event)"
+      (paginacambio)="paginacambio($event)"
+      (idtable)="actualizaelidtable($event)" 
+      [campos]="campos"
+      [titulos]="tituloslocal"
+      [term]="term"
+      [totalregistros]="totalregistros"
+      [currentPage]="actualpage"
+      [config]="config"
 ></app-tables>

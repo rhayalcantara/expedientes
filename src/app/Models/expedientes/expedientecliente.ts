@@ -26,6 +26,6 @@ export interface IDocumento{
     nombreinterno:string
     nombrearchivo:string
     descripcion:string
-    documentoexpedienteclientes:IDocumentoExpediente[]
+    //documentoexpedienteclientes:IDocumentoExpediente[]
 }
 
