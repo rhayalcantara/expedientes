@@ -19,6 +19,7 @@ import { FormsSupervisorComponent } from './Views/Components/Forms/forms-supervi
 import { FormSupervisionComponent } from './Views/Components/Forms/form-supervision/form-supervision.component';
 import { FormExpedienteClienteComponent } from './Views/Components/Forms/form-expediente-cliente/form-expediente-cliente.component';
 import { FormEvidenciaSupervisionComponent } from './Views/Components/Forms/form-evidencia-supervision/form-evidencia-supervision.component';
+import { FormSubirArchivoComponent } from './Views/Components/Forms/form-subir-archivo/form-subir-archivo.component';
 
 
 
@@ -34,7 +35,8 @@ import { FormEvidenciaSupervisionComponent } from './Views/Components/Forms/form
     FormsSupervisorComponent,
     FormSupervisionComponent,
     FormExpedienteClienteComponent,
-    FormEvidenciaSupervisionComponent
+    FormEvidenciaSupervisionComponent,
+    FormSubirArchivoComponent
     
   ],
   imports: [

@@ -1,11 +1,23 @@
 form {
   display: flex;
   flex-direction: column;
-  width: 300px;
-  margin: auto;
+  width: 90%;
+  margin: 20px auto;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
+}
+
+.form .w3-border {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 10px;
+}
+
+.form .w3-grey {
+  background-color: #ccc;
+  height: 100%;
 }
 label {
   margin-bottom: 10px;
@@ -14,6 +26,9 @@ input[type="text"], input[type="file"] {
   padding: 5px;
   border: 1px solid #ddd;
   border-radius: 5px;
+  width: 100%; 
+  padding: 10px; 
+  
 }
 button {
   padding: 10px;

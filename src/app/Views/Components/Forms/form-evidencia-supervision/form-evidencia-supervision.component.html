@@ -1,26 +1,61 @@
-<form [formGroup]="expedienteClienteForm" (ngSubmit)="onSubmit()" style="width: 90%; margin: 20px auto;">
+<form [formGroup]="expedienteClienteForm" (ngSubmit)="grabar()" 
+  >
   <h2 class="mb-3" style="text-align: center;">Incluir Evidencias</h2> 
   <label style="display: block; margin-bottom: 15px;">
       Observacion:
-      <textarea formControlName="observacion" rows="10" cols="100" style="resize: vertical; width: 100%; border-radius: 5px; padding: 10px; border: 1px solid #ccc;"></textarea>   
+      <textarea formControlName="observacion" rows="10" cols="100" 
+      style="resize: vertical; width: 100%; border-radius: 5px; 
+      padding: 10px; border: 1px solid #ccc;height: 90px;"></textarea>   
   </label>
-  <label style="display: block; margin-bottom: 15px;">
-    Agregar Documentos al Expedientes:
-    <input type="file" formControlName="documentosExpedientes" multiple style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-  </label>
-  <button type="submit" style="width: 100%; padding: 15px; border-radius: 5px; background-color: #007bff; color: white; border: none; font-size: 16px;">Submit</button>
-</form>
+  
 
-<app-tables 
-      [arraydatos]="expedientecliente.documentosExpedientes"
-      campokey="id"          
-      (accion)="opcion($event)"
-      (paginacambio)="paginacambio($event)"
-      (idtable)="actualizaelidtable($event)" 
-      [campos]="campos"
-      [titulos]="tituloslocal"
-      [term]="term"
-      [totalregistros]="totalregistros"
-      [currentPage]="actualpage"
-      [config]="config"
-></app-tables>
+      <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+        <button type="button" style="padding: 10px; border: none; border-radius: 5px; background-color: #dc3545; color: white; cursor: pointer;">Cancelar</button>
+        <button type="button" 
+                style="padding: 10px; border: none; border-radius: 5px; background-color: #2839a7; color: white; cursor: pointer;"
+                (click)="agregarDocumento()"
+                >Agregar Documento</button>
+        <button type="submit" style="padding: 10px; border: none; border-radius: 5px; background-color: #28a745; color: white; cursor: pointer;">Grabar</button>
+      </div>
+  </form>
+  <!-- <form [formGroup]="documentoForm" (ngSubmit)="onSubmit()">
+    <label for="file">
+      Agregar Documentos al Expedientes:
+    </label >
+    <input type="file" id="file" #file >
+    <label for="descripcion">Descripcion</label>
+    <input type="text" formControlName="descripcion"
+      placeholder="Descripción del archivo" style="width: 100%; padding: 10px;
+        border-radius: 5px; border: 1px solid #ccc; margin-top: 10px;">
+    <div class="w3-border">
+      <div class="w3-grey" [style]="stilo"></div>
+      </div> 
+    <button type="submit" style="width: 100%; 
+  padding: 15px; border-radius: 5px; background-color: 
+  #007bff; color: white; border: none; 
+  font-size: 16px;">Subir Archivo</button>
+    </form> -->
+  <div style="border: 1px solid #ddd;
+              border-radius: 5px; 
+              margin: 20px auto; 
+              padding: 10px;
+              display: flex;
+              width: 90%;
+              ">
+      
+    <app-tables style="width: 100%;"
+          [arraydatos]="docu"
+          campokey="id"          
+          (accion)="opcion($event)"
+          (paginacambio)="paginacambio($event)"
+          (idtable)="actualizaelidtable($event)" 
+          [campos]="campos"
+          [titulos]="tituloslocal"
+          [term]="term"
+          [totalregistros]="totalregistros"
+          [currentPage]="actualpage"
+          [config]="config"
+    ></app-tables>
+    </div>
+
+

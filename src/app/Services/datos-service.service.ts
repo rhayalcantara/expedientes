@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -16,7 +16,18 @@ export class DatosServiceService {
    headers:HttpHeaders = new HttpHeaders({    
     'Content-Type': 'application/json; charset=utf-8' 
   });
-
+    //Archivo
+    public Uploadfile(file: File,expedienteid:string,descripcion:string): Observable<HttpEvent<any>>{
+      console.log('en el servicio',file,expedienteid,descripcion )
+      const formData: FormData = new FormData();
+        formData.append('files', file);
+       
+        const req = new HttpRequest('POST',  this.URL+`/api/Documentoes/doc/?expedienteclienteid=${expedienteid}&descripcion=${descripcion}`, formData, {
+          reportProgress: true,
+          responseType: 'json'
+        });
+        return this.http.request(req);
+      }
   public showMessage(message: string, title: any, messageType: string) {
     switch (messageType) {
       case 'success':
@@ -58,16 +69,23 @@ export class DatosServiceService {
         break;
     }
    }
-
+   public getdocumentofile(id:number){
+    return this.http.get(this.URL + `/api/Documentoes/files/${id}`, {
+      reportProgress: true,
+      responseType: 'blob',
+  });
+      
+  }
    public llenarFormGrup<T>(obj:any):FormGroup {
          //llenar el formgroup con los datos del consultorio
+         
         let  campos:string[] = Object.keys(obj)
-        
+        console.log('los campos',campos)
         let formGroup:FormGroup=new FormGroup({})
          for (let control of campos) {
-
+           
           // if(control == 'relacionadomt' ){
-            if (typeof(obj[control])=='object' && Object.prototype.toString.call(obj[control])!='[object Date]' ){
+          /*  if (typeof(obj[control])=='object' && Object.prototype.toString.call(obj[control])!='[object Date]' ){
             let incampos = Object.keys(obj[control])
 
             for (let incontrol of incampos){
@@ -77,11 +95,11 @@ export class DatosServiceService {
               formGroup.addControl(control+"."+incontrol, newFormControl);
             }
     
-          }else{
+          }else{*/
             let newFormControl: FormControl = new FormControl();      
             newFormControl.setValue(obj[control]);
             formGroup.addControl(control, newFormControl);
-          }
+          //}
 
         } 
        

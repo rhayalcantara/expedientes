@@ -1,0 +1,17 @@
+<form [formGroup]="documentoForm" (ngSubmit)="onSubmit()">
+    <label for="file">
+      Agregar Documentos al Expedientes:
+    </label >
+    <input type="file" id="file" #file >
+    <label for="descripcion">Descripcion</label>
+    <input type="text" formControlName="descripcion"
+      placeholder="Descripción del archivo" style="width: 100%; padding: 10px;
+        border-radius: 5px; border: 1px solid #ccc; margin-top: 10px;">
+    <div class="w3-border">
+      <div class="w3-grey" [style]="stilo"></div>
+      </div> 
+    <button type="submit" style="width: 100%; 
+  padding: 15px; border-radius: 5px; background-color: 
+  #007bff; color: white; border: none; 
+  font-size: 16px;">Subir Archivo</button>
+    </form>
