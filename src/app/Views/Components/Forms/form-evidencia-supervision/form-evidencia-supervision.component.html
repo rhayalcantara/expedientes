@@ -1,40 +1,32 @@
 <form [formGroup]="expedienteClienteForm" (ngSubmit)="grabar()" 
   >
-  <h2 class="mb-3" style="text-align: center;">Incluir Evidencias</h2> 
-  <label style="display: block; margin-bottom: 15px;">
+  <h2 class="mb-3" >Incluir Evidencias</h2> 
+  <label >
       Observacion:
-      <textarea formControlName="observacion" rows="10" cols="100" 
-      style="resize: vertical; width: 100%; border-radius: 5px; 
-      padding: 10px; border: 1px solid #ccc;height: 90px;"></textarea>   
+      <textarea formControlName="observacion" rows="10" cols="100"></textarea>   
   </label>
   
 
-      <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+      <div class="divbotones">
         <button type="button" 
-                style="padding: 10px; border: none; border-radius: 5px; background-color: #dc3545; color: white; cursor: pointer;">
+                class="button-common cancel-button"
+                (click)="cancelar()">
                 Cancelar
-        </button>
-        <button type="button" 
-                style="padding: 10px; border: none; border-radius: 5px; background-color: #2839a7; color: white; cursor: pointer;"
-                (click)="agregarDocumento()"
-                >Agregar Documento
-        </button>
-        <button type="submit" 
-                style="padding: 10px; border: none; border-radius: 5px; background-color: #28a745; color: white; cursor: pointer;"
-                (click)="grabar()"
-                >
+            </button>
+            <button type="button" 
+                    class="button-common add-document-button" 
+                    (click)="agregarDocumento()">
+                Agregar Documento
+            </button>
+            <button type="submit" 
+                    class="button-common submit-button" 
+                    (click)="grabar()">
                 Grabar
-        </button>
+            </button>
       </div>
   </form>
 
-  <div style="border: 1px solid #ddd;
-              border-radius: 5px; 
-              margin: 20px auto; 
-              padding: 10px;
-              display: flex;
-              width: 90%;
-              ">
+  <div class="divtable">
       
     <app-tables style="width: 100%;"
           [arraydatos]="docu"

@@ -114,7 +114,9 @@ export class FormEvidenciaSupervisionComponent {
     this.expedientecliente.observacion = this.expedienteClienteForm.controls['observacion'].value!
     this.dialogre.close(this.expedientecliente)
   }
-
+  cancelar() {
+    this.dialogre.close(null)
+  }
 
   paginacambio(event: number) {
     this.config.actualpage = event

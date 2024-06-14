@@ -46,7 +46,7 @@ auto: string="80%";
       this.formGroup=this.fb.group({});
     }
   ngOnInit(): void {
-    console.log('llego la data',this.data)
+    //console.log('llego la data',this.data)
     this.model = this.data.model
     this.agenda.campos=[]
     this.agenda.fields=[]
@@ -75,10 +75,18 @@ auto: string="80%";
     let id = arg0.split(',')[1]
     //encontar el expedientecliente 
     let x:IExpedienteCliente | undefined = this.agenda.modeloagendasucursal.expedienteClientes.find(x=>x.id==+id)
-    // console.log({"id":id,expedientecliente:arg0,nombrecampo:d})
-    console.log({"id":id,"x":x,"d":d}) 
+    // llama a FormEvidenciaSupervisionComponent
     const  dialogRef = this.toastr.open(FormEvidenciaSupervisionComponent,{
       width: '900px',data:{expedientecliente:x,nombrecampo:d}})   
+    dialogRef.afterClosed().subscribe((result)=>{
+      //actualiza los datos del expedientecliente
+      if (result!=null) {
+        x=result
+      }
+        
+      
+    })
+
   }
   cambiarestado(arg0: string,campo:MiObjeto,d:string) {
         this.auto = this.agenda.ancho

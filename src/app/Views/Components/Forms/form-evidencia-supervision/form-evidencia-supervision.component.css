@@ -7,7 +7,14 @@ form {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
-
+h2{
+  text-align: center;
+}
+label {
+  
+  display: block; 
+  margin-bottom: 15px;
+}
 .form .w3-border {
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -40,4 +47,44 @@ button {
 }
 button:hover {
   background-color: #0056b3;
+}
+.button-common {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+}
+
+.add-document-button {
+  background-color: #2839a7;
+}
+
+.submit-button {
+  background-color: #28a745;
+}
+textarea{
+  resize: vertical; 
+  width: 100%; 
+  border-radius: 5px; 
+  padding: 10px; 
+  border: 1px solid #ccc;
+  height: 90px;
+}
+.divbotones{
+  display: flex; 
+  justify-content: space-between; 
+  margin-top: 5px;
+}
+.divtable{
+  border: 1px solid #ddd;
+              border-radius: 5px; 
+              margin: 20px auto; 
+              padding: 10px;
+              display: flex;
+              width: 90%;
 }
