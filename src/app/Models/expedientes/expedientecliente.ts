@@ -18,8 +18,8 @@ export interface IDocumentoExpediente{
     id:number
     documentoid:number
     expedienteclienteid:number
-    expedientecliente:IExpedienteCliente
-    documento:IDocumento
+    expedientecliente?:IExpedienteCliente
+    documento?:IDocumento
 }
 export interface IDocumento{
     id:number

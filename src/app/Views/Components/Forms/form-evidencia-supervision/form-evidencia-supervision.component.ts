@@ -16,22 +16,20 @@ import { FormSubirArchivoComponent } from '../form-subir-archivo/form-subir-arch
   styleUrls: ['./form-evidencia-supervision.component.css']
 })
 export class FormEvidenciaSupervisionComponent {
-campos: string[] =[];
-tituloslocal: string[] =[];
-term: string="";
-totalregistros: number=0;
-actualpage: number=1;
-config: any;
-pporcien:number =0;
-stilo:string="height:24px;width:1%";
-event: HttpProgressEvent = { type: 1, loaded: 0, total: 0 }
-files:any[] = [];
-
+  campos: string[] = [];
+  tituloslocal: string[] = [];
+  term: string = "";
+  totalregistros: number = 0;
+  actualpage: number = 1;
+  config: any;
+  pporcien: number = 0;
+  stilo: string = "height:24px;width:1%";
+  event: HttpProgressEvent = { type: 1, loaded: 0, total: 0 }
+  files: any[] = [];
   @ViewChild('file', { static: false })
   fileInput!: ElementRef;
- 
 
-  expedientecliente:IExpedienteCliente ={
+  expedientecliente: IExpedienteCliente = {
     id: 0,
     clientesecuencial: 0,
     parametro_expedienteid: 0,
@@ -40,7 +38,7 @@ files:any[] = [];
     verificado: false,
     estadoid: 0,
     observacion: '',
-    fecha:  new Date(),
+    fecha: new Date(),
     cliente: {
       secuencial: 0,
       numerocliente: 0,
@@ -50,148 +48,109 @@ files:any[] = [];
     },
     nombreparametro: '',
     documentosExpedientes: []
-  } 
- 
-  public docu:IDocumento[] = []
-  public docux:IDocumento={
+  }
+
+  public docu: IDocumento[] = []
+  public docux: IDocumento = {
     id: 0,
     nombreinterno: '',
     nombrearchivo: '',
     descripcion: ''
   }
-  constructor(    
-  @Inject(MAT_DIALOG_DATA) public data:any, 
-    private fb: FormBuilder,     
-    private dialogre:MatDialogRef<FormEvidenciaSupervisionComponent>,
-    private Dat:DatosServiceService,
-    private ServiceComunicacion:ComunicacionService,
-    private toastr: MatDialog) 
-  {}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private dialogre: MatDialogRef<FormEvidenciaSupervisionComponent>,
+    private Dat: DatosServiceService,
+    private ServiceComunicacion: ComunicacionService,
+    private toastr: MatDialog) { }
   expedienteClienteForm = new FormGroup({
     observacion: new FormControl(''),
     documentosExpedientes: new FormControl('')
   });
-  documentoForm = new FormGroup({
-    descripcion: new FormControl('')
-  });
+ 
   ngOnInit(): void {
-   
     this.expedientecliente = this.data.expedientecliente
-    // console.log('el expediente que llego',this.expedientecliente.documentosExpedientes)
-
-     this.expedientecliente.documentosExpedientes.map((x:IDocumentoExpediente)=>{ 
-      this.docu.push(x.documento)
+    this.expedientecliente.documentosExpedientes.map((x: IDocumentoExpediente) => {
+      this.docu.push(x.documento!)
     });
-    this.campos=['nombrearchivo','descripcion'];    
-    this.tituloslocal=['Nombre Archivo','Descripcion'];
-    //console.log('docu',this.docu)
-    this.expedienteClienteForm.controls['observacion'].setValue(this.expedientecliente.observacion)
-    this.documentoForm.controls['descripcion'].setValue(this.docux.descripcion)
-  
-    this.config = {
-              id:'',
-              itemsPerPage: 10,
-              currentPage: 1,
-              totalItems: this.expedientecliente.documentosExpedientes.length
-            };
+    this.campos = ['nombrearchivo', 'descripcion'];
+    this.tituloslocal = ['Nombre Archivo', 'Descripcion'];
 
-  
+    this.expedienteClienteForm.controls['observacion'].setValue(this.expedientecliente.observacion)
     
-}
-agregarDocumento(){
-  const dialogRef = this.toastr.open(FormSubirArchivoComponent,{width:"85%" ,height:"40%" ,data:{expedientecliente:this.expedientecliente}});
-  dialogRef.afterClosed().subscribe(result => {
-    console.log(`Dialog result: ${result}`);
-    if(result != null){
+    this.config = {
+      id: '',
+      itemsPerPage: 10,
+      currentPage: 1,
+      totalItems: this.expedientecliente.documentosExpedientes.length
+    };
+
+  }
+
+  agregarDocumento() {
+    const dialogRef = this.toastr.open(FormSubirArchivoComponent, { width: "85%", height: "40%", data: { expedientecliente: this.expedientecliente } });
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (result != null) {
+        let docexp: IDocumentoExpediente = {
+          id: 0,
+          documentoid: result.id,
+          expedienteclienteid: this.expedientecliente.id          
+        }
+        this.expedientecliente.documentosExpedientes.push(docexp)
         this.docu.push(result)
         this.config.totalItems = this.docu.length
       }
     });
-}
-grabar(){}
-  onSubmit(): void {
-    // Aquí puedes manejar la presentación de los datos del formulario
-    console.log(this.expedienteClienteForm.value);
-    this.upload();
   }
+  grabar() 
+  { 
+    // verificar que la observacion no este vacia
+    if (this.expedienteClienteForm.controls['observacion'].value == "") {
+      this.Dat.showMessage("La observacion no puede estar vacia", "Error","error")
+      return
+    }
+    this.expedientecliente.observacion = this.expedienteClienteForm.controls['observacion'].value!
+    this.dialogre.close(this.expedientecliente)
+  }
+
 
   paginacambio(event: number) {
     this.config.actualpage = event
-    }
+  }
   actualizaelidtable(event: string) {
-      this.config.id=event
-    }
-
-    opcion(event: TableResponse) {
-      this.docux = event.key as IDocumento
-      
-      this.documentoForm.controls['descripcion'].setValue(this.docux.descripcion)
-      this.Dat.getdocumentofile(this.docux.id).subscribe({
-        next:(rep:any)=>{
-          console.log('descargando',rep)
-          this.downloadFile(rep,event.key)
-        }
-      })
-    }
-  private downloadFile(data:any,doc:any) {
-      const downloadedFile = data;
-      console.log(URL.createObjectURL(downloadedFile));
-      const dialogRef = this.toastr.open(VisorpdfComponent,{width:"85%" ,height:"70%" ,data:{url:URL.createObjectURL(downloadedFile)}});
-     
+    this.config.id = event
   }
 
-
-    upload(){
-      console.log(this.fileInput)
-      const fileElement = this.fileInput.nativeElement as HTMLInputElement;
-      //document.querySelector('input[type="file"]') as HTMLInputElement;
-      //
+  opcion(event: TableResponse) {
+    this.docux = event.key as IDocumento
+    console.log(event.option)
+    switch (event.option) {
+      case "del":
+        // remueve event.key del docux
+        this.docu = this.docu.filter((x: IDocumento) => 
+          (x.nombreinterno !== this.docux.nombreinterno) &&
+          (x.nombrearchivo !== this.docux.nombrearchivo)) 
+        this.config.totalItems = this.docu.length        
+        break;
+      case "edit":
+        this.Dat.getdocumentofile(this.docux.id).subscribe({
+          next: (rep: any) => {       
+            this.downloadFile(rep, event.key)
+          }
+        })
+        break;
       
-      if (fileElement.files 
-      && fileElement.files.length > 0 
-      && this.documentoForm.controls['descripcion'].value != null) {
-        
-        for (let index = 0; index < fileElement.files.length; index++){
-          const file = fileElement.files[index];  
-            
-          this.Dat.Uploadfile(file,this.expedientecliente.id.toString(),this.documentoForm.controls['descripcion'].value).subscribe({ next:event =>{
-           // console.log('Subiendo',rep.constructor.name,rep);
-           console.log('Subiendo',event)
-            switch (event.type) {
-                case HttpEventType.Response:
-                  console.log('Termino',event.body.filePath);
-                  /*this.docux.nombrearchivo = event.body.filePath
-                  if(this.documentoForm.controls['descripcion'].value != '' 
-                  && this.documentoForm.controls['descripcion'].value != null){
-                    this.docux.descripcion = this.documentoForm.controls['descripcion'].value
-                  }
-                  this.docux.nombreinterno = file.name
-                  this.docu.push(this.docux)
-                  
-                  this.expedientecliente.documentosExpedientes.push(
-                    {
-                      id: 0,
-                      documentoid: this.docux.id,
-                      expedienteclienteid: this.expedientecliente.id,
-                      expedientecliente: this.expedientecliente,
-                      documento: this.docux
-                    })*/
-                  return
-                case HttpEventType.UploadProgress:
-                  
-                  this.pporcien = Math.round(100 * event.loaded / (event.total ?? 1))
-                  this.stilo=`background-color: #4CAF50!important;height:24px;width:${this.pporcien }%`
-                  console.log('Subiendo',event,this.pporcien);
-                  return
-  
-            }
-  
-          },error:(err:Error)=>{
-            this.Dat.showMessage('Error al subir archivo:'+err.message,'Error','error')
-          }});
-        }   
-      }else{
-        this.Dat.showMessage('Debe seleccionar un archivo y descripción','Verificar','error')
-      }
     }
+    
+    
+  }
+  private downloadFile(data: any, doc: any) {
+    const downloadedFile = data;
+    console.log(URL.createObjectURL(downloadedFile));
+    const dialogRef = this.toastr.open(VisorpdfComponent, { width: "85%", height: "70%", data: { url: URL.createObjectURL(downloadedFile) } });
+
+  }
+
 }

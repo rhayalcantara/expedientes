@@ -2,7 +2,7 @@ import { HttpEventType, HttpProgressEvent } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { IExpedienteCliente } from 'src/app/Models/expedientes/expedientecliente';
+import { IDocumento, IExpedienteCliente } from 'src/app/Models/expedientes/expedientecliente';
 import { DatosServiceService } from 'src/app/Services/datos-service.service';
 
 @Component({
@@ -63,13 +63,22 @@ export class FormSubirArchivoComponent implements OnInit{
       for (let index = 0; index < fileElement.files.length; index++){
         const file = fileElement.files[index];  
           
-        this.Dat.Uploadfile(file,this.expedientecliente.id.toString(),this.documentoForm.controls['descripcion'].value).subscribe({ next:event =>{
+        this.Dat.Uploadfile(file,
+            this.expedientecliente.id.toString(),
+            this.documentoForm.controls['descripcion'].value)
+            .subscribe({ next:event =>{
                   
           switch (event.type) {
               case HttpEventType.Response:
                 console.log('Termino',event.body.filePath);
                 this.Dat.showMessage('Archivo subido correctamente','Correcto','success')
-                this.dialogre.close(event.body.filePath)
+                let d1:IDocumento={
+                  id: 0,
+                  nombreinterno: event.body.filePath,
+                  nombrearchivo: file.name,
+                  descripcion: this.documentoForm.controls['descripcion'].value!,
+                }
+                this.dialogre.close(d1)
                 return
               case HttpEventType.UploadProgress:
                 
