@@ -134,7 +134,15 @@ export class FormEvidenciaSupervisionComponent {
         this.docu = this.docu.filter((x: IDocumento) => 
           (x.nombreinterno !== this.docux.nombreinterno) &&
           (x.nombrearchivo !== this.docux.nombrearchivo)) 
-        this.config.totalItems = this.docu.length        
+          // actualiza el total de items
+        this.config.totalItems = this.docu.length      
+        // elimina el registro del expedientecliente
+        this.expedientecliente.documentosExpedientes = 
+          this.expedientecliente.documentosExpedientes
+          .filter((x: IDocumentoExpediente) => 
+          (x.documento!.nombreinterno !== this.docux.nombreinterno) &&
+          (x.documento!.nombrearchivo !== this.docux.nombrearchivo)
+          )  
         break;
       case "edit":
         this.Dat.getdocumentofile(this.docux.id).subscribe({

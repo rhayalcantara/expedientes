@@ -75,7 +75,7 @@ export class TablesComponent implements OnInit {
     this.config.id = this.id
     this.idtable.emit(this.id)        
     this.cd.detectChanges(); 
-    console.log(this.tipocampo)
+    //console.log(this.tipocampo)
   }
   /**
    * Calculates the width of the table columns based on the number of fields.

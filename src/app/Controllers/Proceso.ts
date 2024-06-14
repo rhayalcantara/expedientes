@@ -66,11 +66,11 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
           this.actualpage,this.pagesize)        
            .subscribe({        
           next:(rep:ModelResponse)=>{
-            console.log('datos',rep)
+           // // console.log('datos',rep)
             this.totalregistros =  rep.count
             this.arraymodel=[]
             this.arraymodel=rep.data    
-            console.log('datos',this.arraymodel)     
+           // // console.log('datos',this.arraymodel)     
             this.TRegistros.emit(this.totalregistros)        
             
   
@@ -84,11 +84,11 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
   
   
       public filtrar(){
-        //console.log('llego a product.ts ',this.actualpage)
+        //// console.log('llego a product.ts ',this.actualpage)
         //this.datos.showMessage('Filtrando Datos filtro:'+this.filtro+' Estado: '+ this.estado +' Pagina:'+this.actualpage.toString() + ' Paginasize: '+this.pagesize.toString(),this.titulomensage,'info')
         this.Gets(this.filtro,this.actualpage-1,this.pagesize).subscribe(
                         (m:ModelResponse)=>{
-                          console.log(m)
+                          // console.log(m)
                           this.totalregistros =  m.count
                           this.TRegistros.emit(this.totalregistros)        
                           
@@ -102,7 +102,7 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
       public getdetalle(id:string):Observable<ModelResponse> {
         
         
-        //console.log(this.rutaapi+`/Asignado?entidad=${entidad}&id=${entidadid}&mov=${mov}&filtro=${this.filtro}&page=${this.actualpage.toString()}&pagesize=${this.pagesize.toString()}`)
+        //// console.log(this.rutaapi+`/Asignado?entidad=${entidad}&id=${entidadid}&mov=${mov}&filtro=${this.filtro}&page=${this.actualpage.toString()}&pagesize=${this.pagesize.toString()}`)
        
         return this.datos.getdatos<ModelResponse>(this.rutaapi+`/getparamet/${id}`)
       }
@@ -112,7 +112,7 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
           
           
           
-        // console.log(this.rutaapi+`/estado/?filtro=${filtro}&estado=${estado}&page=${actualpage.toString()}&pagesize=${pagesize.toString()}`)
+        // // console.log(this.rutaapi+`/estado/?filtro=${filtro}&estado=${estado}&page=${actualpage.toString()}&pagesize=${pagesize.toString()}`)
           return this.datos.getdatos<ModelResponse>(
             this.rutaapi+`/?filtro=${filtro}&page=${actualpage.toString()}&pagesize=${pagesize.toString()}`
             
@@ -128,13 +128,13 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
       }
   
       public insert(obj:IprocesoDts):Observable<IprocesoDts>{  
-        console.log('llego a insert en produc',obj)
+        // console.log('llego a insert en produc',obj)
   
         return this.datos.insertardatos<IprocesoDts>(this.rutaapi, obj ); 
       }
       
       public Update(obj:IprocesoDts):Observable<IprocesoDts>{
-        console.log(this.rutaapi+`/${obj.id}`,obj)
+        // console.log(this.rutaapi+`/${obj.id}`,obj)
         return this.datos.updatedatos<IprocesoDts>(this.rutaapi+`/${obj.id}`,obj); 
       }
   
@@ -144,7 +144,7 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
               
       public async grabar(): Promise<boolean> {
         // Envuelve el código en una nueva Promise
-        console.log('llego proceso a grabar',this.model)
+        // console.log('llego proceso a grabar',this.model)
         return new Promise<boolean>(async (resolve) => {
           if (this.model.id == 0) {
             // inserta el registro
@@ -167,7 +167,7 @@ import { VisorpdfComponent } from "../Views/Components/visorpdf/visorpdf.compone
                 let m = this.arraymodel.find(x=>x.id==this.model.id)
                 m = rep
                 this.TRegistros.emit(this.totalregistros)
-                console.log('modelo actualizado', this.model,rep);
+                // console.log('modelo actualizado', this.model,rep);
                 this.datos.showMessage('Registro Insertado Correctamente', this.titulomensage, "success");
                 resolve(true); // Devuelve true si la operación fue exitosa
               },

@@ -18,7 +18,7 @@ export class DatosServiceService {
   });
     //Archivo
     public Uploadfile(file: File,expedienteid:string,descripcion:string): Observable<HttpEvent<any>>{
-      console.log('en el servicio',file,expedienteid,descripcion )
+      // console.log('en el servicio',file,expedienteid,descripcion )
       const formData: FormData = new FormData();
         formData.append('files', file);
        
@@ -80,7 +80,7 @@ export class DatosServiceService {
          //llenar el formgroup con los datos del consultorio
          
         let  campos:string[] = Object.keys(obj)
-        console.log('los campos',campos)
+        // console.log('los campos',campos)
         let formGroup:FormGroup=new FormGroup({})
          for (let control of campos) {
            
@@ -128,7 +128,7 @@ export class DatosServiceService {
     return this.http.get<T>(url)
    }
    public delbyid<T>(url:string):Observable<T>{
-    console.log('en delete llego',url)
+    // console.log('en delete llego',url)
     return this.http.delete<T>(url)
    }
 }

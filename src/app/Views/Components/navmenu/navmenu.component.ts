@@ -5,10 +5,6 @@ import { Usuario } from 'src/app/Models/Usuario/usuario';
 
 import { MatSidenav } from '@angular/material/sidenav';
 import { SegurityService } from 'src/app/Services/segurity.service';
-//import { Usuario } from 'src/app/Helpers/Interfaces';
-//import { DatosServiceService } from 'src/app/Services/datos-service.service';
-
-//import { SecurityServiceService } from 'src/app/Services/security-service.service';
 
 @Component({
   selector: 'app-navmenu',
@@ -24,8 +20,7 @@ export class NavmenuComponent implements OnInit {
   constructor(private router: Router,
               private commons: CommonsLibService,
               private usuarioservicio:SegurityService
-             // private datos: SecurityServiceService,
-              //private dato: DatosServiceService
+
               ) 
   { 
      
